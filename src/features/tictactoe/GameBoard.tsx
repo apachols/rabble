@@ -50,6 +50,10 @@ const GameBoard = (props: GameBoardProps) => {
 
   let message = JSON.stringify(gameover);
 
+  if (!cells) {
+    return "Error, game config empty or malformed";
+  }
+
   return (
     <div>
       <h3>Now Playing: {currentPlayer}</h3>

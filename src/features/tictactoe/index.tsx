@@ -7,10 +7,15 @@ const TicTacToe = () => {
   // const [test] = useState("2");
   // setTest("3");
 
+  const url = new URL(window.location.href);
+  const pid = url.searchParams.get("pid");
+
   return (
     <div>
       <div>Tic Tac Toe</div>
-      <Engine />
+      <div>
+        <Engine playerID={pid} />
+      </div>
     </div>
   );
 };

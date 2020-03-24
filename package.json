@@ -13,13 +13,16 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-redux": "^7.1.7",
     "boardgame.io": "^0.37.2",
+    "esm": "^3.2.25",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
+    "ts-node": "^8.8.1",
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "server": "ts-node --files --project ./tsconfig.json -O '{\"module\": \"commonjs\"}' ./src/server.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
