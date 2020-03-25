@@ -1,7 +1,7 @@
 import { Client } from "boardgame.io/react";
 // import { Local } from "boardgame.io/multiplayer";
 import GameBoard from "./GameBoard";
-import TicTacToe from "./Game";
+import TicTacToe from "./game";
 import { SocketIO } from "boardgame.io/multiplayer";
 
 const Engine = Client({
