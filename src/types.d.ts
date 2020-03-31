@@ -10,6 +10,12 @@ type SocketConfig = {
 
 type ServerConfig = {
   games: [Any];
+  db: Any;
+};
+
+type FlatFileConfig = {
+  dir: string;
+  logging: boolean;
 };
 
 declare module "boardgame.io/react" {
@@ -23,4 +29,7 @@ declare module "boardgame.io/multiplayer" {
 
 declare module "boardgame.io/server" {
   export function Server(config: ServerConfig): Any;
+  export class FlatFile extends Object {
+    constructor(config: FlatFileConfig);
+  }
 }

@@ -1,6 +1,15 @@
-import { Server } from "boardgame.io/server";
+import { Server, FlatFile } from "boardgame.io/server";
 import TicTacToe from "./features/tictactoe/game";
 
-// src/server.js
-const server = Server({ games: [TicTacToe] });
+const server = Server({
+  games: [TicTacToe],
+
+  db: new FlatFile({
+    dir: "/Users/adamp/git/rabble/tmp",
+    logging: true
+  })
+});
+
 const x = server.run(8000);
+
+console.log(server);

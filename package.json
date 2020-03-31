@@ -14,6 +14,7 @@
     "@types/react-redux": "^7.1.7",
     "boardgame.io": "^0.37.2",
     "esm": "^3.2.25",
+    "node-persist": "^3.0.5",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",

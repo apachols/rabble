@@ -30,6 +30,8 @@ function IsDraw(cells: Array<number>) {
 }
 
 const TicTacToe = {
+  name: "tic-tac-toe",
+
   setup: () => ({ cells: Array(9).fill(null) }),
 
   moves: {
