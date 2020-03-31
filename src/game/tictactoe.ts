@@ -47,7 +47,6 @@ const TicTacToe = {
     if (IsDraw(G.cells)) {
       return { draw: true };
     }
-    // console.log(JSON.stringify(G.cells));
   }
 };
 

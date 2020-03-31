@@ -23,7 +23,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "server": "ts-node --files --project ./tsconfig.json -O '{\"module\": \"commonjs\"}' ./src/server.ts",
+    "server": "ts-node --files --project ./tsconfig.json -O '{\"module\": \"commonjs\"}' ./src/server/index.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -1,5 +1,5 @@
 import { Server, FlatFile } from "boardgame.io/server";
-import TicTacToe from "./features/tictactoe/game";
+import TicTacToe from "../game/tictactoe";
 
 const server = Server({
   games: [TicTacToe],

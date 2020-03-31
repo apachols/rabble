@@ -133,8 +133,9 @@ POST /games/rabble/update/{gameID} => hook into game update mechanism and save s
 
 #### Gameplay Server
 
+- Dictionary is read from file at startup
 - Game engine can access the dictionary to check words
-- Dictionary is performant on the server
+- Dictionary is performant on the server - O(1) retrieval time
 - Game state includes bag of tiles
 - Game state includes letter value map
 - Game actions includes draw new tiles to 7 or end of bag
