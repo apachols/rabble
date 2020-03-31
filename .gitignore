@@ -128,3 +128,4 @@ yarn-error.log*
 
 # rabble
 /tmp
+/data

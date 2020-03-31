@@ -1,6 +1,9 @@
 import { Server, FlatFile } from "boardgame.io/server";
 import TicTacToe from "../game/tictactoe";
 
+// import wordlist from "./wordlist";
+// console.log(wordlist);
+
 const server = Server({
   games: [TicTacToe],
 
