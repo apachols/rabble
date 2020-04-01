@@ -1,13 +1,10 @@
 import fs from "fs";
 import readline from "readline";
 
-type WordList = {
-  [key: string]: number;
-};
-
-const wordlist = (filename: string): Promise<WordList> => {
+const loadWordList = (filename: string): Promise<WordList> => {
   return new Promise((resolve, reject) => {
     const list: WordList = {};
+    // const list: WordList = new Set();
 
     const readStream = fs.createReadStream(filename, { encoding: "utf8" });
 
@@ -17,9 +14,11 @@ const wordlist = (filename: string): Promise<WordList> => {
       undefined,
       false
     );
+
     rl.on("line", (line: string) => {
       const word = line.split(" ")[0];
       list[word] = 1;
+      // list.add(word);
     })
       .on("error", err => {
         readStream.destroy();
@@ -31,4 +30,4 @@ const wordlist = (filename: string): Promise<WordList> => {
   });
 };
 
-export default wordlist;
+export default loadWordList;

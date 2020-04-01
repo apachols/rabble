@@ -1,3 +1,10 @@
+// type WordList = Set<string>;
+type WordList = {
+  [key: string]: number;
+};
+
+// Boardgame.io Types
+
 type ClientConfig = {
   game: Object;
   board: Object;

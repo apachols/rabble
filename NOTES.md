@@ -11,7 +11,7 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
-- Process dictionary
+- Server Tests
 - Test multiplayer on heroku
 
 ## Rough Sketch
