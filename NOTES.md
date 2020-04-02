@@ -11,7 +11,8 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
-- Server Tests
+- Prototype cheat-proof player hands and dictionary
+- Provide different game versions to client and server with adapter pattern
 - Test multiplayer on heroku
 
 ## Rough Sketch

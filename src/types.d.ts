@@ -5,6 +5,10 @@ type WordList = {
 
 // Boardgame.io Types
 
+type GameConfig = {
+  name: string;
+};
+
 type ClientConfig = {
   game: Object;
   board: Object;
@@ -16,7 +20,7 @@ type SocketConfig = {
 };
 
 type ServerConfig = {
-  games: [Any];
+  games: Array<GameConfig>;
   db: Any;
 };
 

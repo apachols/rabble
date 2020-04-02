@@ -1,15 +1,14 @@
 import React from "react";
-// import logo from "./logo.svg";
-// import { Counter } from "./features/counter/Counter";
 import "./App.css";
-import TicTacToe from "./features/tictactoe";
+// import TicTacToe from "./features/tictactoe";
+import Rabble from "./features/rabble";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <h2>Rabble</h2>
-        <TicTacToe />
+        <Rabble />
       </header>
     </div>
   );

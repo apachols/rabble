@@ -1,11 +1,12 @@
 import { Server, FlatFile } from "boardgame.io/server";
-import TicTacToe from "../game/tictactoe";
+// import TicTacToe from "../game/tictactoe";
+import Rabble from "../game/rabble";
 
 // import wordlist from "./wordlist";
 // console.log(wordlist);
 
 const server = Server({
-  games: [TicTacToe],
+  games: [Rabble],
 
   db: new FlatFile({
     dir: "/Users/adamp/git/rabble/tmp",
