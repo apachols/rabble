@@ -1,6 +1,9 @@
 import { Server, FlatFile } from "boardgame.io/server";
 // import TicTacToe from "../game/tictactoe";
+
 import Rabble from "../game/rabble";
+
+console.log(Rabble.setup());
 
 // import wordlist from "./wordlist";
 // console.log(wordlist);

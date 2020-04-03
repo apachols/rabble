@@ -54,4 +54,5 @@ export const createTileBag = (
 
 export const shuffleTileBag = (tileBag: Array<Tile>) => {
   tileBag.sort(() => 0.5 - Math.random());
+  return tileBag;
 };

@@ -11,16 +11,27 @@ function IsDraw(cells: Array<number>) {
 const Rabble = {
   name: "rabble",
 
-  setup: () => ({
-    cells: Array(9).fill(null),
-    tileBag: shuffleTileBag(createTileBag()),
-    tileRack: []
-  }),
+  setup: () => {
+    return {
+      cells: Array(9).fill(null),
+      tileBag: shuffleTileBag(createTileBag()),
+      players: {
+        "0": {
+          tileRack: []
+        },
+        "1": {
+          tileRack: []
+        }
+      }
+    };
+  },
 
-  playerView: (G: any, ctx: any, id: number) => {
-    console.log("PLAYER VIEW", G);
+  playerView: (G: any, ctx: any, playerID: number) => {
     const redactedGame = { ...G };
-    // delete redactedGame["tileBag"];
+    delete redactedGame["tileBag"];
+    redactedGame["players"] = {
+      [String(playerID)]: redactedGame["players"][playerID]
+    };
     return redactedGame;
   },
 
@@ -28,10 +39,12 @@ const Rabble = {
     clickCell: (G: any, ctx: any, id: number) => {
       G.cells[id] = ctx.currentPlayer;
     },
-    secretNoClientMove: {
+    drawTiles: {
       client: false,
       move: (G: any, ctx: any, id: number) => {
-        console.log("secret beep");
+        console.log("DRAWING TILES");
+        console.log(G.tileBag[0]);
+        console.log("DRAWING TILES");
       }
     }
   },

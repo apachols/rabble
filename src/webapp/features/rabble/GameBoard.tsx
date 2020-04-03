@@ -7,6 +7,7 @@ type GameBoardProps = {
   };
   moves: {
     clickCell: any;
+    drawTiles: any;
   };
   events: {
     endTurn: any;
@@ -24,13 +25,16 @@ const GameBoard = (props: GameBoardProps) => {
   const [played, setPlayed] = useState(false);
   const {
     G: { cells },
-    moves: { clickCell },
+    moves,
     events: { endTurn },
     ctx: { currentPlayer, gameover }
   } = props;
 
+  const { clickCell, drawTiles } = moves;
+
   const onClick = (id: number) => {
     clickCell(id);
+    drawTiles();
     setPlayed(true);
     console.log(`click ${id}`);
   };
