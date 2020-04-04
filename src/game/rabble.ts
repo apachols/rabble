@@ -1,10 +1,10 @@
 import { createTileBag, shuffleTileBag } from "./tileBag";
 
-function IsVictory(cells: Array<number>) {
+function IsVictory(G: any) {
   return false;
 }
 
-function IsDraw(cells: Array<number>) {
+function IsDraw(G: any) {
   return false;
 }
 
@@ -13,7 +13,6 @@ const Rabble = {
 
   setup: () => {
     return {
-      cells: Array(9).fill(null),
       tileBag: shuffleTileBag(createTileBag()),
       players: {
         "0": {
@@ -36,30 +35,25 @@ const Rabble = {
   },
 
   moves: {
-    clickCell: (G: any, ctx: any, id: number) => {
-      G.cells[id] = ctx.currentPlayer;
-      return G;
-    },
     drawTiles: {
       client: false,
-      move: (G: any, ctx: any, id: number) => {
-        console.log(
-          "drawTiles drawTiles drawTiles drawTiles drawTiles drawTiles"
-        );
-        const cellsCopy = [...G.cells];
-
-        cellsCopy[0] = ctx.currentPlayer;
-
-        return { ...G, cells: cellsCopy };
+      move: (G: any, ctx: any, howManyTiles: number) => {
+        const { currentPlayer } = ctx;
+        for (let ii = 0; ii < howManyTiles; ii++) {
+          const tile = G.tileBag.pop();
+          if (tile) {
+            G.players[currentPlayer].tileRack.push(tile);
+          }
+        }
       }
     }
   },
 
   endIf: (G: any, ctx: any) => {
-    if (IsVictory(G.cells)) {
+    if (IsVictory(G)) {
       return { winner: ctx.currentPlayer };
     }
-    if (IsDraw(G.cells)) {
+    if (IsDraw(G)) {
       return { draw: true };
     }
   }

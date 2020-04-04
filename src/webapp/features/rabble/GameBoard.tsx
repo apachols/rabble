@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./GameBoard.module.css";
 
 type GameBoardProps = {
   G: {
-    cells: Array<number>;
+    players: Array<object>;
   };
   moves: {
-    clickCell: any;
     drawTiles: any;
   };
   events: {
@@ -22,41 +21,25 @@ type GameBoardProps = {
 };
 
 const GameBoard = (props: GameBoardProps) => {
-  const [played, setPlayed] = useState(false);
   const {
-    G: { cells },
-    moves,
+    G: { players },
+    moves: { drawTiles },
     events: { endTurn },
-    ctx: { currentPlayer, gameover }
+    ctx: { currentPlayer }
   } = props;
 
-  const { clickCell, drawTiles } = moves;
-
-  const onClick = (id: number) => {
-    // clickCell(id);
-    drawTiles();
-    setPlayed(true);
-    console.log(`click ${id}`);
+  const drawTilesClick = () => {
+    drawTiles(7);
+    console.log(`drawTiles`);
   };
 
-  useEffect(() => {
-    if (played && !gameover) {
-      // endTurn();
-      setPlayed(false);
-    }
-  }, [endTurn, played, gameover]);
-
-  const message = JSON.stringify(cells);
-
-  if (!cells) {
-    return "Error, game config empty or malformed";
-  }
+  const message = JSON.stringify(players);
 
   return (
     <div className={styles.board}>
       <h3>Now Playing: {currentPlayer}</h3>
       <div>
-        <button onClick={() => onClick(0)}>draw tiles</button>
+        <button onClick={() => drawTilesClick()}>draw tiles</button>
         <button onClick={() => endTurn()}>end turn</button>
       </div>
       <p>{message}</p>
