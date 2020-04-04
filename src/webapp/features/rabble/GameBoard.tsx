@@ -33,7 +33,7 @@ const GameBoard = (props: GameBoardProps) => {
   const { clickCell, drawTiles } = moves;
 
   const onClick = (id: number) => {
-    clickCell(id);
+    // clickCell(id);
     drawTiles();
     setPlayed(true);
     console.log(`click ${id}`);
@@ -41,7 +41,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   useEffect(() => {
     if (played && !gameover) {
-      endTurn();
+      // endTurn();
       setPlayed(false);
     }
   }, [endTurn, played, gameover]);
@@ -56,7 +56,8 @@ const GameBoard = (props: GameBoardProps) => {
     <div className={styles.board}>
       <h3>Now Playing: {currentPlayer}</h3>
       <div>
-        <button onClick={() => onClick(0)}>Click Me</button>
+        <button onClick={() => onClick(0)}>draw tiles</button>
+        <button onClick={() => endTurn()}>end turn</button>
       </div>
       <p>{message}</p>
     </div>

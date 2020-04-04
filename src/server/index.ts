@@ -3,7 +3,7 @@ import { Server, FlatFile } from "boardgame.io/server";
 
 import Rabble from "../game/rabble";
 
-console.log(Rabble.setup());
+// console.log(Rabble.setup());
 
 // import wordlist from "./wordlist";
 // console.log(wordlist);
@@ -19,4 +19,4 @@ const server = Server({
 
 const x = server.run(8000);
 
-console.log(server);
+// console.log(server);

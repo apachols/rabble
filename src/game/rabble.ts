@@ -38,13 +38,19 @@ const Rabble = {
   moves: {
     clickCell: (G: any, ctx: any, id: number) => {
       G.cells[id] = ctx.currentPlayer;
+      return G;
     },
     drawTiles: {
       client: false,
       move: (G: any, ctx: any, id: number) => {
-        console.log("DRAWING TILES");
-        console.log(G.tileBag[0]);
-        console.log("DRAWING TILES");
+        console.log(
+          "drawTiles drawTiles drawTiles drawTiles drawTiles drawTiles"
+        );
+        const cellsCopy = [...G.cells];
+
+        cellsCopy[0] = ctx.currentPlayer;
+
+        return { ...G, cells: cellsCopy };
       }
     }
   },
