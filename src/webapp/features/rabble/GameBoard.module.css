@@ -1,3 +1,11 @@
 .board {
   text-align: center;
 }
+
+.heading {
+  color: black;
+}
+
+.subheading {
+  color: slategray;
+}

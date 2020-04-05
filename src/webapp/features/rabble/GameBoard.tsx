@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./GameBoard.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { selectTileRack, shuffleRack, updateTiles } from "./rackSlice";
+
+type PlayerInfo = {
+  tileRack: Array<Tile>;
+};
 
 type GameBoardProps = {
+  playerID: string;
   G: {
-    players: Array<object>;
+    players: {
+      [key: string]: PlayerInfo;
+    };
   };
   moves: {
-    drawTiles: any;
+    drawTiles: () => void;
   };
   events: {
     endTurn: any;
@@ -22,24 +31,31 @@ type GameBoardProps = {
 
 const GameBoard = (props: GameBoardProps) => {
   const {
+    playerID,
     G: { players },
     moves: { drawTiles },
     events: { endTurn },
     ctx: { currentPlayer }
   } = props;
 
-  const drawTilesClick = () => {
-    drawTiles(7);
-    console.log(`drawTiles`);
-  };
+  const { tileRack } = players[playerID];
 
-  const message = JSON.stringify(players);
+  const dispatch = useDispatch();
+  const displayTileRack = useSelector(selectTileRack);
+
+  useEffect(() => {
+    dispatch(updateTiles(tileRack));
+  }, [dispatch, tileRack]);
+
+  const message = JSON.stringify(displayTileRack.map(t => t.letter));
 
   return (
     <div className={styles.board}>
-      <h3>Now Playing: {currentPlayer}</h3>
+      <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
+      <h3 className={styles.subheading}>Now Playing: {currentPlayer}</h3>
       <div>
-        <button onClick={() => drawTilesClick()}>draw tiles</button>
+        <button onClick={() => drawTiles()}>draw tiles</button>
+        <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
         <button onClick={() => endTurn()}>end turn</button>
       </div>
       <p>{message}</p>

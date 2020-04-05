@@ -1,4 +1,4 @@
-import { createTileBag, shuffleTileBag } from "./tileBag";
+import { createTileBag, shuffleTiles, drawTiles } from "./tileBag";
 
 function IsVictory(G: any) {
   return false;
@@ -13,7 +13,7 @@ const Rabble = {
 
   setup: () => {
     return {
-      tileBag: shuffleTileBag(createTileBag()),
+      tileBag: shuffleTiles(createTileBag()),
       players: {
         "0": {
           tileRack: []
@@ -36,16 +36,13 @@ const Rabble = {
 
   moves: {
     drawTiles: {
-      client: false,
-      move: (G: any, ctx: any, howManyTiles: number) => {
+      move: (G: any, ctx: any) => {
         const { currentPlayer } = ctx;
-        for (let ii = 0; ii < howManyTiles; ii++) {
-          const tile = G.tileBag.pop();
-          if (tile) {
-            G.players[currentPlayer].tileRack.push(tile);
-          }
-        }
-      }
+        const { tileRack } = G.players[currentPlayer];
+        const { tileBag } = G;
+        drawTiles(tileRack, tileBag);
+      },
+      client: false
     }
   },
 

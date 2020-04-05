@@ -3,6 +3,16 @@ type WordList = {
   [key: string]: number;
 };
 
+type Tile = {
+  letter: string;
+  value: number;
+};
+
+type TileClass = {
+  tile: Tile;
+  frequency: number;
+};
+
 // Boardgame.io Types
 
 type GameConfig = {

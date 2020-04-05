@@ -1,12 +1,4 @@
-type Tile = {
-  letter: string;
-  value: number;
-};
-
-type TileClass = {
-  tile: Tile;
-  frequency: number;
-};
+const MAX_PLAYER_RACK_TILES = 7;
 
 const tileBagConfig: Array<TileClass> = [
   { tile: { letter: "", value: 0 }, frequency: 2 },
@@ -38,21 +30,35 @@ const tileBagConfig: Array<TileClass> = [
   { tile: { letter: "Z", value: 10 }, frequency: 1 }
 ];
 
-const createTiles = (tileClass: TileClass): Array<Tile> => {
+// Creates copies of the tiles, preventing tileBagConfig refs from leaking
+const createTiles = (tileClass: TileClass): Tile[] => {
   return Array(tileClass.frequency).fill({ ...tileClass.tile });
 };
 
 export const createTileBag = (
   config: Array<TileClass> = tileBagConfig
-): Array<Tile> => {
-  const reducer = (bag: Array<Tile>, tileClass: TileClass) => {
+): Tile[] => {
+  const reducer = (bag: Tile[], tileClass: TileClass) => {
     bag.push(...createTiles(tileClass));
     return bag;
   };
   return config.reduce(reducer, []);
 };
 
-export const shuffleTileBag = (tileBag: Array<Tile>) => {
-  tileBag.sort(() => 0.5 - Math.random());
-  return tileBag;
+export const shuffleTiles = (tiles: Tile[]) => {
+  tiles.sort(() => 0.5 - Math.random());
+  return tiles;
+};
+
+// Mutate both tileRack and tileBag to draw up to MAX_PLAYER_RACK_TILES
+export const drawTiles = (tileRack: Tile[], tileBag: Tile[]) => {
+  const howManyTiles = MAX_PLAYER_RACK_TILES - tileRack.length;
+
+  for (let ii = 0; ii < howManyTiles; ii++) {
+    const tile = tileBag.pop();
+    if (tile) {
+      tileRack.push(tile);
+    }
+  }
+  return tileRack;
 };

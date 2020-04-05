@@ -11,8 +11,14 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
-- Prototype cheat-proof player hands and dictionary
-- Provide different game versions to client and server with adapter pattern
+- Client side shuffle tiles
+- Types clean up
+- Tests for Rabble game file
+- Tests for tile functions
+- Play a hand to create space for new tiles
+- Dictionary
+- Keep dictionary from loading on client with import trickery
+- Exchange tiles
 - Test multiplayer on heroku
 
 ## Rough Sketch
