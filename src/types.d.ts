@@ -9,11 +9,32 @@ type Tile = {
 };
 
 type TileClass = {
-  tile: Tile;
+  letter: string;
+  value: number;
   frequency: number;
 };
 
 // Boardgame.io Types
+
+type PlayerInfo = {
+  tileRack: Array<Tile>;
+};
+
+type Game = {
+  tileBag: Tile[];
+  turns: Tile[][];
+  players: {
+    [key: string]: PlayerInfo;
+  };
+};
+
+type GameContext = {
+  currentPlayer: string;
+  gameover?: {
+    winner?: number;
+    draw?: boolean;
+  };
+};
 
 type GameConfig = {
   name: string;
@@ -38,6 +59,10 @@ type FlatFileConfig = {
   dir: string;
   logging: boolean;
 };
+
+declare module "boardgame.io/core" {
+  export const INVALID_MOVE: string;
+}
 
 declare module "boardgame.io/react" {
   export function Client(config: ClientConfig): Any;

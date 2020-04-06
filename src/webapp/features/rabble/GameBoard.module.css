@@ -9,3 +9,7 @@
 .subheading {
   color: slategray;
 }
+
+.turnList {
+  list-style: none;
+}

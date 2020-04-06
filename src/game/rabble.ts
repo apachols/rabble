@@ -1,19 +1,27 @@
-import { createTileBag, shuffleTiles, drawTiles } from "./tileBag";
+import { INVALID_MOVE } from "boardgame.io/core";
+import {
+  createTileBag,
+  shuffleTiles,
+  drawTiles,
+  playIsValid,
+  pullPlayTilesFromRack
+} from "./tileBag";
 
-function IsVictory(G: any) {
+function IsVictory(G: Game) {
   return false;
 }
 
-function IsDraw(G: any) {
+function IsDraw(G: Game) {
   return false;
 }
 
 const Rabble = {
   name: "rabble",
 
-  setup: () => {
+  setup: (): Game => {
     return {
       tileBag: shuffleTiles(createTileBag()),
+      turns: [],
       players: {
         "0": {
           tileRack: []
@@ -25,7 +33,7 @@ const Rabble = {
     };
   },
 
-  playerView: (G: any, ctx: any, playerID: number) => {
+  playerView: (G: Game, ctx: GameContext, playerID: number) => {
     const redactedGame = { ...G };
     delete redactedGame["tileBag"];
     redactedGame["players"] = {
@@ -35,8 +43,21 @@ const Rabble = {
   },
 
   moves: {
+    playWord: {
+      move: (G: Game, ctx: GameContext, word: string) => {
+        const { currentPlayer } = ctx;
+        const { tileRack } = G.players[currentPlayer];
+        const { tileBag } = G;
+        if (!playIsValid(word, tileRack)) {
+          return INVALID_MOVE;
+        }
+        G.turns.push(pullPlayTilesFromRack(word, tileRack));
+        drawTiles(tileRack, tileBag);
+      },
+      client: false
+    },
     drawTiles: {
-      move: (G: any, ctx: any) => {
+      move: (G: Game, ctx: GameContext) => {
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
@@ -46,7 +67,7 @@ const Rabble = {
     }
   },
 
-  endIf: (G: any, ctx: any) => {
+  endIf: (G: Game, ctx: GameContext) => {
     if (IsVictory(G)) {
       return { winner: ctx.currentPlayer };
     }
