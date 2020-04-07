@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateTiles } from "./rackSlice";
 import { playIsValid } from "../../../game/tileBag";
 
+import TurnList from "./TurnList";
+
 type GameBoardProps = {
   G: Game;
   ctx: GameContext;
@@ -36,17 +38,30 @@ const GameBoard = (props: GameBoardProps) => {
 
   const [wordToPlay, setWordToPlay] = useState("");
 
+  // TODO - endTurn comes too soon after playWord.
+  // How can we fix the timing issue?
+  const [played, setPlayed] = useState(false);
+  useEffect(() => {
+    if (played) {
+      setTimeout(() => {
+        endTurn();
+        setPlayed(false);
+      }, 1000);
+    }
+  }, [played, endTurn]);
+
+  // Scores should be part of the non-secret sauce instead
+  const playerScoreFromTurns = (id: string) =>
+    turns
+      .filter(t => t.playerID == id)
+      .map(t => t.score)
+      .reduce((sum: number, score: number) => sum + score, 0);
+
   return (
     <div className={styles.board}>
       <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
       <h3 className={styles.subheading}>Now Playing: {currentPlayer}</h3>
-      <div>
-        <ul className={styles.turnList}>
-          {turns.map(word => {
-            return <li>{word.map(t => t.letter).join("")}</li>;
-          })}
-        </ul>
-      </div>
+      <TurnList turns={turns} />
       <div>
         <input
           name="wordToPlay"
@@ -56,12 +71,31 @@ const GameBoard = (props: GameBoardProps) => {
       </div>
       <div>{playIsValid(wordToPlay, tileRack) && <strong>Valid</strong>}</div>
       <div>
-        <button onClick={() => playWord(wordToPlay)}>play tiles</button>
+        <button
+          onClick={() => {
+            playWord(wordToPlay);
+            setWordToPlay("");
+            setPlayed(true);
+          }}
+        >
+          play tiles
+        </button>
         <button onClick={() => drawTiles()}>draw tiles</button>
         <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
         <button onClick={() => endTurn()}>end turn</button>
       </div>
-      <p>{JSON.stringify(displayTileRack.map(t => t.letter))}</p>
+      <h4>{displayTileRack.map(t => t.letter).join(" ")}</h4>
+      <h5 className={styles.subheading}>Scores</h5>
+      <ul className={styles.scoreList}>
+        <li>
+          <span>Player 0: </span>
+          <span style={{ float: "right" }}>{playerScoreFromTurns("0")}</span>
+        </li>
+        <li>
+          <span>Player 1: </span>
+          <span style={{ float: "right" }}>{playerScoreFromTurns("1")}</span>
+        </li>
+      </ul>
     </div>
   );
 };

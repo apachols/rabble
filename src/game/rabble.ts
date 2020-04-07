@@ -24,10 +24,12 @@ const Rabble = {
       turns: [],
       players: {
         "0": {
-          tileRack: []
+          tileRack: [],
+          score: 0
         },
         "1": {
-          tileRack: []
+          tileRack: [],
+          score: 0
         }
       }
     };
@@ -51,7 +53,17 @@ const Rabble = {
         if (!playIsValid(word, tileRack)) {
           return INVALID_MOVE;
         }
-        G.turns.push(pullPlayTilesFromRack(word, tileRack));
+        const playTiles = pullPlayTilesFromRack(word, tileRack);
+        const score = playTiles.reduce(
+          (sum: number, tile: Tile) => sum + tile.value,
+          0
+        );
+        const thisTurn = {
+          tiles: playTiles,
+          playerID: currentPlayer,
+          score
+        };
+        G.turns.push(thisTurn);
         drawTiles(tileRack, tileBag);
       },
       client: false

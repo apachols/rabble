@@ -18,11 +18,18 @@ type TileClass = {
 
 type PlayerInfo = {
   tileRack: Array<Tile>;
+  score: number;
+};
+
+type Turn = {
+  playerID: string;
+  tiles: Tile[];
+  score: number;
 };
 
 type Game = {
   tileBag: Tile[];
-  turns: Tile[][];
+  turns: Turn[];
   players: {
     [key: string]: PlayerInfo;
   };
