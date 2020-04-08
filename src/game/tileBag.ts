@@ -1,14 +1,6 @@
-const MAX_PLAYER_RACK_TILES = 7;
+export const MAX_PLAYER_RACK_TILES = 7;
 
-type TileBagConfig = {
-  [key: string]: {
-    letter: string;
-    value: number;
-    frequency: number;
-  };
-};
-
-const tileBagConfig: TileBagConfig = {
+export const tileBagConfig: TileBagConfig = {
   " ": { letter: " ", value: 0, frequency: 2 },
   A: { letter: "A", value: 1, frequency: 9 },
   B: { letter: "B", value: 3, frequency: 2 },
@@ -39,7 +31,7 @@ const tileBagConfig: TileBagConfig = {
 };
 
 // Creates copies of the tiles, preventing tileBagConfig refs from leaking
-const createTiles = (tileClass: TileClass): Tile[] => {
+export const createTiles = (tileClass: TileClass): Tile[] => {
   return Array(tileClass.frequency).fill({
     letter: tileClass.letter,
     value: tileClass.value
@@ -73,7 +65,6 @@ export const drawTiles = (tileRack: Tile[], tileBag: Tile[]) => {
       tileRack.push(tile);
     }
   }
-  return tileRack;
 };
 
 // play is valid if playLetters are a subset of rackLetters (which may have duplicates)
@@ -97,6 +88,9 @@ export const playIsValid = (word: string, rackTiles: Tile[]) => {
 // Assumes word contains only valid letters
 export const tilesFromString = (word: string): Tile[] => {
   const playLetters = word.toUpperCase().split("");
+  if (!playLetters.every(letter => tileBagConfig[letter])) {
+    throw new Error(`Invalid word: '${word}'`);
+  }
   return playLetters.map(letter => ({
     letter,
     value: tileBagConfig[letter].value
@@ -114,6 +108,9 @@ export const pullPlayTilesFromRack = (
   // and remove it from tileRack and rackLetters
   return playLetters.map(letter => {
     const pos = rackLetters.indexOf(letter);
+    if (pos === -1) {
+      throw new Error(`Invalid play: '${letter}' not found`);
+    }
     rackLetters.splice(pos, 1);
     return tileRack.splice(pos, 1)[0];
   });

@@ -53,7 +53,7 @@ const GameBoard = (props: GameBoardProps) => {
   // Scores should be part of the non-secret sauce instead
   const playerScoreFromTurns = (id: string) =>
     turns
-      .filter(t => t.playerID == id)
+      .filter(t => t.playerID === id)
       .map(t => t.score)
       .reduce((sum: number, score: number) => sum + score, 0);
 

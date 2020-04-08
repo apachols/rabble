@@ -1,3 +1,5 @@
+// Rabble Types
+
 // type WordList = Set<string>;
 type WordList = {
   [key: string]: number;
@@ -12,6 +14,10 @@ type TileClass = {
   letter: string;
   value: number;
   frequency: number;
+};
+
+type TileBagConfig = {
+  [key: string]: TileClass;
 };
 
 // Boardgame.io Types
