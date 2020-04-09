@@ -11,13 +11,12 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
-- Handle blanks
-- Game board needs component breakout
+- Exchange tiles => Abe
 - Tests for Rabble game file
-- Tests for tile functions
-- Dictionary
-- Keep dictionary from loading on client with import trickery
-- Exchange tiles
+- Handle blanks 1: submit word
+- Victory conditions
+- Game board needs component breakout
+- THE TOAST OMG
 - Test multiplayer on heroku
 
 ## Rough Sketch

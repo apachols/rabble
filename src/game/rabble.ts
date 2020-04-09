@@ -4,7 +4,9 @@ import {
   shuffleTiles,
   drawTiles,
   playIsValid,
-  pullPlayTilesFromRack
+  pullPlayTilesFromRack,
+  exchangeTiles,
+  tilesFromString
 } from "./tileBag";
 
 function IsVictory(G: Game) {
@@ -15,7 +17,7 @@ function IsDraw(G: Game) {
   return false;
 }
 
-const Rabble = {
+const Rabble = (wordlist: WordList) => ({
   name: "rabble",
 
   setup: (): Game => {
@@ -53,6 +55,9 @@ const Rabble = {
         if (!playIsValid(word, tileRack)) {
           return INVALID_MOVE;
         }
+        if (!wordlist[word.toUpperCase()]) {
+          return INVALID_MOVE;
+        }
         const playTiles = pullPlayTilesFromRack(word, tileRack);
         const score = playTiles.reduce(
           (sum: number, tile: Tile) => sum + tile.value,
@@ -76,6 +81,15 @@ const Rabble = {
         drawTiles(tileRack, tileBag);
       },
       client: false
+    },
+    exchangeTiles: {
+      move: (G: Game, ctx: GameContext, exchange: string) => {
+        const { currentPlayer } = ctx;
+        const { tileRack } = G.players[currentPlayer];
+        const { tileBag } = G;
+        exchangeTiles(tileBag, tileRack, tilesFromString(exchange));
+      },
+      client: false
     }
   },
 
@@ -87,6 +101,6 @@ const Rabble = {
       return { draw: true };
     }
   }
-};
+});
 
 export default Rabble;

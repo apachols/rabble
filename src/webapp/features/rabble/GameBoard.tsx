@@ -12,6 +12,7 @@ type GameBoardProps = {
   playerID: string;
   moves: {
     drawTiles: () => void;
+    exchangeTiles: (tiles: string) => void;
     playWord: (word: string) => void;
   };
   events: {
@@ -23,7 +24,7 @@ const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
     G: { players, turns },
-    moves: { drawTiles, playWord },
+    moves: { drawTiles, playWord, exchangeTiles },
     events: { endTurn },
     ctx: { currentPlayer }
   } = props;
@@ -81,6 +82,14 @@ const GameBoard = (props: GameBoardProps) => {
           play tiles
         </button>
         <button onClick={() => drawTiles()}>draw tiles</button>
+        <button
+          onClick={() => {
+            exchangeTiles(wordToPlay);
+            setWordToPlay("");
+          }}
+        >
+          exchange tiles
+        </button>
         <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
         <button onClick={() => endTurn()}>end turn</button>
       </div>

@@ -115,3 +115,21 @@ export const pullPlayTilesFromRack = (
     return tileRack.splice(pos, 1)[0];
   });
 };
+
+// Takes in a tile array and returns an exchanged tile array and sorts the bag
+export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
+  let tempRack = rack.map(t => t.letter);
+  let tempExchange = exchange.map(t => t.letter);
+  for (let II = 0; II < exchange.length; II++) {
+    if (tempRack.indexOf(tempExchange[II]) !== -1) {
+      // TODO, push what is spliced into the bag directly
+      rack.splice(tempRack.indexOf(tempExchange[II]), 1);
+    } else {
+      // TODO, handle error case here - what if not found?
+    }
+  }
+  drawTiles(rack, bag);
+  exchange.map(t => bag.push(t));
+  shuffleTiles(bag);
+  return;
+};

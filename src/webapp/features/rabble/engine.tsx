@@ -8,7 +8,7 @@ const server = `${window.location.hostname}:8000`;
 console.log(server);
 
 const Engine = Client({
-  game: Rabble,
+  game: Rabble({}),
   board: GameBoard,
   multiplayer: SocketIO({ server })
 });

@@ -1,22 +1,21 @@
 import { Server, FlatFile } from "boardgame.io/server";
-// import TicTacToe from "../game/tictactoe";
 
 import Rabble from "../game/rabble";
 
-// console.log(Rabble.setup());
+import loadWordList from "./loadWordList";
 
-// import wordlist from "./wordlist";
-// console.log(wordlist);
+// The "run typescript server script with async await" situation could be better.
+loadWordList("./data/NSWL2018.txt").then(wordlist => {
+  console.log(wordlist);
 
-const server = Server({
-  games: [Rabble],
+  const server = Server({
+    games: [Rabble(wordlist)],
 
-  db: new FlatFile({
-    dir: "/Users/adamp/git/rabble/tmp",
-    logging: true
-  })
+    db: new FlatFile({
+      dir: "/Users/adamp/git/rabble/tmp",
+      logging: true
+    })
+  });
+
+  const x = server.run(8000);
 });
-
-const x = server.run(8000);
-
-// console.log(server);
