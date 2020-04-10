@@ -88,7 +88,8 @@ POST /games/rabble/update/{gameID} => hook into game update mechanism and save s
 - Player 0 visits rabble.io/, hits Create.
   - POST /games/rabble/create
   - {playerID: 0, gameID: "fromServer"} => local storage
-- Player 0 redirect to game/join/{roomID}.
+  - Player 0 redirect to game/join/{roomID}
+- Player 0 views to game/join/{roomID}.
   - Player 0 chooses nickname
 - Player 0 redirect to game/{roomID}
 - Game screen has a share link to /game/join/{roomID}

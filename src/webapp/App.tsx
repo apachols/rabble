@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import Rabble from "./features/rabble";
+import Create from "./features/create";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -29,6 +30,9 @@ export default function App() {
             <li>
               <Link to="/game">Rabble</Link>
             </li>
+            <li>
+              <Link to="/create">Create</Link>
+            </li>
           </ul>
         </nav>
 
@@ -36,6 +40,9 @@ export default function App() {
           <Switch>
             <Route path="/game">
               <Game />
+            </Route>
+            <Route path="/create">
+              <Create />
             </Route>
             <Route path="/">
               <Home />
