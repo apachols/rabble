@@ -81,7 +81,13 @@ const GameBoard = (props: GameBoardProps) => {
         >
           play tiles
         </button>
-        <button onClick={() => drawTiles()}>draw tiles</button>
+        <button
+          onClick={() => {
+            drawTiles();
+          }}
+        >
+          draw tiles
+        </button>
         <button
           onClick={() => {
             exchangeTiles(wordToPlay);

@@ -78,6 +78,7 @@ const Rabble = (wordlist: WordList) => ({
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
+        console.log("le server");
         drawTiles(tileRack, tileBag);
       },
       client: false

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./create.module.css";
 import axios from "axios";
-import { addUserGame } from "../../app/localStorage";
+import { createUserGame } from "../../app/localStorage";
 
 const server = `${window.location.hostname}:8000`;
 
@@ -21,7 +21,7 @@ const postToCreateGame = async () => {
   const { gameID } = res.data;
 
   if (gameID) {
-    addUserGame(gameID);
+    createUserGame(gameID);
   } else {
     throw new Error("Game ID not returned from server");
   }

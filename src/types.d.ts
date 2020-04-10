@@ -2,11 +2,15 @@
 
 type UserGameInfo = {
   gameID: string;
+  playerID: string;
+  playerCredentials: string;
 };
 
 type UserInfo = {
   nickname: string;
-  games: UserGameInfo[];
+  games: {
+    [key: string]: UserGameInfo;
+  };
 };
 
 // Rabble Types
