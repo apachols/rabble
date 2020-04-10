@@ -1,6 +1,16 @@
+// User Types
+
+type UserGameInfo = {
+  gameID: string;
+};
+
+type UserInfo = {
+  nickname: string;
+  games: UserGameInfo[];
+};
+
 // Rabble Types
 
-// type WordList = Set<string>;
 type WordList = {
   [key: string]: number;
 };
