@@ -86,6 +86,7 @@ const GameBoard = (props: GameBoardProps) => {
           onClick={() => {
             exchangeTiles(wordToPlay);
             setWordToPlay("");
+            setPlayed(true);
           }}
         >
           exchange tiles

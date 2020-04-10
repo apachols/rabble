@@ -11,13 +11,19 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
-- Exchange tiles => Abe
-- Tests for Rabble game file
+- Plays your turn on invalid word. What a challenge!
+- Display error on invalid play
 - Handle blanks 1: submit word
-- Victory conditions
-- Game board needs component breakout
-- THE TOAST OMG
+- Tests for Rabble game file
 - Test multiplayer on heroku
+
+- Victory conditions
+- Update server scores
+
+- Game board needs component breakout
+- Map out tiles in react
+
+- THE TOAST OMG
 
 ## Rough Sketch
 
