@@ -2,11 +2,15 @@
 
 type UserGameInfo = {
   gameID: string;
+  playerID: string;
+  playerCredentials: string;
 };
 
 type UserInfo = {
   nickname: string;
-  games: UserGameInfo[];
+  games: {
+    [key: string]: UserGameInfo;
+  };
 };
 
 // Rabble Types
@@ -33,11 +37,16 @@ type TileBagConfig = {
 // Boardgame.io Types
 
 type PlayerInfo = {
-  tileRack: Array<Tile>;
+  tileRack: Tile[];
   score: number;
+  currentPlay: {
+    tilesLaid: Tile[];
+    valid: boolean;
+  };
 };
 
 type Turn = {
+  turnID: string;
   playerID: string;
   tiles: Tile[];
   score: number;
@@ -52,6 +61,7 @@ type Game = {
 };
 
 type GameContext = {
+  turn: number;
   currentPlayer: string;
   gameover?: {
     winner?: number;

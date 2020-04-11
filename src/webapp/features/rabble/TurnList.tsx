@@ -13,7 +13,7 @@ const TurnList = (props: TurnListProps) => {
     <div>
       <ul className={styles.turnList}>
         {turns.map(t => {
-          return <Turn turn={t} />;
+          return <Turn key={t.turnID} turn={t} />;
         })}
       </ul>
     </div>

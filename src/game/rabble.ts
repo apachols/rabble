@@ -26,10 +26,18 @@ const Rabble = (wordlist: WordList) => ({
       turns: [],
       players: {
         "0": {
+          currentPlay: {
+            tilesLaid: [],
+            valid: false
+          },
           tileRack: [],
           score: 0
         },
         "1": {
+          currentPlay: {
+            tilesLaid: [],
+            valid: false
+          },
           tileRack: [],
           score: 0
         }
@@ -50,7 +58,7 @@ const Rabble = (wordlist: WordList) => ({
     playWord: {
       move: (G: Game, ctx: GameContext, word: string) => {
         const { currentPlayer } = ctx;
-        const { tileRack } = G.players[currentPlayer];
+        const { tileRack, currentPlay } = G.players[currentPlayer];
         const { tileBag } = G;
         // Check for valid move
         if (!playIsValid(word, tileRack)) {
@@ -59,17 +67,27 @@ const Rabble = (wordlist: WordList) => ({
         if (!wordlist[word.toUpperCase()]) {
           return INVALID_MOVE;
         }
+        if (!currentPlay.valid) {
+          return INVALID_MOVE;
+        }
+
         const playTiles = pullPlayTilesFromRack(word, tileRack);
         const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);
+
         // record the turn in the turn list - TODO update server scores
         const thisTurn = {
+          turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: playTiles,
           playerID: currentPlayer,
           score
         };
         G.turns.push(thisTurn);
+
         // draw back to a full hand
         drawTiles(tileRack, tileBag);
+
+        // reset the "is the word you are trying to play valid" bit
+        currentPlay.valid = false;
       },
       client: false
     },
@@ -88,6 +106,29 @@ const Rabble = (wordlist: WordList) => ({
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
         exchangeTiles(tileBag, tileRack, tilesFromString(exchange));
+        const thisTurn = {
+          turnID: `${ctx.turn}-${currentPlayer}`,
+          tiles: [],
+          playerID: currentPlayer,
+          score: 0
+        };
+        G.turns.push(thisTurn);
+      },
+      client: false
+    },
+    checkWord: {
+      move: (G: Game, ctx: GameContext, word: string) => {
+        const { currentPlayer } = ctx;
+        const { tileRack, currentPlay } = G.players[currentPlayer];
+        if (!playIsValid(word, tileRack)) {
+          currentPlay.valid = false;
+          return;
+        }
+        if (!wordlist[word.toUpperCase()]) {
+          currentPlay.valid = false;
+          return;
+        }
+        currentPlay.valid = true;
       },
       client: false
     }

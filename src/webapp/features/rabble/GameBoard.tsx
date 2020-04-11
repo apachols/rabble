@@ -3,6 +3,7 @@ import styles from "./GameBoard.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateTiles } from "./rackSlice";
 import { playIsValid } from "../../../game/tileBag";
+import { useParams } from "react-router-dom";
 
 import TurnList from "./TurnList";
 
@@ -14,6 +15,7 @@ type GameBoardProps = {
     drawTiles: () => void;
     exchangeTiles: (tiles: string) => void;
     playWord: (word: string) => void;
+    checkWord: (word: string) => void;
   };
   events: {
     endTurn: any;
@@ -24,13 +26,19 @@ const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
     G: { players, turns },
-    moves: { drawTiles, playWord, exchangeTiles },
+    moves: { drawTiles, playWord, exchangeTiles, checkWord },
     events: { endTurn },
     ctx: { currentPlayer }
   } = props;
 
+  const { gameID } = useParams();
+
+  // Pull info for the current player
+  const { tileRack, currentPlay } = players[playerID];
+
+  const currentPlayIsValid = currentPlay.valid;
+
   // Update the rack tiles in the local reducer with the rack tiles from the server
-  const { tileRack } = players[playerID];
   const dispatch = useDispatch();
   const displayTileRack = useSelector(selectTileRack);
   useEffect(() => {
@@ -38,6 +46,15 @@ const GameBoard = (props: GameBoardProps) => {
   }, [dispatch, tileRack]);
 
   const [wordToPlay, setWordToPlay] = useState("");
+
+  // If the current play is marked valid, run playWord
+  useEffect(() => {
+    if (currentPlayIsValid) {
+      playWord(wordToPlay);
+      setWordToPlay("");
+      setPlayed(true);
+    }
+  }, [currentPlayIsValid, wordToPlay, playWord]);
 
   // TODO - endTurn comes too soon after playWord.
   // How can we fix the timing issue?
@@ -47,7 +64,7 @@ const GameBoard = (props: GameBoardProps) => {
       setTimeout(() => {
         endTurn();
         setPlayed(false);
-      }, 1000);
+      }, 500);
     }
   }, [played, endTurn]);
 
@@ -60,6 +77,13 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <div className={styles.board}>
+      <div>
+        <span>
+          <strong>Invite a friend: </strong>
+        </span>
+        <div>{`${window.location.host}/join/${gameID}`}</div>
+      </div>
+
       <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
       <h3 className={styles.subheading}>Now Playing: {currentPlayer}</h3>
       <TurnList turns={turns} />
@@ -74,19 +98,25 @@ const GameBoard = (props: GameBoardProps) => {
       <div>
         <button
           onClick={() => {
-            playWord(wordToPlay);
-            setWordToPlay("");
-            setPlayed(true);
+            checkWord(wordToPlay);
           }}
         >
           play tiles
         </button>
-        <button onClick={() => drawTiles()}>draw tiles</button>
         <button
           onClick={() => {
-            exchangeTiles(wordToPlay);
-            setWordToPlay("");
-            setPlayed(true);
+            drawTiles();
+          }}
+        >
+          draw tiles
+        </button>
+        <button
+          onClick={() => {
+            if (playIsValid(wordToPlay, tileRack)) {
+              exchangeTiles(wordToPlay);
+              setWordToPlay("");
+              setPlayed(true);
+            }
           }}
         >
           exchange tiles

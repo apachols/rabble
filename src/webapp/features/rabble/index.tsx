@@ -2,11 +2,26 @@ import React from "react";
 
 import Engine from "./engine";
 
-const RabbleGameView = () => {
-  const url = new URL(window.location.href);
-  const pid = url.searchParams.get("pid") || "0";
+import { useParams } from "react-router-dom";
 
-  return <Engine playerID={pid} gameID={"GgOTSr93q"} />;
+import { getPlayerGame } from "../../app/localStorage";
+
+const RabbleGameView = () => {
+  const { gameID } = useParams();
+
+  if (!gameID) {
+    return <div>Game ID Missing</div>;
+  }
+
+  const { playerID, playerCredentials } = getPlayerGame(gameID);
+
+  return (
+    <Engine
+      playerID={playerID}
+      gameID={gameID}
+      credentials={playerCredentials}
+    />
+  );
 };
 
 export default RabbleGameView;
