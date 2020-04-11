@@ -9,7 +9,7 @@ const fixtureGameInfo = {
   playerCredentials: ""
 };
 
-const getUserInfo = (): UserInfo => {
+export const getUserInfo = (): UserInfo => {
   const rawUserInfo = localStorage.getItem("userInfo");
   if (rawUserInfo) {
     return JSON.parse(rawUserInfo);
@@ -47,6 +47,7 @@ export const joinUserGame = (
   } else {
     userInfo.games[gameID] = {
       ...fixtureGameInfo,
+      gameID,
       playerID,
       playerCredentials
     };

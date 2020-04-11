@@ -3,12 +3,9 @@ import "./App.css";
 import Rabble from "./features/rabble";
 import Create from "./features/create";
 import Join from "./features/join";
+import Home from "./features/home";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-function Home() {
-  return <h2>Home</h2>;
-}
 
 function Game() {
   return <Rabble />;
@@ -25,6 +22,16 @@ export default function App() {
             </li>
             <li>
               <Link to="/create">Create</Link>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  localStorage.setItem("userInfo", "");
+                  window.location.reload();
+                }}
+              >
+                clear local storage
+              </button>
             </li>
           </ul>
         </nav>
