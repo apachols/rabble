@@ -77,13 +77,6 @@ const JoinGame = () => {
         value={nickname}
         onChange={ev => setNickname(ev.target.value)}
       />
-      <button
-        onClick={() => {
-          getGameInfo(gameID);
-        }}
-      >
-        fetch
-      </button>
       <button onClick={() => postToJoinGame(gameID, nickname)}>join</button>
     </div>
   );

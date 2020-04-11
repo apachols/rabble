@@ -11,7 +11,7 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
-- Plays your turn on invalid word. What a challenge!
+- Shuffled rack order preserved on server when state changes.
 - Display error on invalid play
 - Handle blanks 1: submit word
 - Tests for Rabble game file

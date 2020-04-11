@@ -11,12 +11,7 @@ function Home() {
 }
 
 function Game() {
-  return (
-    <div>
-      <h2>Rabble</h2>
-      <Rabble />
-    </div>
-  );
+  return <Rabble />;
 }
 
 export default function App() {

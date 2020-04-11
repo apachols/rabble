@@ -46,6 +46,7 @@ type PlayerInfo = {
 };
 
 type Turn = {
+  turnID: string;
   playerID: string;
   tiles: Tile[];
   score: number;
@@ -60,6 +61,7 @@ type Game = {
 };
 
 type GameContext = {
+  turn: number;
   currentPlayer: string;
   gameover?: {
     winner?: number;

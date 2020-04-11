@@ -9,11 +9,15 @@ type TurnListProps = {
 const TurnList = (props: TurnListProps) => {
   const { turns } = props;
 
+  // Turn needs a unique ID...
+  const key = (turn: Turn) =>
+    `${turn.playerID}-${turn.tiles.map(t => t.letter)}`;
+
   return (
     <div>
       <ul className={styles.turnList}>
         {turns.map(t => {
-          return <Turn turn={t} />;
+          return <Turn key={key(t)} turn={t} />;
         })}
       </ul>
     </div>

@@ -76,6 +76,7 @@ const Rabble = (wordlist: WordList) => ({
 
         // record the turn in the turn list - TODO update server scores
         const thisTurn = {
+          turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: playTiles,
           playerID: currentPlayer,
           score
@@ -95,7 +96,6 @@ const Rabble = (wordlist: WordList) => ({
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
-        console.log("le server");
         drawTiles(tileRack, tileBag);
       },
       client: false
@@ -106,6 +106,13 @@ const Rabble = (wordlist: WordList) => ({
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
         exchangeTiles(tileBag, tileRack, tilesFromString(exchange));
+        const thisTurn = {
+          turnID: `${ctx.turn}-${currentPlayer}`,
+          tiles: [],
+          playerID: currentPlayer,
+          score: 0
+        };
+        G.turns.push(thisTurn);
       },
       client: false
     },
@@ -113,7 +120,6 @@ const Rabble = (wordlist: WordList) => ({
       move: (G: Game, ctx: GameContext, word: string) => {
         const { currentPlayer } = ctx;
         const { tileRack, currentPlay } = G.players[currentPlayer];
-        // Check for valid move
         if (!playIsValid(word, tileRack)) {
           currentPlay.valid = false;
           return;

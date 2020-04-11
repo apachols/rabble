@@ -13,12 +13,7 @@ const RabbleGameView = () => {
     return <div>Game ID Missing</div>;
   }
 
-  const url = new URL(window.location.href);
-  const pid = url.searchParams.get("pid") || "0";
-
   const { playerID, playerCredentials } = getPlayerGame(gameID);
-
-  console.log(playerID, playerCredentials);
 
   return (
     <Engine
