@@ -12,7 +12,7 @@ loadWordList("./data/NSWL2018.txt").then(wordlist => {
     games: [Rabble(wordlist)],
 
     db: new FlatFile({
-      dir: "/Users/adamp/git/rabble/tmp",
+      dir: "/c/Users/lorbe/git/rabble/tmp",
       logging: true
     })
   });
