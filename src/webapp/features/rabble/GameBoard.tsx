@@ -14,6 +14,7 @@ type GameBoardProps = {
     drawTiles: () => void;
     exchangeTiles: (tiles: string) => void;
     playWord: (word: string) => void;
+    checkWord: (word: string) => void;
   };
   events: {
     endTurn: any;
@@ -24,18 +25,32 @@ const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
     G: { players, turns },
-    moves: { drawTiles, playWord, exchangeTiles },
+    moves: { drawTiles, playWord, exchangeTiles, checkWord },
     events: { endTurn },
     ctx: { currentPlayer }
   } = props;
 
+  // Pull info for the current player
+  const { tileRack, currentPlay } = players[playerID];
+
+  const currentPlayIsValid = currentPlay.valid;
+
   // Update the rack tiles in the local reducer with the rack tiles from the server
-  const { tileRack } = players[playerID];
   const dispatch = useDispatch();
   const displayTileRack = useSelector(selectTileRack);
   useEffect(() => {
     dispatch(updateTiles(tileRack));
   }, [dispatch, tileRack]);
+
+  // If the current play is marked valid, run playWord
+  useEffect(() => {
+    if (currentPlayIsValid) {
+      console.log("PLAYING VALID WORD", wordToPlay);
+      playWord(wordToPlay);
+      setWordToPlay("");
+      setPlayed(true);
+    }
+  }, [currentPlayIsValid]);
 
   const [wordToPlay, setWordToPlay] = useState("");
 
@@ -74,9 +89,8 @@ const GameBoard = (props: GameBoardProps) => {
       <div>
         <button
           onClick={() => {
-            playWord(wordToPlay);
-            setWordToPlay("");
-            setPlayed(true);
+            checkWord(wordToPlay);
+            // setPlayed(true);
           }}
         >
           play tiles
@@ -90,9 +104,10 @@ const GameBoard = (props: GameBoardProps) => {
         </button>
         <button
           onClick={() => {
+            // TODO VALID CHECK YIKES
             exchangeTiles(wordToPlay);
             setWordToPlay("");
-            setPlayed(true);
+            // setPlayed(true);
           }}
         >
           exchange tiles

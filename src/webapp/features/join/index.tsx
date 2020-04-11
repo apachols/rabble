@@ -6,10 +6,38 @@ import { updateUserNickName, joinUserGame } from "../../app/localStorage";
 
 const server = `${window.location.hostname}:8000`;
 
+type serverPlayerMetadata = {
+  id: number; // WHY
+  name: string;
+};
+
+const getGameInfo = async (gameID: string) => {
+  const getResult = await axios({
+    method: "get",
+    headers: {
+      "content-type": "application/json"
+    },
+    url: `http://${server}/games/rabble/${gameID}`
+  });
+
+  return getResult.data;
+};
+
+const getNextOpenSeat = (gameInfo: any): string => {
+  const players: serverPlayerMetadata[] = gameInfo.players;
+  const openSeatsOrderedById = players.filter(p => !p.name).sort(p => p.id);
+  const nextOpenSeat = openSeatsOrderedById[0];
+  if (!nextOpenSeat) {
+    throw new Error("Game is already full");
+  }
+  return String(nextOpenSeat.id);
+};
+
 const postToJoinGame = async (gameID: string, nickname: string) => {
-  // TODO we need to query the server to find out the correct ordinal playerID
-  const playerID = "1";
-  const res = await axios({
+  const gameInfo = await getGameInfo(gameID);
+  const playerID = getNextOpenSeat(gameInfo);
+
+  const postResult = await axios({
     method: "post",
     headers: {
       "content-type": "application/json"
@@ -21,9 +49,12 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
     }
   });
 
-  const { playerCredentials } = res.data;
+  const { playerCredentials } = postResult.data;
+
+  console.log(playerCredentials);
 
   updateUserNickName(nickname);
+
   joinUserGame(gameID, playerID, playerCredentials);
 
   // TODO, react router recommends doing this with <Redirect> instead
@@ -46,7 +77,14 @@ const JoinGame = () => {
         value={nickname}
         onChange={ev => setNickname(ev.target.value)}
       />
-      <button onClick={() => postToJoinGame(gameID, nickname)}>create</button>
+      <button
+        onClick={() => {
+          getGameInfo(gameID);
+        }}
+      >
+        fetch
+      </button>
+      <button onClick={() => postToJoinGame(gameID, nickname)}>join</button>
     </div>
   );
 };

@@ -21,6 +21,11 @@ const updateUserInfo = (userInfo: UserInfo) => {
   localStorage.setItem("userInfo", JSON.stringify(userInfo));
 };
 
+export const getPlayerGame = (gameID: string) => {
+  const userInfo = getUserInfo();
+  return userInfo.games[gameID];
+};
+
 export const updateUserNickName = (nickname: string) => {
   const userInfo = getUserInfo();
   userInfo.nickname = nickname;
@@ -36,6 +41,12 @@ export const joinUserGame = (
   if (userInfo.games[gameID]) {
     userInfo.games[gameID] = {
       ...userInfo.games[gameID],
+      playerID,
+      playerCredentials
+    };
+  } else {
+    userInfo.games[gameID] = {
+      ...fixtureGameInfo,
       playerID,
       playerCredentials
     };

@@ -37,8 +37,12 @@ type TileBagConfig = {
 // Boardgame.io Types
 
 type PlayerInfo = {
-  tileRack: Array<Tile>;
+  tileRack: Tile[];
   score: number;
+  currentPlay: {
+    tilesLaid: Tile[];
+    valid: boolean;
+  };
 };
 
 type Turn = {
