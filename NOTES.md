@@ -11,13 +11,16 @@ https://scrabbleplayers.org/w/NASPA_Zyzzyva_macOS_Installation
 
 ## TODO
 
+- Test multiplayer on digital ocean
+
 - You can see the blank in the tile rack :|
 - Bingo scoring rules
 - Shuffled rack order preserved on server when state changes.
 - Display error on invalid play
 - Handle blanks 1: submit word
 - Tests for Rabble game file
-- Test multiplayer on heroku
+
+- Recent games list has dates and opponents
 
 - Victory conditions
 - Update server scores

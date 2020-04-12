@@ -4,15 +4,17 @@ import Rabble from "../game/rabble";
 
 import loadWordList from "./loadWordList";
 
-// The "run typescript server script with async await" situation could be better.
-loadWordList("./data/NSWL2018.txt").then(wordlist => {
-  console.log(wordlist);
+import dotenv from "dotenv";
 
+dotenv.config();
+
+// The "run typescript server script with async await" situation could be better.
+loadWordList(process.env.WORDLIST_PATH || "").then(wordlist => {
   const server = Server({
     games: [Rabble(wordlist)],
 
     db: new FlatFile({
-      dir: "/Users/adamp/git/rabble/tmp",
+      dir: process.env.FLATFILE_PATH || "",
       logging: true
     })
   });

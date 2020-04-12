@@ -129,3 +129,6 @@ yarn-error.log*
 # rabble
 /tmp
 /data
+
+# environment
+.env
