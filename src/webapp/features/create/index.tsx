@@ -3,7 +3,7 @@ import styles from "./create.module.css";
 import axios from "axios";
 import { createUserGame } from "../../app/localStorage";
 
-const server = `${window.location.hostname}:8000`;
+const server = `${window.location.hostname}/api`;
 
 const postToCreateGame = async () => {
   const res = await axios({
@@ -11,7 +11,7 @@ const postToCreateGame = async () => {
     headers: {
       "content-type": "application/json"
     },
-    url: `http://${server}/games/rabble/create`,
+    url: `https://${server}/games/rabble/create`,
     data: {
       setupData: {},
       numPlayers: 2

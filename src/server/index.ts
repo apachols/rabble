@@ -19,5 +19,5 @@ loadWordList(process.env.WORDLIST_PATH || "").then(wordlist => {
     })
   });
 
-  const x = server.run(8000);
+  const x = server.run({ port: 8000, lobbyConfig: { apiPort: 8080 }});
 });
