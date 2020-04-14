@@ -6,6 +6,10 @@ import loadWordList from "./loadWordList";
 
 import dotenv from "dotenv";
 
+import Koa from "koa";
+
+import Router from 'koa-router';
+
 dotenv.config();
 
 // The "run typescript server script with async await" situation could be better.

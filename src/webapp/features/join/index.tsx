@@ -4,7 +4,7 @@ import styles from "./join.module.css";
 import { useParams } from "react-router-dom";
 import { updateUserNickName, joinUserGame } from "../../app/localStorage";
 
-const server = `${window.location.hostname}:8000`;
+const server = `${window.location.hostname}`;
 
 type serverPlayerMetadata = {
   id: number; // WHY
@@ -17,7 +17,7 @@ const getGameInfo = async (gameID: string) => {
     headers: {
       "content-type": "application/json"
     },
-    url: `http://${server}/games/rabble/${gameID}`
+    url: `https://${server}/api/games/rabble/${gameID}`
   });
 
   return getResult.data;
@@ -42,7 +42,7 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
     headers: {
       "content-type": "application/json"
     },
-    url: `http://${server}/games/rabble/${gameID}/join`,
+    url: `https://${server}/api/games/rabble/${gameID}/join`,
     data: {
       playerID,
       playerName: nickname
