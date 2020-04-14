@@ -1,3 +1,20 @@
+
+## Production
+
+npm install -g serve
+npm install -g pm2
+
+cat "env vars plz" > ./.env
+source ./.env
+npm run build
+pm2 start pm2.json rabble-client
+pm2 start pm2.json rabble-server
+
+
+## Local Dev
+
+npm run dev
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts

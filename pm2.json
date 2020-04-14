@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+            "name": "rabble-server",
+            "script": "npm",
+            "args" : "run server"
+        },
+        {
+            "name": "rabble-client",
+            "script": "/usr/bin/serve",
+            "args" : "-s build -p 3000"
+        },
+    ]
+}
