@@ -1,10 +1,13 @@
 ## TODO
 
+- Improve Tile CSS
+
 - Shuffled rack order preserved on server when state changes.
 - Display error on invalid play
 - Handle blanks 1: submit word
 - Join link click to copy on desktop and mobile web
 
+- prod build script with env vars
 - Security errors for NPM packages
 - Tests for Rabble game file
 - Abstraction for API

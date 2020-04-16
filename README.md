@@ -7,8 +7,9 @@ npm install -g pm2
 cat "env vars plz" > ./.env
 source ./.env
 npm run build
-pm2 start pm2.json rabble-client
-pm2 start pm2.json rabble-server
+pm2 start pm2.json
+
+pm2 stop all
 ```
 
 ## Local Dev

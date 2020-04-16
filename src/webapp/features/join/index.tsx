@@ -78,8 +78,7 @@ const JoinGame = () => {
   }
 
   const gameInfo = getPlayerGame(gameID);
-  const { playerID, playerCredentials } = gameInfo;
-  if (playerID && playerCredentials) {
+  if (gameInfo?.playerID && gameInfo?.playerCredentials) {
     redirectToGameView(gameID);
   }
 

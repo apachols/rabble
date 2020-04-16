@@ -13,14 +13,17 @@
 
 .valueText {
   position: absolute;
-  bottom: 3%;
-  right: 10%;
+  bottom: 12%;
+  right: 12%;
   font-size: x-small;
+  font-family: "Book Antiqua";
 }
 
 .letterText {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-family: "Book Antiqua";
+  font-size: "larger";
 }
