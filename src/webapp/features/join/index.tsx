@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import styles from "./join.module.css";
 import { useParams } from "react-router-dom";
-import { updateUserNickName, joinUserGame } from "../../app/localStorage";
+import {
+  getPlayerGame,
+  updateUserNickName,
+  joinUserGame,
+} from "../../app/localStorage";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
@@ -11,13 +15,18 @@ type serverPlayerMetadata = {
   name: string;
 };
 
+const redirectToGameView = (gameID: string) => {
+  // TODO, react router recommends doing this with <Redirect> instead
+  window.location.href = `/game/${gameID}`;
+};
+
 const getGameInfo = async (gameID: string) => {
   const getResult = await axios({
     method: "get",
     headers: {
-      "content-type": "application/json"
+      "content-type": "application/json",
     },
-    url: `${API_ROOT}/games/rabble/${gameID}`
+    url: `${API_ROOT}/games/rabble/${gameID}`,
   });
 
   return getResult.data;
@@ -25,7 +34,7 @@ const getGameInfo = async (gameID: string) => {
 
 const getNextOpenSeat = (gameInfo: any): string => {
   const players: serverPlayerMetadata[] = gameInfo.players;
-  const openSeatsOrderedById = players.filter(p => !p.name).sort(p => p.id);
+  const openSeatsOrderedById = players.filter((p) => !p.name).sort((p) => p.id);
   const nextOpenSeat = openSeatsOrderedById[0];
   if (!nextOpenSeat) {
     throw new Error("Game is already full");
@@ -40,13 +49,13 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
   const postResult = await axios({
     method: "post",
     headers: {
-      "content-type": "application/json"
+      "content-type": "application/json",
     },
     url: `${API_ROOT}/games/rabble/${gameID}/join`,
     data: {
       playerID,
-      playerName: nickname
-    }
+      playerName: nickname,
+    },
   });
 
   const { playerCredentials } = postResult.data;
@@ -57,8 +66,7 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
 
   joinUserGame(gameID, playerID, playerCredentials);
 
-  // TODO, react router recommends doing this with <Redirect> instead
-  window.location.href = `/game/${gameID}`;
+  redirectToGameView(gameID);
 };
 
 const JoinGame = () => {
@@ -66,7 +74,13 @@ const JoinGame = () => {
   const [nickname, setNickname] = useState("");
 
   if (!gameID) {
-    return <div>Try /join/gameID</div>;
+    return <div>Game ID Missing</div>;
+  }
+
+  const gameInfo = getPlayerGame(gameID);
+  const { playerID, playerCredentials } = gameInfo;
+  if (playerID && playerCredentials) {
+    redirectToGameView(gameID);
   }
 
   return (
@@ -75,7 +89,7 @@ const JoinGame = () => {
       <input
         name="nickname"
         value={nickname}
-        onChange={ev => setNickname(ev.target.value)}
+        onChange={(ev) => setNickname(ev.target.value)}
       />
       <button onClick={() => postToJoinGame(gameID, nickname)}>join</button>
     </div>

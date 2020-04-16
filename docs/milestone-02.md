@@ -4,7 +4,6 @@
 
 #### Gameplay
 
-- Tile rack displays blanks correctly
 - 15 x 15 Game board
 - Game board has bonus squares
 - Player can play blanks

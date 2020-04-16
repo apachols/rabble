@@ -1,7 +1,6 @@
 ## TODO
 
 - Shuffled rack order preserved on server when state changes.
-- You can see the blank in the tile rack :|
 - Display error on invalid play
 - Handle blanks 1: submit word
 - Join link click to copy on desktop and mobile web

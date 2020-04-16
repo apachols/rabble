@@ -1,0 +1,26 @@
+.tileImage {
+  padding: 1px;
+  max-height: 100%;
+  max-width: 100%;
+  height: 100%;
+}
+
+.tileImageContainer {
+  height: 100%;
+  position: relative;
+  display: inline-block;
+}
+
+.valueText {
+  position: absolute;
+  bottom: 3%;
+  right: 10%;
+  font-size: x-small;
+}
+
+.letterText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

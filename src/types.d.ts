@@ -74,6 +74,7 @@ type GameConfig = {
 };
 
 type ClientConfig = {
+  debug: boolean;
   game: Object;
   board: Object;
   multiplayer: Object;

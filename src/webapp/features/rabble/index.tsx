@@ -13,7 +13,14 @@ const RabbleGameView = () => {
     return <div>Game ID Missing</div>;
   }
 
-  const { playerID, playerCredentials } = getPlayerGame(gameID);
+  const gameInfo = getPlayerGame(gameID);
+
+  if (!gameInfo) {
+    // TODO, react router recommends doing this with <Redirect> instead
+    window.location.href = `/join/${gameID}`;
+  }
+
+  const { playerID, playerCredentials } = gameInfo;
 
   return (
     <Engine

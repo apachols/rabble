@@ -5,7 +5,8 @@ import { selectTileRack, shuffleRack, updateTiles } from "./rackSlice";
 import { playIsValid } from "../../../game/tileBag";
 import { useParams } from "react-router-dom";
 
-import TurnList from "./TurnList";
+import TileRack from "./components/TileRack";
+import TurnList from "./components/TurnList";
 
 type GameBoardProps = {
   G: Game;
@@ -28,7 +29,7 @@ const GameBoard = (props: GameBoardProps) => {
     G: { players, turns },
     moves: { drawTiles, playWord, exchangeTiles, checkWord },
     events: { endTurn },
-    ctx: { currentPlayer }
+    ctx: { currentPlayer },
   } = props;
 
   const { gameID } = useParams();
@@ -71,8 +72,8 @@ const GameBoard = (props: GameBoardProps) => {
   // Scores should be part of the non-secret sauce instead
   const playerScoreFromTurns = (id: string) =>
     turns
-      .filter(t => t.playerID === id)
-      .map(t => t.score)
+      .filter((t) => t.playerID === id)
+      .map((t) => t.score)
       .reduce((sum: number, score: number) => sum + score, 0);
 
   return (
@@ -81,7 +82,7 @@ const GameBoard = (props: GameBoardProps) => {
         <span>
           <strong>Invite a friend: </strong>
         </span>
-        <div>{`${window.location.host}/join/${gameID}`}</div>
+        <div>{`${window.location.origin}/join/${gameID}`}</div>
       </div>
 
       <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
@@ -91,7 +92,7 @@ const GameBoard = (props: GameBoardProps) => {
         <input
           name="wordToPlay"
           value={wordToPlay}
-          onChange={ev => setWordToPlay(ev.target.value)}
+          onChange={(ev) => setWordToPlay(ev.target.value)}
         />
       </div>
       <div>{playIsValid(wordToPlay, tileRack) && <strong>Valid</strong>}</div>
@@ -124,7 +125,11 @@ const GameBoard = (props: GameBoardProps) => {
         <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
         <button onClick={() => endTurn()}>end turn</button>
       </div>
-      <h4>{displayTileRack.map(t => t.letter).join(" ")}</h4>
+
+      <h4>
+        <TileRack tileRack={displayTileRack} />
+      </h4>
+
       <h5 className={styles.subheading}>Scores</h5>
       <ul className={styles.scoreList}>
         <li>

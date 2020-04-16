@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./GameBoard.module.css";
+import styles from "./TurnList.module.css";
 import Turn from "./Turn";
 
 type TurnListProps = {
@@ -12,7 +12,7 @@ const TurnList = (props: TurnListProps) => {
   return (
     <div>
       <ul className={styles.turnList}>
-        {turns.map(t => {
+        {turns.map((t) => {
           return <Turn key={t.turnID} turn={t} />;
         })}
       </ul>
