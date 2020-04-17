@@ -22,12 +22,14 @@ type WordList = {
 type Tile = {
   letter: string;
   value: number;
+  blank: boolean;
 };
 
 type TileClass = {
   letter: string;
   value: number;
   frequency: number;
+  blank: boolean;
 };
 
 type TileBagConfig = {

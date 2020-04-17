@@ -6,7 +6,7 @@ import {
   playIsValid,
   pullPlayTilesFromRack,
   exchangeTiles,
-  tilesFromString
+  tilesFromString,
 } from "./tileBag";
 
 function IsVictory(G: Game) {
@@ -28,20 +28,20 @@ const Rabble = (wordlist: WordList) => ({
         "0": {
           currentPlay: {
             tilesLaid: [],
-            valid: false
+            valid: false,
           },
           tileRack: [],
-          score: 0
+          score: 0,
         },
         "1": {
           currentPlay: {
             tilesLaid: [],
-            valid: false
+            valid: false,
           },
           tileRack: [],
-          score: 0
-        }
-      }
+          score: 0,
+        },
+      },
     };
   },
 
@@ -49,7 +49,7 @@ const Rabble = (wordlist: WordList) => ({
     const redactedGame = { ...G };
     delete redactedGame["tileBag"];
     redactedGame["players"] = {
-      [String(playerID)]: redactedGame["players"][playerID]
+      [String(playerID)]: redactedGame["players"][playerID],
     };
     return redactedGame;
   },
@@ -72,6 +72,7 @@ const Rabble = (wordlist: WordList) => ({
         }
 
         const playTiles = pullPlayTilesFromRack(word, tileRack);
+        // TODO score needs to look at the board, obviously
         const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);
 
         // record the turn in the turn list - TODO update server scores
@@ -79,7 +80,7 @@ const Rabble = (wordlist: WordList) => ({
           turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: playTiles,
           playerID: currentPlayer,
-          score
+          score,
         };
         G.turns.push(thisTurn);
 
@@ -89,7 +90,7 @@ const Rabble = (wordlist: WordList) => ({
         // reset the "is the word you are trying to play valid" bit
         currentPlay.valid = false;
       },
-      client: false
+      client: false,
     },
     drawTiles: {
       move: (G: Game, ctx: GameContext) => {
@@ -98,7 +99,7 @@ const Rabble = (wordlist: WordList) => ({
         const { tileBag } = G;
         drawTiles(tileRack, tileBag);
       },
-      client: false
+      client: false,
     },
     exchangeTiles: {
       move: (G: Game, ctx: GameContext, exchange: string) => {
@@ -110,11 +111,11 @@ const Rabble = (wordlist: WordList) => ({
           turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: [],
           playerID: currentPlayer,
-          score: 0
+          score: 0,
         };
         G.turns.push(thisTurn);
       },
-      client: false
+      client: false,
     },
     checkWord: {
       move: (G: Game, ctx: GameContext, word: string) => {
@@ -130,8 +131,8 @@ const Rabble = (wordlist: WordList) => ({
         }
         currentPlay.valid = true;
       },
-      client: false
-    }
+      client: false,
+    },
   },
 
   endIf: (G: Game, ctx: GameContext) => {
@@ -141,7 +142,7 @@ const Rabble = (wordlist: WordList) => ({
     if (IsDraw(G)) {
       return { draw: true };
     }
-  }
+  },
 });
 
 export default Rabble;

@@ -4,10 +4,11 @@
 
 #### Gameplay
 
-- 15 x 15 Game board
-- Game board has bonus squares
 - Player can play blanks
 - Plays are scored correctly
+
+- 15 x 15 Game board
+- Game board has bonus squares
 
 - Shuffled rack order preserved on server
 - Bingos are scored correctly
@@ -18,10 +19,18 @@
 - Tests for Rabble game file
 - Abstraction for API
 
+- CheckValidPlay(playerID, playTiles)
+
+- ServerTileRack (G)
+- DisplayTileRack (rack.ts)
+- ServerGameBoard (G)
+- DisplayGameBoard (board.ts)
+
+- CheckValidPlay(playerID, playSquares)
+
 - Security errors for NPM packages
 - package.json dev dependencies
 
-- Gameboard has better component breakout
 - Add common components like tile, bonus, score display
 
 #### Lobby

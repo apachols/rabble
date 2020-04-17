@@ -1,40 +1,40 @@
 export const MAX_PLAYER_RACK_TILES = 7;
 
 export const tileBagConfig: TileBagConfig = {
-  " ": { letter: " ", value: 0, frequency: 2 },
-  A: { letter: "A", value: 1, frequency: 9 },
-  B: { letter: "B", value: 3, frequency: 2 },
-  C: { letter: "C", value: 3, frequency: 2 },
-  D: { letter: "D", value: 2, frequency: 4 },
-  E: { letter: "E", value: 1, frequency: 12 },
-  F: { letter: "F", value: 4, frequency: 2 },
-  G: { letter: "G", value: 2, frequency: 3 },
-  H: { letter: "H", value: 4, frequency: 2 },
-  I: { letter: "I", value: 1, frequency: 9 },
-  J: { letter: "J", value: 8, frequency: 1 },
-  K: { letter: "K", value: 5, frequency: 1 },
-  L: { letter: "L", value: 1, frequency: 4 },
-  M: { letter: "M", value: 3, frequency: 2 },
-  N: { letter: "N", value: 1, frequency: 6 },
-  O: { letter: "O", value: 1, frequency: 8 },
-  P: { letter: "P", value: 3, frequency: 2 },
-  Q: { letter: "Q", value: 10, frequency: 1 },
-  R: { letter: "R", value: 1, frequency: 6 },
-  S: { letter: "S", value: 1, frequency: 4 },
-  T: { letter: "T", value: 1, frequency: 6 },
-  U: { letter: "U", value: 1, frequency: 4 },
-  V: { letter: "V", value: 4, frequency: 2 },
-  W: { letter: "W", value: 4, frequency: 2 },
-  X: { letter: "X", value: 8, frequency: 1 },
-  Y: { letter: "Y", value: 4, frequency: 2 },
-  Z: { letter: "Z", value: 10, frequency: 1 }
+  " ": { letter: " ", value: 0, blank: true, frequency: 2 },
+  A: { letter: "A", value: 1, blank: false, frequency: 9 },
+  B: { letter: "B", value: 3, blank: false, frequency: 2 },
+  C: { letter: "C", value: 3, blank: false, frequency: 2 },
+  D: { letter: "D", value: 2, blank: false, frequency: 4 },
+  E: { letter: "E", value: 1, blank: false, frequency: 12 },
+  F: { letter: "F", value: 4, blank: false, frequency: 2 },
+  G: { letter: "G", value: 2, blank: false, frequency: 3 },
+  H: { letter: "H", value: 4, blank: false, frequency: 2 },
+  I: { letter: "I", value: 1, blank: false, frequency: 9 },
+  J: { letter: "J", value: 8, blank: false, frequency: 1 },
+  K: { letter: "K", value: 5, blank: false, frequency: 1 },
+  L: { letter: "L", value: 1, blank: false, frequency: 4 },
+  M: { letter: "M", value: 3, blank: false, frequency: 2 },
+  N: { letter: "N", value: 1, blank: false, frequency: 6 },
+  O: { letter: "O", value: 1, blank: false, frequency: 8 },
+  P: { letter: "P", value: 3, blank: false, frequency: 2 },
+  Q: { letter: "Q", value: 10, blank: false, frequency: 1 },
+  R: { letter: "R", value: 1, blank: false, frequency: 6 },
+  S: { letter: "S", value: 1, blank: false, frequency: 4 },
+  T: { letter: "T", value: 1, blank: false, frequency: 6 },
+  U: { letter: "U", value: 1, blank: false, frequency: 4 },
+  V: { letter: "V", value: 4, blank: false, frequency: 2 },
+  W: { letter: "W", value: 4, blank: false, frequency: 2 },
+  X: { letter: "X", value: 8, blank: false, frequency: 1 },
+  Y: { letter: "Y", value: 4, blank: false, frequency: 2 },
+  Z: { letter: "Z", value: 10, blank: false, frequency: 1 },
 };
 
 // Creates copies of the tiles, preventing tileBagConfig refs from leaking
 export const createTiles = (tileClass: TileClass): Tile[] => {
   return Array(tileClass.frequency).fill({
     letter: tileClass.letter,
-    value: tileClass.value
+    value: tileClass.value,
   });
 };
 
@@ -46,7 +46,7 @@ export const createTileBag = (
     return bag;
   };
   return Object.keys(config)
-    .map(letter => config[letter])
+    .map((letter) => config[letter])
     .reduce(reducer, []);
 };
 
@@ -73,9 +73,9 @@ export const playIsValid = (word: string, rackTiles: Tile[]) => {
   if (!playLetters.length) {
     return false;
   }
-  const rackLetters = rackTiles.map(t => t.letter).sort();
+  const rackLetters = rackTiles.map((t) => t.letter).sort();
   playLetters.sort();
-  return playLetters.every(letter => {
+  return playLetters.every((letter) => {
     const pos = rackLetters.indexOf(letter);
     if (pos === -1) {
       return false;
@@ -86,27 +86,31 @@ export const playIsValid = (word: string, rackTiles: Tile[]) => {
 };
 
 // Assumes word contains only valid letters
+// TODO - This breaks for blanks if we use it outside of exchangeTiles
 export const tilesFromString = (word: string): Tile[] => {
   const playLetters = word.toUpperCase().split("");
-  if (!playLetters.every(letter => tileBagConfig[letter])) {
+  if (!playLetters.every((letter) => tileBagConfig[letter])) {
     throw new Error(`Invalid word: '${word}'`);
   }
-  return playLetters.map(letter => ({
+  return playLetters.map((letter) => ({
     letter,
-    value: tileBagConfig[letter].value
+    value: tileBagConfig[letter].value,
+    blank: tileBagConfig[letter].blank,
   }));
 };
 
 // Assumes tileRack already has all the letters in the word
+// TODO - broken for blanks.  Needs to take tiles, and convert blanks back.
+// After we score a play on the board, we'll still need this to pull from rack.
 export const pullPlayTilesFromRack = (
   word: string,
   tileRack: Tile[]
 ): Tile[] => {
   const playLetters = word.toUpperCase().split("");
-  const rackLetters = tileRack.map(t => t.letter);
+  const rackLetters = tileRack.map((t) => t.letter);
   // for each letter in the play, find the position in rackLetters
   // and remove it from tileRack and rackLetters
-  return playLetters.map(letter => {
+  return playLetters.map((letter) => {
     const pos = rackLetters.indexOf(letter);
     if (pos === -1) {
       throw new Error(`Invalid play: '${letter}' not found`);
@@ -118,8 +122,8 @@ export const pullPlayTilesFromRack = (
 
 // Takes in a tile array and returns an exchanged tile array and sorts the bag
 export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
-  let tempRack = rack.map(t => t.letter);
-  let tempExchange = exchange.map(t => t.letter);
+  let tempRack = rack.map((t) => t.letter);
+  let tempExchange = exchange.map((t) => t.letter);
   for (let II = 0; II < exchange.length; II++) {
     if (tempRack.indexOf(tempExchange[II]) !== -1) {
       // TODO, push what is spliced into the bag directly
@@ -129,7 +133,7 @@ export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
     }
   }
   drawTiles(rack, bag);
-  exchange.map(t => bag.push(t));
+  exchange.map((t) => bag.push(t));
   shuffleTiles(bag);
   return;
 };
