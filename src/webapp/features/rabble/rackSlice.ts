@@ -7,23 +7,23 @@ interface RackState {
 }
 
 const initialState: RackState = {
-  tileRack: []
+  tileRack: [],
 };
 
 export const slice = createSlice({
   name: "rack",
   initialState,
   reducers: {
-    shuffleRack: state => {
+    shuffleRack: (state) => {
       shuffleTiles(state.tileRack);
     },
-    updateTiles: (state, action: PayloadAction<Tile[]>) => {
+    updateRackTiles: (state, action: PayloadAction<Tile[]>) => {
       state.tileRack = [...action.payload];
-    }
-  }
+    },
+  },
 });
 
-export const { shuffleRack, updateTiles } = slice.actions;
+export const { shuffleRack, updateRackTiles } = slice.actions;
 
 export const selectTileRack = (state: RootState) => state.rack.tileRack;
 
