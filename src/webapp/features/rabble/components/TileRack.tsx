@@ -11,8 +11,8 @@ const TileRack = (props: TileRackProps) => {
 
   return (
     <div className={styles.tileRack}>
-      {tileRack.map((t) => (
-        <Tile letter={t.letter} value={t.value} />
+      {tileRack.map((t, idx) => (
+        <Tile key={idx} letter={t.letter} value={t.value} />
       ))}
     </div>
   );

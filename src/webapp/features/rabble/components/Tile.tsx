@@ -9,7 +9,6 @@ type TileProps = {
 
 const Tile = (props: TileProps) => {
   const { letter, value } = props;
-  console.log(letter, value);
   return (
     <div className={styles.tileImageContainer}>
       <img src={blank} className={styles.tileImage} alt={letter} />

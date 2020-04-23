@@ -1,0 +1,16 @@
+.board {
+  text-align: center;
+}
+
+.heading {
+  color: black;
+}
+
+.subheading {
+  color: slategray;
+}
+
+.scoreList {
+  list-style: none;
+  text-align: left;
+}
