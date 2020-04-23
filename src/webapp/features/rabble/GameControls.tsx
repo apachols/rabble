@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./GameBoard.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateRackTiles } from "./rackSlice";
 import { selectPlayTiles, updatePlayTiles } from "./playSlice";
-import { playIsValid, tilesFromString } from "../../../game/tileBag";
+import {
+  playIsValid,
+  tilesFromString,
+  pullPlayTilesFromRack,
+} from "../../../game/tileBag";
 
 import TileRack from "./components/TileRack";
 import Modal from "./components/Modal";
+import ChooseBlank from "./components/ChooseBlank";
 
 type GameControlsProps = {
   G: Game;
@@ -36,12 +41,6 @@ const GameBoard = (props: GameControlsProps) => {
   const currentPlayIsValid = currentPlay.valid;
 
   const [wordToPlay, setWordToPlay] = useState("");
-
-  const setValidWordToPlay = (word: string, rack: Tile[]) => {
-    if (word === "" || playIsValid(word, rack)) {
-      setWordToPlay(word);
-    }
-  };
 
   // Update the rack tiles in the local reducer with the rack tiles from the server
   const dispatch = useDispatch();
@@ -82,7 +81,15 @@ const GameBoard = (props: GameControlsProps) => {
     }
   }, [played, endTurn]);
 
+  const setValidWordToPlay = (word: string, rack: Tile[]) => {
+    if (word === "" || playIsValid(word, rack)) {
+      setWordToPlay(word);
+    }
+  };
+
   const [showModal, setShowModal] = useState(false);
+
+  const wordToPlayInput: React.RefObject<HTMLInputElement> = useRef(null);
 
   return (
     <div className={styles.board}>
@@ -93,10 +100,12 @@ const GameBoard = (props: GameControlsProps) => {
         <input
           name="wordToPlay"
           value={wordToPlay}
-          onChange={(ev) => setValidWordToPlay(ev.target.value, tileRack)}
+          onChange={(ev) => {
+            setValidWordToPlay(ev.target.value, tileRack);
+          }}
+          ref={wordToPlayInput}
         />
       </div>
-      <div>{playIsValid(wordToPlay, tileRack) && <strong>Valid</strong>}</div>
       <div>
         <button
           onClick={() => {
@@ -130,8 +139,26 @@ const GameBoard = (props: GameControlsProps) => {
       <h4>
         <TileRack tileRack={displayTileRack} />
       </h4>
-      <Modal showModal={showModal} toggle={() => setShowModal(!showModal)}>
-        <div style={{ color: "black" }}>I FOUND A BLANK</div>
+
+      <Modal showModal={showModal}>
+        <ChooseBlank
+          selectTile={(selectedTile: Tile) => {
+            console.log(selectedTile);
+            setShowModal(false);
+            const tiles = tilesFromString(wordToPlay);
+            const blank = tiles.find((t) => t.blank);
+            if (blank) {
+              blank.letter = "Q";
+              blank.value = 0;
+              console.log(blank.value);
+            } else {
+              throw new Error("ChooseBlank did not find a blank...");
+            }
+            dispatch(updatePlayTiles(tiles));
+            setWordToPlay(tiles.map((t) => t.letter).join(""));
+            wordToPlayInput.current?.focus();
+          }}
+        />
       </Modal>
     </div>
   );

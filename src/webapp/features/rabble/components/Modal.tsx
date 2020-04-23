@@ -3,15 +3,16 @@ import styles from "./Modal.module.css";
 
 type Props = {
   showModal: boolean;
-  toggle: () => void;
+  toggle?: () => void;
   children: any;
 };
 
 const Modal = (props: Props) => {
   const showModalStyle = { display: props.showModal ? undefined : "none" };
+  const toggle = props.toggle;
   return (
     <div className={styles.Modal} style={showModalStyle}>
-      <button onClick={(ev) => props.toggle()}>X</button>
+      {toggle && <button onClick={(ev) => toggle()}>X</button>}
       {props.children}
     </div>
   );
