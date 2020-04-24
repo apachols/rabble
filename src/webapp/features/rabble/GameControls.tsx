@@ -50,7 +50,7 @@ const GameBoard = (props: GameControlsProps) => {
 
   // If the current play is marked valid, run playWord
   useEffect(() => {
-    if (currentPlayIsValid) {
+    if (currentPlayIsValid && playTiles.length > 0) {
       console.log("playing", playTiles);
       playWord(playTiles);
       dispatch(updatePlayTiles([]));

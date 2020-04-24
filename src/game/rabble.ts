@@ -87,7 +87,7 @@ const Rabble = (wordlist: WordList) => ({
         // record the turn in the turn list - TODO update server scores
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: playTiles,
+          tiles: word,
           playerID: currentPlayer,
           score,
         };
