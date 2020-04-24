@@ -61,7 +61,7 @@ const GameBoard = (props: GameControlsProps) => {
       setWordToPlay("");
       setPlayed(true);
     }
-  }, [currentPlayIsValid, playTiles]);
+  }, [currentPlayIsValid, playTiles, dispatch, playWord]);
 
   // TODO - endTurn comes too soon after playWord.
   // How can we fix the timing issue?
@@ -84,7 +84,6 @@ const GameBoard = (props: GameControlsProps) => {
 
     if (word.length > play.length) {
       try {
-        console.log("add");
         const endOfWord = word.slice(play.length);
         if (endOfWord.includes(" ")) {
           setShowModal(true);
@@ -101,13 +100,12 @@ const GameBoard = (props: GameControlsProps) => {
         // The rack is now everything that hasn't been played
         dispatch(updateRackTiles(copyRack));
         // Since we've successfully moved tiles around, update the input
-        setWordToPlay(word);
+        setWordToPlay(word.toUpperCase());
       } catch (err) {
         // TODO this should handle a specific error
         console.error(err);
       }
-    } else if (word.length === play.length) {
-      console.log("clr");
+    } else {
       dispatch(updatePlayTiles([]));
       dispatch(updateRackTiles(copyRack));
       setWordToPlay("");
@@ -146,7 +144,7 @@ const GameBoard = (props: GameControlsProps) => {
         </button>
         <button
           onClick={() => {
-            if (playIsValid(wordToPlay, tileRack)) {
+            if (playIsValid(playTiles, tileRack)) {
               dispatch(updatePlayTiles([]));
               exchangeTiles(playTiles);
               setWordToPlay("");

@@ -116,9 +116,26 @@ describe("playIsValid", () => {
   `("returns true for valid", ({ wordString, rackLetters, result }) => {
     const rack = rackLetters
       .split("")
-      .map((l: string) => ({ letter: l, value: 1 }));
-    expect(playIsValid(wordString, rack)).toEqual(result);
+      .map((l: string) => ({ letter: l, value: 1, blank: false }));
+    expect(playIsValid(tilesFromString(wordString), rack)).toEqual(result);
   });
+  it.each`
+    wordString | rackLetters  | result
+    ${"test"}  | ${"TESTER "} | ${true}
+    ${"testy"} | ${"TESTER "} | ${false}
+  `(
+    "returns true for valid with blank",
+    ({ wordString, rackLetters, result }) => {
+      const rack = rackLetters.split("").map((l: string) => ({
+        letter: l,
+        value: l === " " ? 0 : 1,
+        blank: l === " ",
+      }));
+      const wordTiles = tilesFromString(wordString);
+      wordTiles.push({ letter: "Y", value: 0, blank: true });
+      expect(playIsValid(wordTiles, rack)).toEqual(result);
+    }
+  );
 });
 
 describe("tilesFromString", () => {

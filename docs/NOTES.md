@@ -1,13 +1,16 @@
 ## TODO
 
-- Exchange needs to clear blank letters picked during playLetters
-- Clear playTiles rack when play is invalid
+- Draw at the beginning of game
+- Disallow play & exchange when it isn't your turn
+- Better error handling when it is not your turn
+- Display error on invalid play
+- Clear playTiles on invalid play
 - Bingo doesn't break game lol
+- Allow key press to auto select letter for blank
 
 - Clear local storage -> function on window
 - Fix UL styles for "nav bar"
 
-- Display error on invalid play
 - Shuffled rack order preserved on server when state changes.
 - Join link click to copy on desktop and mobile web
 

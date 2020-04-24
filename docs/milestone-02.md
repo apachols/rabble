@@ -32,9 +32,9 @@
 - Security errors for NPM packages
 - package.json dev dependencies
 
-- Break out score list component
+- Break out score list component ✅
 - Game props need a provider / context component to avoid drilling?
-- Add common components like tile, bonus, score display
+- Add common components like tile, bonus, play score display
 
 #### Lobby
 

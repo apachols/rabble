@@ -59,7 +59,6 @@ export const shuffleTiles = (tiles: Tile[]) => {
 // Mutate both tileRack and tileBag to draw up to MAX_PLAYER_RACK_TILES
 export const drawTiles = (tileRack: Tile[], tileBag: Tile[]) => {
   const howManyTiles = MAX_PLAYER_RACK_TILES - tileRack.length;
-
   for (let ii = 0; ii < howManyTiles; ii++) {
     const tile = tileBag.pop();
     if (tile) {
@@ -69,7 +68,7 @@ export const drawTiles = (tileRack: Tile[], tileBag: Tile[]) => {
 };
 
 // play is valid if playLetters are a subset of rackLetters (which may have duplicates)
-export const playIsValid2 = (word: Tile[], rackTiles: Tile[]) => {
+export const playIsValid = (word: Tile[], rackTiles: Tile[]) => {
   const playLetters = [...word];
   if (!playLetters.length) {
     return false;
@@ -78,24 +77,6 @@ export const playIsValid2 = (word: Tile[], rackTiles: Tile[]) => {
   playLetters.sort();
   return playLetters.every(({ letter, blank }) => {
     const pos = rackLetters.indexOf(blank ? " " : letter);
-    if (pos === -1) {
-      return false;
-    }
-    rackLetters.splice(pos, 1);
-    return true;
-  });
-};
-
-// play is valid if playLetters are a subset of rackLetters (which may have duplicates)
-export const playIsValid = (word: string, rackTiles: Tile[]) => {
-  const playLetters = word.toUpperCase().split("");
-  if (!playLetters.length) {
-    return false;
-  }
-  const rackLetters = rackTiles.map((t) => t.letter).sort();
-  playLetters.sort();
-  return playLetters.every((letter) => {
-    const pos = rackLetters.indexOf(letter);
     if (pos === -1) {
       return false;
     }
@@ -137,18 +118,25 @@ export const pullPlayTilesFromRack = (
 
 // Takes in a tile array and returns an exchanged tile array and sorts the bag
 export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
-  let tempRack = rack.map((t) => t.letter);
-  let tempExchange = exchange.map((t) => t.letter);
+  let rackLetters = rack.map((t) => t.letter);
+  let exchangeLetters = exchange.map((t) => (t.blank ? " " : t.letter));
   for (let II = 0; II < exchange.length; II++) {
-    if (tempRack.indexOf(tempExchange[II]) !== -1) {
-      // TODO, push what is spliced into the bag directly
-      rack.splice(tempRack.indexOf(tempExchange[II]), 1);
+    const pos = rackLetters.indexOf(exchangeLetters[II]);
+    if (pos !== -1) {
+      rack.splice(pos, 1);
     } else {
-      // TODO, handle error case here - what if not found?
+      throw new Error(
+        `Exchange tile not found! Letter = '${rackLetters[pos]}'`
+      );
     }
   }
   drawTiles(rack, bag);
-  exchange.map((t) => bag.push(t));
+  exchange.forEach((t) =>
+    bag.push({
+      ...t,
+      letter: t.blank ? " " : t.letter,
+    })
+  );
   shuffleTiles(bag);
   return;
 };

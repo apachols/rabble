@@ -8,7 +8,7 @@ type ChooseBlankProps = {
 };
 
 const ChooseBlank = ({ selectTile }: ChooseBlankProps) => {
-  const alpha = tilesFromString("stred"); // abcdefghijklmnopqrstuvwxyz
+  const alpha = tilesFromString("abcdefghijklmnopqrstuvwxyz");
   return (
     <div className={styles.chooseBlank}>
       {alpha.map((t, idx) => (

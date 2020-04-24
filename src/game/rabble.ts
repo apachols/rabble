@@ -4,7 +4,6 @@ import {
   shuffleTiles,
   drawTiles,
   playIsValid,
-  playIsValid2,
   pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
@@ -66,8 +65,8 @@ const Rabble = (wordlist: WordList) => ({
         console.log("playword", word);
 
         // Check for valid move
-        if (!playIsValid2(word, tileRack)) {
-          console.log("playword invalid, playIsValid2", wordAsString);
+        if (!playIsValid(word, tileRack)) {
+          console.log("playword invalid, playIsValid", wordAsString);
           return INVALID_MOVE;
         }
         if (!wordlist[wordAsString.toUpperCase()]) {
@@ -118,7 +117,7 @@ const Rabble = (wordlist: WordList) => ({
         exchangeTiles(tileBag, tileRack, exchange);
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: [],
+          tiles: exchange,
           playerID: currentPlayer,
           score: 0,
         };
@@ -135,7 +134,7 @@ const Rabble = (wordlist: WordList) => ({
 
         console.log("CHECKWORD", wordAsString);
 
-        if (!playIsValid2(word, tileRack)) {
+        if (!playIsValid(word, tileRack)) {
           console.log("playIsValid", wordAsString);
           currentPlay.valid = false;
           return;
