@@ -28,6 +28,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "phone": "REACT_APP_API_ROOT=http://192.168.1.7:8080 REACT_APP_SOCKET_ROOT=http://192.168.1.7:8000 react-scripts start",
     "dev": "REACT_APP_API_ROOT=http://localhost:8080 REACT_APP_SOCKET_ROOT=http://localhost:8000 react-scripts start",
     "repl": "ts-node --files --project ./tsconfig.json -O '{\"module\": \"commonjs\"}'",
     "server": "ts-node --files --project ./tsconfig.json -O '{\"module\": \"commonjs\"}' ./src/server/index.ts",

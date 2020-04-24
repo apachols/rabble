@@ -6,10 +6,13 @@ npm install -g pm2
 
 cat "env vars plz" > ./.env
 source ./.env
-npm run build
-pm2 start pm2.json
-
+cd $WORKDIR
+git pull
 pm2 stop all
+
+npm run build
+
+pm2 start pm2.json
 ```
 
 ## Local Dev

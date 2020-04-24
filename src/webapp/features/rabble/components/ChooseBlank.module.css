@@ -1,6 +1,7 @@
 .chooseBlank {
   height: auto;
-  width: 400px;
+  max-width: 400px;
+  width: 60vw;
   display: flex;
   flex-wrap: wrap;
   margin-left: auto;
@@ -8,6 +9,8 @@
 }
 
 .tileWrapper {
-  height: 50px;
-  flex: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  height: 10vw;
+  flex: 10vw;
 }

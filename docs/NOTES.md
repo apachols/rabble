@@ -1,5 +1,7 @@
 ## TODO
 
+- Blank chooser CSS doesn't work on mobile :P
+- Still get the blank window if you type a space!
 - Draw at the beginning of game
 - Disallow play & exchange when it isn't your turn
 - Better error handling when it is not your turn

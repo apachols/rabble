@@ -170,6 +170,7 @@ const GameBoard = (props: GameControlsProps) => {
             setWordToPlay(
               tiles.map((t) => (t.blank ? " " : t.letter)).join("")
             );
+            // TODO get this into a function
             const letters = tiles.map((t) => t.letter).join("");
             const pos = letters.indexOf(" ");
             if (pos > -1) {
