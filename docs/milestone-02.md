@@ -4,7 +4,7 @@
 
 #### Gameplay
 
-- Player can play blanks
+- Player can play blanks ✅
 - Plays are scored correctly
 
 - 15 x 15 Game board

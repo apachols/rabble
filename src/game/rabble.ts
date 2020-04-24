@@ -5,7 +5,7 @@ import {
   drawTiles,
   playIsValid,
   playIsValid2,
-  pullPlayTilesFromRack2,
+  pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
 
@@ -79,7 +79,7 @@ const Rabble = (wordlist: WordList) => ({
           return INVALID_MOVE;
         }
 
-        const playTiles = pullPlayTilesFromRack2(word, tileRack);
+        const playTiles = pullPlayTilesFromRack(word, tileRack);
 
         // TODO score needs to look at the board, obviously
         const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);

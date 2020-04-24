@@ -3,7 +3,11 @@ import styles from "./GameBoard.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateRackTiles } from "./rackSlice";
 import { selectPlayTiles, updatePlayTiles } from "./playSlice";
-import { playIsValid, pullPlayTilesFromRack } from "../../../game/tileBag";
+import {
+  playIsValid,
+  pullPlayTilesFromRack,
+  tilesFromString,
+} from "../../../game/tileBag";
 
 import TileRack from "./components/TileRack";
 import Modal from "./components/Modal";
@@ -85,21 +89,28 @@ const GameBoard = (props: GameControlsProps) => {
         if (endOfWord.includes(" ")) {
           setShowModal(true);
         }
-        const tiles = pullPlayTilesFromRack(endOfWord, copyRack);
-        dispatch(updatePlayTiles([...playTiles, ...tiles]));
+        // Remove already laid tiles from rack
+        pullPlayTilesFromRack(play, copyRack);
+        // Remove newest tile from rack
+        const newTiles = pullPlayTilesFromRack(
+          tilesFromString(endOfWord),
+          copyRack
+        );
+        // The play is now everything from before plus new
+        dispatch(updatePlayTiles([...playTiles, ...newTiles]));
+        // The rack is now everything that hasn't been played
         dispatch(updateRackTiles(copyRack));
+        // Since we've successfully moved tiles around, update the input
         setWordToPlay(word);
       } catch (err) {
         // TODO this should handle a specific error
         console.error(err);
       }
     } else if (word.length === play.length) {
-      console.log("eql");
-    } else {
-      const tiles = pullPlayTilesFromRack(word, copyRack);
-      dispatch(updatePlayTiles([...playTiles, ...tiles]));
+      console.log("clr");
+      dispatch(updatePlayTiles([]));
       dispatch(updateRackTiles(copyRack));
-      setWordToPlay(word);
+      setWordToPlay("");
     }
   };
 
@@ -158,8 +169,10 @@ const GameBoard = (props: GameControlsProps) => {
           selectTile={(selectedTile: Tile) => {
             setShowModal(false);
             const tiles = [...playTiles];
+            setWordToPlay(
+              tiles.map((t) => (t.blank ? " " : t.letter)).join("")
+            );
             const letters = tiles.map((t) => t.letter).join("");
-            setWordToPlay(letters);
             const pos = letters.indexOf(" ");
             if (pos > -1) {
               tiles[pos] = {

@@ -1,15 +1,14 @@
 ## TODO
 
-- Interactions with server game moves are now tiles, not strings
+- Exchange needs to clear blank letters picked during playLetters
 - Clear playTiles rack when play is invalid
-- Tiles for the play with blank in red font are displayed
+- Bingo doesn't break game lol
 
 - Clear local storage -> function on window
 - Fix UL styles for "nav bar"
 
 - Display error on invalid play
 - Shuffled rack order preserved on server when state changes.
-- Handle blanks 1: submit word
 - Join link click to copy on desktop and mobile web
 
 - prod build script with env vars
