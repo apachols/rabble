@@ -4,9 +4,9 @@ import {
   shuffleTiles,
   drawTiles,
   playIsValid,
-  pullPlayTilesFromRack,
+  playIsValid2,
+  pullPlayTilesFromRack2,
   exchangeTiles,
-  tilesFromString,
 } from "./tileBag";
 
 function IsVictory(G: Game) {
@@ -56,22 +56,31 @@ const Rabble = (wordlist: WordList) => ({
 
   moves: {
     playWord: {
-      move: (G: Game, ctx: GameContext, word: string) => {
+      move: (G: Game, ctx: GameContext, word: Tile[]) => {
         const { currentPlayer } = ctx;
         const { tileRack, currentPlay } = G.players[currentPlayer];
         const { tileBag } = G;
+
+        const wordAsString = word.map((t) => t.letter).join("");
+
+        console.log("playword", word);
+
         // Check for valid move
-        if (!playIsValid(word, tileRack)) {
+        if (!playIsValid2(word, tileRack)) {
+          console.log("playword invalid, playIsValid2", wordAsString);
           return INVALID_MOVE;
         }
-        if (!wordlist[word.toUpperCase()]) {
+        if (!wordlist[wordAsString.toUpperCase()]) {
+          console.log("playword invalid, wordlist", wordAsString);
           return INVALID_MOVE;
         }
         if (!currentPlay.valid) {
+          console.log("playword invalid, currentPlay.valid", wordAsString);
           return INVALID_MOVE;
         }
 
-        const playTiles = pullPlayTilesFromRack(word, tileRack);
+        const playTiles = pullPlayTilesFromRack2(word, tileRack);
+
         // TODO score needs to look at the board, obviously
         const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);
 
@@ -102,11 +111,11 @@ const Rabble = (wordlist: WordList) => ({
       client: false,
     },
     exchangeTiles: {
-      move: (G: Game, ctx: GameContext, exchange: string) => {
+      move: (G: Game, ctx: GameContext, exchange: Tile[]) => {
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
-        exchangeTiles(tileBag, tileRack, tilesFromString(exchange));
+        exchangeTiles(tileBag, tileRack, exchange);
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: [],
@@ -118,14 +127,21 @@ const Rabble = (wordlist: WordList) => ({
       client: false,
     },
     checkWord: {
-      move: (G: Game, ctx: GameContext, word: string) => {
+      move: (G: Game, ctx: GameContext, word: Tile[]) => {
         const { currentPlayer } = ctx;
         const { tileRack, currentPlay } = G.players[currentPlayer];
-        if (!playIsValid(word, tileRack)) {
+
+        const wordAsString = word.map((t) => t.letter).join("");
+
+        console.log("CHECKWORD", wordAsString);
+
+        if (!playIsValid2(word, tileRack)) {
+          console.log("playIsValid", wordAsString);
           currentPlay.valid = false;
           return;
         }
-        if (!wordlist[word.toUpperCase()]) {
+        if (!wordlist[wordAsString.toUpperCase()]) {
+          console.log("wordList", wordAsString);
           currentPlay.valid = false;
           return;
         }

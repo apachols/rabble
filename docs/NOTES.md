@@ -1,9 +1,8 @@
 ## TODO
 
-- Player types in a space
-- Dialog for selecting letter pops up
-- Tiles for the play with blank in red font are displayed
 - Interactions with server game moves are now tiles, not strings
+- Clear playTiles rack when play is invalid
+- Tiles for the play with blank in red font are displayed
 
 - Clear local storage -> function on window
 - Fix UL styles for "nav bar"

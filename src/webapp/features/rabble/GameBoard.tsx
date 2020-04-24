@@ -11,9 +11,9 @@ type GameBoardProps = {
   playerID: string;
   moves: {
     drawTiles: () => void;
-    exchangeTiles: (tiles: string) => void;
-    playWord: (word: string) => void;
-    checkWord: (word: string) => void;
+    exchangeTiles: (tiles: Tile[]) => void;
+    playWord: (word: Tile[]) => void;
+    checkWord: (word: Tile[]) => void;
   };
   events: {
     endTurn: any;
