@@ -1,0 +1,16 @@
+.square {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.noTile {
+  font-size: smaller;
+}
+
+.noTile::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 0;
+  padding-bottom: calc(100%);
+}

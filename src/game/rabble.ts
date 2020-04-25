@@ -20,26 +20,26 @@ const Rabble = (wordlist: WordList) => ({
   name: "rabble",
 
   setup: (): Game => {
+    const tileBag = shuffleTiles(createTileBag());
+    const makePlayer = () => {
+      const tileRack: Tile[] = [];
+      drawTiles(tileRack, tileBag);
+      return {
+        currentPlay: {
+          invalidReason: "",
+          tilesLaid: [],
+          valid: false,
+        },
+        tileRack,
+        score: 0,
+      };
+    };
     return {
-      tileBag: shuffleTiles(createTileBag()),
+      tileBag,
       turns: [],
       players: {
-        "0": {
-          currentPlay: {
-            tilesLaid: [],
-            valid: false,
-          },
-          tileRack: [],
-          score: 0,
-        },
-        "1": {
-          currentPlay: {
-            tilesLaid: [],
-            valid: false,
-          },
-          tileRack: [],
-          score: 0,
-        },
+        "0": makePlayer(),
+        "1": makePlayer(),
       },
     };
   },
@@ -60,11 +60,11 @@ const Rabble = (wordlist: WordList) => ({
         const { tileRack, currentPlay } = G.players[currentPlayer];
         const { tileBag } = G;
 
-        const wordAsString = word.map((t) => t.letter).join("");
-
         console.log("playword", word);
 
-        // Check for valid move
+        const wordAsString = word.map((t) => t.letter).join("");
+
+        // (Re)Check for valid move
         if (!playIsValid(word, tileRack)) {
           console.log("playword invalid, playIsValid", wordAsString);
           return INVALID_MOVE;
@@ -97,6 +97,8 @@ const Rabble = (wordlist: WordList) => ({
 
         // reset the "is the word you are trying to play valid" bit
         currentPlay.valid = false;
+        currentPlay.tilesLaid = [];
+        currentPlay.invalidReason = "";
       },
       client: false,
     },
@@ -125,6 +127,15 @@ const Rabble = (wordlist: WordList) => ({
       },
       client: false,
     },
+    cleanUp: {
+      move: (G: Game, ctx: GameContext) => {
+        const { currentPlayer } = ctx;
+        const { currentPlay } = G.players[currentPlayer];
+        currentPlay.tilesLaid = [];
+        currentPlay.invalidReason = "";
+      },
+      client: true,
+    },
     checkWord: {
       move: (G: Game, ctx: GameContext, word: Tile[]) => {
         const { currentPlayer } = ctx;
@@ -136,11 +147,15 @@ const Rabble = (wordlist: WordList) => ({
 
         if (!playIsValid(word, tileRack)) {
           console.log("playIsValid", wordAsString);
+          currentPlay.invalidReason = "Mismatch between play and hand";
+          currentPlay.tilesLaid = word;
           currentPlay.valid = false;
           return;
         }
         if (!wordlist[wordAsString.toUpperCase()]) {
+          currentPlay.invalidReason = `${wordAsString.toUpperCase()} is not in the dictionary`;
           console.log("wordList", wordAsString);
+          currentPlay.tilesLaid = word;
           currentPlay.valid = false;
           return;
         }

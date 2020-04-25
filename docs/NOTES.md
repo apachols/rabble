@@ -1,17 +1,17 @@
 ## TODO
 
-- Blank chooser CSS doesn't work on mobile :P
-- Still get the blank window if you type a space!
-- Draw at the beginning of game
-- Disallow play & exchange when it isn't your turn
-- Better error handling when it is not your turn
-- Display error on invalid play
-- Clear playTiles on invalid play
 - Bingo doesn't break game lol
-- Allow key press to auto select letter for blank
+
+- Can exchange tiles and still get the same tile? that's definitely wrong.
+- Something is going on with exchange.
+
+- Still get the blank window if you type a space!
 
 - Clear local storage -> function on window
 - Fix UL styles for "nav bar"
+
+- Input accepts char13 to submit form
+- Allow key press to auto select letter for blank
 
 - Shuffled rack order preserved on server when state changes.
 - Join link click to copy on desktop and mobile web

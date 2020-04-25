@@ -85,8 +85,6 @@ export const playIsValid = (word: Tile[], rackTiles: Tile[]) => {
   });
 };
 
-// Assumes word contains only valid letters
-// TODO - This breaks for blanks if we use it outside of exchangeTiles
 export const tilesFromString = (word: string): Tile[] => {
   const playLetters = word.toUpperCase().split("");
   if (!playLetters.every((letter) => tileBagConfig[letter])) {
@@ -98,6 +96,9 @@ export const tilesFromString = (word: string): Tile[] => {
     blank: tileBagConfig[letter].blank,
   }));
 };
+
+// Used in the blank chooser
+export const alphabetTiles = tilesFromString("abcdefghijklmnopqrstuvwxyz");
 
 export const pullPlayTilesFromRack = (
   word: Tile[],

@@ -14,6 +14,7 @@ type GameBoardProps = {
     exchangeTiles: (tiles: Tile[]) => void;
     playWord: (word: Tile[]) => void;
     checkWord: (word: Tile[]) => void;
+    cleanUp: () => void;
   };
   events: {
     endTurn: any;
@@ -50,14 +51,15 @@ const GameBoard = (props: GameBoardProps) => {
       <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
       <h3 className={styles.subheading}>Now Playing: {currentPlayer}</h3>
 
-      <TurnList turns={turns} />
-
       <GameControls
+        nowPlaying={currentPlayer}
         playerID={playerID}
         moves={moves}
         events={events}
         G={props.G}
       />
+
+      <TurnList turns={turns} />
 
       <h5 className={styles.subheading}>Scores</h5>
       <ul className={styles.scoreList}>

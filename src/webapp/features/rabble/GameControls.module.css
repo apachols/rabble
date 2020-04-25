@@ -1,16 +1,8 @@
-.board {
+.controls {
   text-align: center;
+  margin-top: 50px;
 }
 
-.heading {
-  color: black;
-}
-
-.subheading {
-  color: slategray;
-}
-
-.scoreList {
-  list-style: none;
-  text-align: left;
+.invalidPlayError {
+  color: red;
 }

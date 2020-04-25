@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styles from "./GameBoard.module.css";
+import styles from "./GameControls.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateRackTiles } from "./rackSlice";
 import { selectPlayTiles, updatePlayTiles } from "./playSlice";
@@ -13,14 +13,18 @@ import TileRack from "./components/TileRack";
 import Modal from "./components/Modal";
 import ChooseBlank from "./components/ChooseBlank";
 
+import Board from "./board/Board";
+
 type GameControlsProps = {
   G: Game;
+  nowPlaying: string;
   playerID: string;
   moves: {
     drawTiles: () => void;
     exchangeTiles: (tiles: Tile[]) => void;
     playWord: (word: Tile[]) => void;
     checkWord: (word: Tile[]) => void;
+    cleanUp: () => void;
   };
   events: {
     endTurn: any;
@@ -30,16 +34,19 @@ type GameControlsProps = {
 const GameBoard = (props: GameControlsProps) => {
   const {
     playerID,
+    nowPlaying,
     G: { players },
-    moves: { drawTiles, playWord, exchangeTiles, checkWord },
+    moves: { playWord, exchangeTiles, checkWord, cleanUp },
     events: { endTurn },
   } = props;
 
   // Pull info for the current player
   const { tileRack, currentPlay } = players[playerID];
-
+  const currentPlayerHasTurn = nowPlaying === playerID;
   const currentPlayIsValid = currentPlay.valid;
+  const currentPlayTilesLaid = currentPlay.tilesLaid;
 
+  // State for text input for wordToPlay
   const [wordToPlay, setWordToPlay] = useState("");
 
   // Update the rack tiles in the local reducer with the rack tiles from the server
@@ -55,13 +62,29 @@ const GameBoard = (props: GameControlsProps) => {
   // If the current play is marked valid, run playWord
   useEffect(() => {
     if (currentPlayIsValid && playTiles.length > 0) {
-      console.log("playing", playTiles);
       playWord(playTiles);
       dispatch(updatePlayTiles([]));
       setWordToPlay("");
       setPlayed(true);
     }
   }, [currentPlayIsValid, playTiles, dispatch, playWord]);
+
+  // If the user has played but the word is invalid, clear tiles
+  const [errorMessage, setErrorMessage] = useState("");
+  useEffect(() => {
+    if (!currentPlayIsValid && currentPlayTilesLaid?.length) {
+      dispatch(updatePlayTiles([]));
+      setWordToPlay("");
+      setErrorMessage(currentPlay.invalidReason);
+      cleanUp();
+    }
+  }, [
+    currentPlayIsValid,
+    currentPlayTilesLaid,
+    currentPlay.invalidReason,
+    cleanUp,
+    dispatch,
+  ]);
 
   // TODO - endTurn comes too soon after playWord.
   // How can we fix the timing issue?
@@ -96,11 +119,12 @@ const GameBoard = (props: GameControlsProps) => {
           copyRack
         );
         // The play is now everything from before plus new
-        dispatch(updatePlayTiles([...playTiles, ...newTiles]));
+        dispatch(updatePlayTiles([...play, ...newTiles]));
         // The rack is now everything that hasn't been played
         dispatch(updateRackTiles(copyRack));
         // Since we've successfully moved tiles around, update the input
         setWordToPlay(word.toUpperCase());
+        setErrorMessage("");
       } catch (err) {
         // TODO this should handle a specific error
         console.error(err);
@@ -109,12 +133,15 @@ const GameBoard = (props: GameControlsProps) => {
       dispatch(updatePlayTiles([]));
       dispatch(updateRackTiles(copyRack));
       setWordToPlay("");
+      setErrorMessage("");
     }
   };
 
   return (
-    <div className={styles.board}>
+    <div className={styles.controls}>
+      <Board />
       <h4>
+        <div className={styles.invalidPlayError}>{errorMessage}</div>
         <TileRack tileRack={playTiles} />
       </h4>
       <div>
@@ -128,34 +155,30 @@ const GameBoard = (props: GameControlsProps) => {
         />
       </div>
       <div>
-        <button
-          onClick={() => {
-            checkWord(playTiles);
-          }}
-        >
-          play tiles
-        </button>
-        <button
-          onClick={() => {
-            drawTiles();
-          }}
-        >
-          draw tiles
-        </button>
-        <button
-          onClick={() => {
-            if (playIsValid(playTiles, tileRack)) {
-              dispatch(updatePlayTiles([]));
-              exchangeTiles(playTiles);
-              setWordToPlay("");
-              setPlayed(true);
-            }
-          }}
-        >
-          exchange tiles
-        </button>
+        {currentPlayerHasTurn && (
+          <button
+            onClick={() => {
+              checkWord(playTiles);
+            }}
+          >
+            play tiles
+          </button>
+        )}
+        {currentPlayerHasTurn && (
+          <button
+            onClick={() => {
+              if (playIsValid(playTiles, tileRack)) {
+                dispatch(updatePlayTiles([]));
+                exchangeTiles(playTiles);
+                setWordToPlay("");
+                setPlayed(true);
+              }
+            }}
+          >
+            exchange tiles
+          </button>
+        )}
         <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
-        <button onClick={() => endTurn()}>end turn</button>
       </div>
 
       <h4>

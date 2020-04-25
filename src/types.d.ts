@@ -15,6 +15,14 @@ type UserInfo = {
 
 // Rabble Types
 
+type Bonus = { bonus: string; locations: number[] };
+
+type Square = {
+  bonus: string | null;
+  location: number;
+  tile: Tile | null;
+};
+
 type WordList = {
   [key: string]: number;
 };
@@ -42,6 +50,7 @@ type PlayerInfo = {
   tileRack: Tile[];
   score: number;
   currentPlay: {
+    invalidReason: string;
     tilesLaid: Tile[];
     valid: boolean;
   };
