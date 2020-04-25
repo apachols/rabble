@@ -6,6 +6,7 @@
 }
 
 .tileImageContainer {
+  width: 80%;
   height: 100%;
   position: relative;
   display: inline-block;
@@ -25,5 +26,5 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Book Antiqua";
-  font-size: larger;
+  font-size: medium;
 }

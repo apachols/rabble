@@ -10,10 +10,12 @@ const boardConfig = generateBoard();
 
 const Board = (props: BoardProps) => {
   return (
-    <div className={styles.squareContainer}>
-      {boardConfig.map((square) => (
-        <Square square={square} />
-      ))}
+    <div className={styles.gridContainer}>
+      <div className={styles.squaresGrid}>
+        {boardConfig.map((square) => (
+          <Square square={square} />
+        ))}
+      </div>
     </div>
   );
 };
