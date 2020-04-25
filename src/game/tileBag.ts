@@ -121,23 +121,42 @@ export const pullPlayTilesFromRack = (
 export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
   let rackLetters = rack.map((t) => t.letter);
   let exchangeLetters = exchange.map((t) => (t.blank ? " " : t.letter));
+
+  console.log(rackLetters);
+  console.log(exchangeLetters);
+
   for (let II = 0; II < exchange.length; II++) {
+    console.log("finding", exchangeLetters[II]);
     const pos = rackLetters.indexOf(exchangeLetters[II]);
     if (pos !== -1) {
-      rack.splice(pos, 1);
+      console.log("found", pos);
+      rackLetters.splice(pos, 1);
+      const spliced = rack.splice(pos, 1);
+      if (!spliced.length) {
+        throw new Error(
+          `exchangeTiles logic error - found but did not find...`
+        );
+      }
     } else {
       throw new Error(
         `Exchange tile not found! Letter = '${rackLetters[pos]}'`
       );
     }
   }
+
+  console.log(bag.map((t) => t.letter));
+
+  console.log("Before DrawTiles");
   drawTiles(rack, bag);
-  exchange.forEach((t) =>
+  console.log("Before exchange.forEach");
+  exchange.forEach((t) => {
+    console.log("pushing old letter into bag:", t.letter);
     bag.push({
       ...t,
       letter: t.blank ? " " : t.letter,
-    })
-  );
+    });
+  });
+  console.log(bag.map((t) => t.letter));
   shuffleTiles(bag);
   return;
 };

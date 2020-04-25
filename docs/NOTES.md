@@ -4,8 +4,7 @@
 
 - Join autopopulates existing nickname
 
-- Can exchange tiles and still get the same tile? that's definitely wrong.
-- Something is going on with exchange.
+- Add an integrity test that checks all the turns plus the racks against the config.
 
 - Blank window let's make it look nicer
 - Still get the blank window if you type a space!
