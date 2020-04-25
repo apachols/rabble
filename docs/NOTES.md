@@ -2,12 +2,14 @@
 
 - Bingo doesn't break game lol
 
+- Join autopopulates existing nickname
+
 - Can exchange tiles and still get the same tile? that's definitely wrong.
 - Something is going on with exchange.
 
+- Blank window let's make it look nicer
 - Still get the blank window if you type a space!
 
-- Clear local storage -> function on window
 - Fix UL styles for "nav bar"
 
 - Input accepts char13 to submit form
@@ -27,8 +29,6 @@
 - Update server scores
 
 - Game board needs component breakout
-- Map out tiles in react
-- Improve Tile CSS
 
 - Recent games list has dates and opponents
 - /game/{id} handles error if something goes wrong

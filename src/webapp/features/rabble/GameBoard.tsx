@@ -59,8 +59,6 @@ const GameBoard = (props: GameBoardProps) => {
         G={props.G}
       />
 
-      <TurnList turns={turns} />
-
       <h5 className={styles.subheading}>Scores</h5>
       <ul className={styles.scoreList}>
         <li>
@@ -72,6 +70,8 @@ const GameBoard = (props: GameBoardProps) => {
           <span style={{ float: "right" }}>{playerScoreFromTurns("1")}</span>
         </li>
       </ul>
+
+      <TurnList turns={turns} />
     </div>
   );
 };

@@ -1,4 +1,8 @@
 .tileRack {
   height: 50px;
-  width: 400px;
+}
+
+.tileContainer {
+  height: 50px;
+  display: inline-block;
 }

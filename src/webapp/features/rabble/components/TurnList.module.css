@@ -1,4 +1,9 @@
 .turnList {
   list-style: none;
   text-align: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 30px;
+  min-width: 200px;
+  padding: 0px;
 }

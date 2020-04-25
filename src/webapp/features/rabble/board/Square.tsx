@@ -26,7 +26,13 @@ const Square = ({ square }: SquareProps) => {
       style={{ backgroundColor }}
       key={square.location}
     >
-      {square.location === 0 ? <Tile letter="A" value={1} /> : square.location}
+      {square.location === 0 ? (
+        <div className={styles.tileContainer}>
+          <Tile letter="A" value={1} context={"board"} />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

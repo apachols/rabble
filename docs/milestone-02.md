@@ -7,8 +7,8 @@
 - Player can play blanks ✅
 - Plays are scored correctly
 
-- 15 x 15 Game board
-- Game board has bonus squares
+- 15 x 15 Game board ✅
+- Game board has bonus squares ✅
 
 - Shuffled rack order preserved on server
 - Bingos are scored correctly

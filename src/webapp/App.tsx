@@ -16,42 +16,31 @@ export default function App() {
     <Router>
       <div className="App">
         <nav>
-          <ul>
+          <ul className="Nav">
             <li>
               <Link to="/">Home</Link>
             </li>
             <li>
               <Link to="/create">Create</Link>
             </li>
-            <li>
-              <button
-                onClick={() => {
-                  localStorage.setItem("userInfo", "");
-                  window.location.reload();
-                }}
-              >
-                clear local storage
-              </button>
-            </li>
           </ul>
         </nav>
 
-        <header className="App-header">
-          <Switch>
-            <Route path="/game/:gameID">
-              <Game />
-            </Route>
-            <Route path="/create">
-              <Create />
-            </Route>
-            <Route path="/join/:gameID">
-              <Join />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </header>
+        <header className="App-header"></header>
+        <Switch>
+          <Route path="/game/:gameID">
+            <Game />
+          </Route>
+          <Route path="/create">
+            <Create />
+          </Route>
+          <Route path="/join/:gameID">
+            <Join />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );

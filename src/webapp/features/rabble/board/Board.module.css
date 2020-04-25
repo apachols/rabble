@@ -6,8 +6,5 @@
 }
 
 .gridContainer {
-  overflow: scroll;
-  margin-left: 5%;
-  margin-right: 3%;
-  width: 90%;
+  width: 100%;
 }

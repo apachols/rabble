@@ -1,12 +1,12 @@
 const fixtureUserInfo = {
   nickname: "",
-  games: {}
+  games: {},
 };
 
 const fixtureGameInfo = {
   gameID: "",
   playerID: "",
-  playerCredentials: ""
+  playerCredentials: "",
 };
 
 export const getUserInfo = (): UserInfo => {
@@ -42,14 +42,14 @@ export const joinUserGame = (
     userInfo.games[gameID] = {
       ...userInfo.games[gameID],
       playerID,
-      playerCredentials
+      playerCredentials,
     };
   } else {
     userInfo.games[gameID] = {
       ...fixtureGameInfo,
       gameID,
       playerID,
-      playerCredentials
+      playerCredentials,
     };
   }
   updateUserInfo(userInfo);
@@ -60,5 +60,11 @@ export const createUserGame = (gameID: string) => {
   const playerID = "0";
   const userInfo = getUserInfo();
   userInfo.games[gameID] = { ...fixtureGameInfo, gameID, playerID };
+  updateUserInfo(userInfo);
+};
+
+export const clearRecentGames = () => {
+  const userInfo = getUserInfo();
+  userInfo.games = {};
   updateUserInfo(userInfo);
 };
