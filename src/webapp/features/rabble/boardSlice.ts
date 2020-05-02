@@ -34,30 +34,38 @@ export const slice = createSlice({
   reducers: {
     updatePlayTiles: (state, action: PayloadAction<Tile[]>) => {
       const tiles = action.payload;
-      console.log(tiles.map((t) => t.letter));
       const { squares, selected } = state;
       if (selected === null) {
         return;
       }
+
+      const layTiles = (
+        direction: string,
+        toPlay: Tile[],
+        location: number | null
+      ) => {
+        if (!location) {
+          return;
+        }
+        if (toPlay.length === 0) {
+          return;
+        }
+        if (squares[location].tile) {
+          return;
+        }
+        squares[location].playTile = toPlay[0];
+        // TODO this is because of typescript -_-
+        const hOrV = direction === VERTICAL ? VERTICAL : HORIZONTAL;
+        const nextLocation = squares[location].next[hOrV];
+        layTiles(direction, toPlay.slice(1), nextLocation);
+      };
+
       const selectedSquare = squares[selected];
 
-      const direction = selectedSquare.selection;
+      const direction =
+        selectedSquare.selection === VERTICAL ? VERTICAL : HORIZONTAL;
 
-      let currentSquare = selectedSquare;
-
-      if (direction === HORIZONTAL) {
-        let currentTile = selected;
-        tiles.forEach((t) => {
-          squares[currentTile++].playTile = t;
-        });
-      }
-      if (direction === VERTICAL) {
-        let currentTile = selected;
-        tiles.forEach((t) => {
-          squares[currentTile].playTile = t;
-          currentTile += 15;
-        });
-      }
+      layTiles(direction, tiles, selected);
 
       // Zero length play means clear the play off the board
       if (tiles.length === 0) {
@@ -121,12 +129,10 @@ export const canPlayOneMoreTile = (state: RootState) => {
   let currentSquare = selectedSquare;
 
   const allGood = currentPlay.every((pt) => {
-    console.log(`currentPlayTile ${pt.letter}`);
     if (currentSquare.tile) {
       return false;
     }
     const nextLocation = currentSquare.next[direction];
-    console.log(`nextLocation ${nextLocation}`);
 
     if (!nextLocation) {
       // we have fallen off the edge of the board
