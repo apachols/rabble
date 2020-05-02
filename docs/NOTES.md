@@ -2,6 +2,8 @@
 
 - Play letters on the board
 
+- Exchange pops a modal or something
+
 - Bingo doesn't break game lol
 
 - Join autopopulates existing nickname

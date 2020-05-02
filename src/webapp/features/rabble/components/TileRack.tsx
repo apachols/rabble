@@ -12,8 +12,8 @@ const TileRack = (props: TileRackProps) => {
   return (
     <div className={styles.tileRack}>
       {tileRack.map((t, idx) => (
-        <div className={styles.tileContainer}>
-          <Tile key={idx} letter={t.letter} value={t.value} />
+        <div key={idx} className={styles.tileContainer}>
+          <Tile letter={t.letter} value={t.value} />
         </div>
       ))}
     </div>

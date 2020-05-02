@@ -8,6 +8,8 @@ type SquareProps = {
 };
 
 const Square = ({ square, clickSquare }: SquareProps) => {
+  const theTile = square.tile || square.playTile;
+
   const squareType = ({ selection, bonus }: Square) => {
     if (selection === "H") {
       return styles.selectedHorizontal;
@@ -26,10 +28,10 @@ const Square = ({ square, clickSquare }: SquareProps) => {
     >
       <div className={styles.sizer}></div>
       <div className={styles.square}>
-        {square.tile ? (
+        {theTile ? (
           <Tile
-            letter={square.tile.letter}
-            value={square.tile.value}
+            letter={theTile.letter}
+            value={theTile.value}
             context={"board"}
           />
         ) : null}

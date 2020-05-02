@@ -18,6 +18,7 @@ const Board = (props: BoardProps) => {
       <div className={styles.squaresGrid}>
         {boardConfig.map((square) => (
           <Square
+            key={square.location}
             square={square}
             clickSquare={() => dispatch(changeSquareSelection(square.location))}
           />

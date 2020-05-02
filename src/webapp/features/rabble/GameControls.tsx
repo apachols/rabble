@@ -2,7 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./GameControls.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateRackTiles } from "./rackSlice";
-import { selectPlayTiles, updatePlayTiles } from "./playSlice";
+// import { selectPlayTiles, updatePlayTiles } from "./playSlice";
+import {
+  updatePlayTiles as boardPlayTiles,
+  selectPlayTiles,
+  canPlayOneMoreTile,
+} from "./boardSlice";
 import {
   playIsValid,
   pullPlayTilesFromRack,
@@ -63,7 +68,7 @@ const GameBoard = (props: GameControlsProps) => {
   useEffect(() => {
     if (currentPlayIsValid && playTiles.length > 0) {
       playWord(playTiles);
-      dispatch(updatePlayTiles([]));
+      dispatch(boardPlayTiles([]));
       setWordToPlay("");
       setPlayed(true);
     }
@@ -73,7 +78,7 @@ const GameBoard = (props: GameControlsProps) => {
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     if (!currentPlayIsValid && currentPlayTilesLaid?.length) {
-      dispatch(updatePlayTiles([]));
+      dispatch(boardPlayTiles([]));
       setWordToPlay("");
       setErrorMessage(currentPlay.invalidReason);
       cleanUp();
@@ -102,10 +107,12 @@ const GameBoard = (props: GameControlsProps) => {
 
   const wordToPlayInput: React.RefObject<HTMLInputElement> = useRef(null);
 
+  const playIsClear = useSelector(canPlayOneMoreTile);
+
   const handleInputChange = (word: string, rack: Tile[], play: Tile[]) => {
     const copyRack = [...rack];
 
-    if (word.length > play.length) {
+    if (word.length > play.length && playIsClear) {
       try {
         const endOfWord = word.slice(play.length);
         if (endOfWord.includes(" ")) {
@@ -118,10 +125,13 @@ const GameBoard = (props: GameControlsProps) => {
           tilesFromString(endOfWord),
           copyRack
         );
-        // The play is now everything from before plus new
-        dispatch(updatePlayTiles([...play, ...newTiles]));
+
+        // Put the tiles on the board
+        dispatch(boardPlayTiles([...play, ...newTiles]));
+
         // The rack is now everything that hasn't been played
         dispatch(updateRackTiles(copyRack));
+
         // Since we've successfully moved tiles around, update the input
         setWordToPlay(word.toUpperCase());
         setErrorMessage("");
@@ -130,7 +140,7 @@ const GameBoard = (props: GameControlsProps) => {
         console.error(err);
       }
     } else {
-      dispatch(updatePlayTiles([]));
+      dispatch(boardPlayTiles([]));
       dispatch(updateRackTiles(copyRack));
       setWordToPlay("");
       setErrorMessage("");
@@ -168,7 +178,7 @@ const GameBoard = (props: GameControlsProps) => {
           <button
             onClick={() => {
               if (playIsValid(playTiles, tileRack)) {
-                dispatch(updatePlayTiles([]));
+                dispatch(boardPlayTiles([]));
                 exchangeTiles(playTiles);
                 setWordToPlay("");
                 setPlayed(true);
@@ -205,7 +215,7 @@ const GameBoard = (props: GameControlsProps) => {
             } else {
               console.log("ChooseBlank did not find a blank...");
             }
-            dispatch(updatePlayTiles(tiles));
+            dispatch(boardPlayTiles(tiles));
             wordToPlayInput.current?.focus();
           }}
         />
