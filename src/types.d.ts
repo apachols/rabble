@@ -49,6 +49,23 @@ type TileBagConfig = {
 
 // Boardgame.io Types
 
+type GameBoardProps = {
+  G: Game;
+  ctx: GameContext;
+  playerID: string;
+  nowPlaying: string;
+  moves: {
+    drawTiles: () => void;
+    exchangeTiles: (tiles: Tile[]) => void;
+    playWord: (playSquares: Square[]) => void;
+    checkWord: (playSquares: Square[]) => void;
+    cleanUp: () => void;
+  };
+  events: {
+    endTurn: any;
+  };
+};
+
 type PlayerInfo = {
   tileRack: Tile[];
   score: number;
@@ -67,6 +84,7 @@ type Turn = {
 };
 
 type Game = {
+  gameBoard: Square[];
   tileBag: Tile[];
   turns: Turn[];
   players: {

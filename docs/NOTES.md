@@ -1,10 +1,13 @@
 ## TODO
 
-- Play letters on the board
+- Every word you are making must be a word
+- Word must touch existing tiles
+- First word must touch the start square
+- Update letter play logic to allow you to play on both sides of a word
 
 - Exchange pops a modal or something
 
-- Bingo doesn't break game lol
+- Can check word in dictionary (without modal?)
 
 - Join autopopulates existing nickname
 

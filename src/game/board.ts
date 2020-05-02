@@ -98,3 +98,26 @@ export const generateBoard = () => {
   }
   return Board;
 };
+
+export const playTilesFromSquares = (playSquares: Square[]) => {
+  // Not super happy with this yet...
+  const wordAsTilesOrNulls: (Tile | null)[] = playSquares.map(
+    (s) => s.playTile
+  );
+  const wordAsTiles: Tile[] = [];
+  wordAsTilesOrNulls.forEach((t) => {
+    if (t) {
+      wordAsTiles.push(t);
+    }
+  });
+  return wordAsTiles;
+};
+
+export const finalizePlayOnBoard = (
+  playSquares: Square[],
+  gameBoard: Square[]
+) => {
+  playSquares.forEach((s) => {
+    gameBoard[s.location].tile = s.playTile;
+  });
+};

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState /* , AppThunk */ } from "../../app/store";
-import { generateBoard } from "../../../game/board";
 
 import { HORIZONTAL, VERTICAL, getNextLocation } from "../../../game/board";
 
@@ -11,11 +10,9 @@ interface BoardState {
   direction: Direction;
 }
 
-const boardConfig = generateBoard();
-
 const initialState: BoardState = {
   selectedLocation: null,
-  squares: boardConfig,
+  squares: [],
   currentPlay: [],
   direction: null,
 };
@@ -55,6 +52,9 @@ export const slice = createSlice({
   name: "board",
   initialState,
   reducers: {
+    updateBoard: (state, action: PayloadAction<Square[]>) => {
+      state.squares = [...action.payload];
+    },
     updatePlayTiles: (state, action: PayloadAction<Tile[]>) => {
       const tiles = action.payload;
       const { squares, selectedLocation, direction } = state;
@@ -111,7 +111,11 @@ export const slice = createSlice({
   },
 });
 
-export const { changeSquareSelection, updatePlayTiles } = slice.actions;
+export const {
+  updateBoard,
+  changeSquareSelection,
+  updatePlayTiles,
+} = slice.actions;
 
 export const canPlayOneMoreTile = (state: RootState) => {
   const { squares, selectedLocation, currentPlay, direction } = state.board;
@@ -132,9 +136,15 @@ export const canPlayOneMoreTile = (state: RootState) => {
       return false;
     }
     currentSquare = squares[nextLocation];
+    if (currentSquare.tile) {
+      return false;
+    }
     return true;
   });
 };
+
+export const selectPlaySquares = (state: RootState) =>
+  state.board.squares.filter((s) => s.playTile);
 
 export const selectSelectedLocation = (state: RootState) =>
   state.board.selectedLocation;

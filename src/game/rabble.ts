@@ -1,4 +1,5 @@
 import { INVALID_MOVE } from "boardgame.io/core";
+import { generateBoard } from "./board";
 import {
   createTileBag,
   shuffleTiles,
@@ -7,6 +8,7 @@ import {
   pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
+import { playTilesFromSquares, finalizePlayOnBoard } from "./board";
 
 function IsVictory(G: Game) {
   return false;
@@ -20,6 +22,7 @@ const Rabble = (wordlist: WordList) => ({
   name: "rabble",
 
   setup: (): Game => {
+    const gameBoard = generateBoard();
     const tileBag = shuffleTiles(createTileBag());
     const makePlayer = () => {
       const tileRack: Tile[] = [];
@@ -36,6 +39,7 @@ const Rabble = (wordlist: WordList) => ({
     };
     return {
       tileBag,
+      gameBoard,
       turns: [],
       players: {
         "0": makePlayer(),
@@ -55,17 +59,18 @@ const Rabble = (wordlist: WordList) => ({
 
   moves: {
     playWord: {
-      move: (G: Game, ctx: GameContext, word: Tile[]) => {
+      move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
         const { tileRack, currentPlay } = G.players[currentPlayer];
-        const { tileBag } = G;
+        const { tileBag, gameBoard } = G;
 
-        console.log("playword", word);
+        const wordAsTiles = playTilesFromSquares(playSquares);
+        const wordAsString = wordAsTiles.map((t) => t.letter).join("");
 
-        const wordAsString = word.map((t) => t.letter).join("");
+        console.log("playword", wordAsTiles);
 
         // (Re)Check for valid move
-        if (!playIsValid(word, tileRack)) {
+        if (!playIsValid(wordAsTiles, tileRack)) {
           console.log("playword invalid, playIsValid", wordAsString);
           return INVALID_MOVE;
         }
@@ -78,7 +83,9 @@ const Rabble = (wordlist: WordList) => ({
           return INVALID_MOVE;
         }
 
-        const playTiles = pullPlayTilesFromRack(word, tileRack);
+        const playTiles = pullPlayTilesFromRack(wordAsTiles, tileRack);
+
+        finalizePlayOnBoard(playSquares, gameBoard);
 
         // TODO score needs to look at the board, obviously
         const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);
@@ -86,7 +93,7 @@ const Rabble = (wordlist: WordList) => ({
         // record the turn in the turn list - TODO update server scores
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: word,
+          tiles: wordAsTiles,
           playerID: currentPlayer,
           score,
         };
@@ -137,25 +144,26 @@ const Rabble = (wordlist: WordList) => ({
       client: true,
     },
     checkWord: {
-      move: (G: Game, ctx: GameContext, word: Tile[]) => {
+      move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
         const { tileRack, currentPlay } = G.players[currentPlayer];
 
-        const wordAsString = word.map((t) => t.letter).join("");
+        const wordAsTiles = playTilesFromSquares(playSquares);
+        const wordAsString = wordAsTiles.map((t) => t.letter).join("");
 
         console.log("CHECKWORD", wordAsString);
 
-        if (!playIsValid(word, tileRack)) {
+        if (!playIsValid(wordAsTiles, tileRack)) {
           console.log("playIsValid", wordAsString);
           currentPlay.invalidReason = "Mismatch between play and hand";
-          currentPlay.tilesLaid = word;
+          currentPlay.tilesLaid = wordAsTiles;
           currentPlay.valid = false;
           return;
         }
         if (!wordlist[wordAsString.toUpperCase()]) {
           currentPlay.invalidReason = `${wordAsString.toUpperCase()} is not in the dictionary`;
           console.log("wordList", wordAsString);
-          currentPlay.tilesLaid = word;
+          currentPlay.tilesLaid = wordAsTiles;
           currentPlay.valid = false;
           return;
         }

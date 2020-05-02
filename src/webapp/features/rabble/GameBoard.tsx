@@ -5,28 +5,10 @@ import { useParams } from "react-router-dom";
 import TurnList from "./components/TurnList";
 import GameControls from "./GameControls";
 
-type GameBoardProps = {
-  G: Game;
-  ctx: GameContext;
-  playerID: string;
-  moves: {
-    drawTiles: () => void;
-    exchangeTiles: (tiles: Tile[]) => void;
-    playWord: (word: Tile[]) => void;
-    checkWord: (word: Tile[]) => void;
-    cleanUp: () => void;
-  };
-  events: {
-    endTurn: any;
-  };
-};
-
 const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
     G: { turns },
-    moves,
-    events,
     ctx: { currentPlayer },
   } = props;
 
@@ -51,13 +33,7 @@ const GameBoard = (props: GameBoardProps) => {
       <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
       <h3 className={styles.subheading}>Now Playing: {currentPlayer}</h3>
 
-      <GameControls
-        nowPlaying={currentPlayer}
-        playerID={playerID}
-        moves={moves}
-        events={events}
-        G={props.G}
-      />
+      <GameControls nowPlaying={currentPlayer} {...props} />
 
       <h5 className={styles.subheading}>Scores</h5>
       <ul className={styles.scoreList}>

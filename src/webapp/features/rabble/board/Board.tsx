@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Board.module.css";
 
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  selectSquares,
+  updateBoard,
   changeSquareSelection,
+  selectSquares,
   selectDirection,
   selectSelectedLocation,
 } from "../boardSlice";
 
 import Square from "./Square";
 
-type BoardProps = {};
+type BoardProps = {
+  gameBoard: Square[];
+};
 
-const Board = (props: BoardProps) => {
+const Board = ({ gameBoard }: BoardProps) => {
   const dispatch = useDispatch();
   const boardConfig = useSelector(selectSquares);
   const direction = useSelector(selectDirection);
   const selectedLocation = useSelector(selectSelectedLocation);
+
+  useEffect(() => {
+    dispatch(updateBoard(gameBoard));
+  }, [dispatch, gameBoard]);
+
   return (
     <div className={styles.gridContainer}>
       <div className={styles.squaresGrid}>

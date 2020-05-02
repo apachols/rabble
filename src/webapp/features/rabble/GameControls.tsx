@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./GameControls.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTileRack, shuffleRack, updateRackTiles } from "./rackSlice";
-// import { selectPlayTiles, updatePlayTiles } from "./playSlice";
 import {
   updatePlayTiles as boardPlayTiles,
   selectPlayTiles,
   canPlayOneMoreTile,
+  selectPlaySquares,
 } from "./boardSlice";
 import {
   playIsValid,
@@ -20,33 +20,18 @@ import ChooseBlank from "./components/ChooseBlank";
 
 import Board from "./board/Board";
 
-type GameControlsProps = {
-  G: Game;
-  nowPlaying: string;
-  playerID: string;
-  moves: {
-    drawTiles: () => void;
-    exchangeTiles: (tiles: Tile[]) => void;
-    playWord: (word: Tile[]) => void;
-    checkWord: (word: Tile[]) => void;
-    cleanUp: () => void;
-  };
-  events: {
-    endTurn: any;
-  };
-};
-
-const GameBoard = (props: GameControlsProps) => {
+const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
-    nowPlaying,
-    G: { players },
+    ctx: { currentPlayer },
+    G: { players, gameBoard },
     moves: { playWord, exchangeTiles, checkWord, cleanUp },
     events: { endTurn },
   } = props;
 
   // Pull info for the current player
   const { tileRack, currentPlay } = players[playerID];
+  const nowPlaying = currentPlayer;
   const currentPlayerHasTurn = nowPlaying === playerID;
   const currentPlayIsValid = currentPlay.valid;
   const currentPlayTilesLaid = currentPlay.tilesLaid;
@@ -63,16 +48,18 @@ const GameBoard = (props: GameControlsProps) => {
 
   // These are tiles with which the player is trying to make a word
   const playTiles = useSelector(selectPlayTiles);
+  // But now we are doing squares...
+  const playSquares = useSelector(selectPlaySquares);
 
   // If the current play is marked valid, run playWord
   useEffect(() => {
-    if (currentPlayIsValid && playTiles.length > 0) {
-      playWord(playTiles);
+    if (currentPlayIsValid && playSquares.length > 0) {
+      playWord(playSquares);
       dispatch(boardPlayTiles([]));
       setWordToPlay("");
       setPlayed(true);
     }
-  }, [currentPlayIsValid, playTiles, dispatch, playWord]);
+  }, [currentPlayIsValid, playSquares, dispatch, playWord]);
 
   // If the user has played but the word is invalid, clear tiles
   const [errorMessage, setErrorMessage] = useState("");
@@ -149,7 +136,7 @@ const GameBoard = (props: GameControlsProps) => {
 
   return (
     <div className={styles.controls}>
-      <Board />
+      <Board gameBoard={gameBoard} />
       <h4>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
         <TileRack tileRack={playTiles} />
@@ -168,7 +155,7 @@ const GameBoard = (props: GameControlsProps) => {
         {currentPlayerHasTurn && (
           <button
             onClick={() => {
-              checkWord(playTiles);
+              checkWord(playSquares);
             }}
           >
             play tiles
