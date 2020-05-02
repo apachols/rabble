@@ -4,7 +4,7 @@
 
 - Join autopopulates existing nickname
 
-- Add an integrity test that checks all the turns plus the racks against the config.
+- Add an integration test that checks all the turns plus the racks against the config.
 
 - Blank window let's make it look nicer
 - Still get the blank window if you type a space!

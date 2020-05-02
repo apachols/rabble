@@ -1,8 +1,14 @@
 .tileRack {
   height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tileContainer {
   height: 50px;
+  width: 50px;
+  padding: 1px;
   display: inline-block;
+  position: relative;
 }

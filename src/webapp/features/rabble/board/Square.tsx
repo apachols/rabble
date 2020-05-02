@@ -19,22 +19,29 @@ const SQUARE_COLORS: SquareColors = {
 
 const Square = ({ square }: SquareProps) => {
   const backgroundColor = square.bonus ? SQUARE_COLORS[square.bonus] : "white";
-  const noTile = square.location === 0 ? "" : styles.noTile;
+
+  const squareContent = (location: number) => {
+    if (location === 0) {
+      return <Tile letter="A" value={1} context={"board"} />;
+    }
+    return null;
+  };
+
   return (
     <div
-      className={`${styles.square} ${noTile}`}
+      className={styles.squareContainer}
       style={{ backgroundColor }}
       key={square.location}
     >
-      {square.location === 0 ? (
-        <div className={styles.tileContainer}>
-          <Tile letter="A" value={1} context={"board"} />
-        </div>
-      ) : (
-        ""
-      )}
+      <div className={styles.sizer}></div>
+      <div className={styles.square}>{squareContent(square.location)}</div>
     </div>
   );
 };
 
 export default Square;
+
+// {square.location === 0 ? (
+// ) : (
+//   ""
+// )}

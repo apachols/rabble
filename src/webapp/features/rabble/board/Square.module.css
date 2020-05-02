@@ -1,24 +1,20 @@
-.tileContainer {
-  width: 80%;
-  height: 80%;
+.squareContainer {
+  /* height: 80%; */
   display: inline-block;
-  margin-left: -2px;
-  margin-top: 1px;
-}
-
-.square {
-  /* width: 95%; */
+  position: relative;
+  /* margin-left: -2px; */
+  /* margin-top: 1px; */
   border: 1px solid black;
 }
 
-.noTile {
-  font-size: x-small;
+.sizer {
+  margin-top: 100%;
 }
 
-.noTile::before {
-  content: "";
-  display: inline-block;
-  width: 1px;
-  height: 0;
-  padding-bottom: calc(100%);
+.square {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }

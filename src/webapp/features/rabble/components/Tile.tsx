@@ -15,12 +15,15 @@ const Tile = (props: TileProps) => {
     context === "board" ? styles.textSizeBoard : styles.textSizeRack;
 
   const blankStyle = value === 0 ? { color: "red" } : {};
+
   return (
     <div className={styles.tileImageContainer}>
       <img src={blank} className={styles.tileImage} alt={letter} />
-      <div className={`${textSize} ${styles.letterText}`} style={blankStyle}>
-        {letter.toUpperCase()}
-        <sub className={styles.valueSize}>{value ? value : ""}</sub>
+      <div className={styles.tileTextContainer}>
+        <div className={`${textSize} ${styles.letterText}`} style={blankStyle}>
+          {letter.toUpperCase()}
+          <sub className={styles.valueSize}>{value ? value : ""}</sub>
+        </div>
       </div>
     </div>
   );
