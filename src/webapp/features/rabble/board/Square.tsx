@@ -4,44 +4,38 @@ import Tile from "../components/Tile";
 
 type SquareProps = {
   square: Square;
+  clickSquare: () => void;
 };
 
-type SquareColors = {
-  [key: string]: string;
-};
-
-const SQUARE_COLORS: SquareColors = {
-  W2: "red",
-  W3: "orange",
-  L3: "green",
-  L2: "blue",
-};
-
-const Square = ({ square }: SquareProps) => {
-  const backgroundColor = square.bonus ? SQUARE_COLORS[square.bonus] : "white";
-
-  const squareContent = (location: number) => {
-    if (location === 0) {
-      return <Tile letter="A" value={1} context={"board"} />;
+const Square = ({ square, clickSquare }: SquareProps) => {
+  const squareType = ({ selection, bonus }: Square) => {
+    if (selection === "H") {
+      return styles.selectedHorizontal;
     }
-    return null;
+    if (selection === "V") {
+      return styles.selectedVertical;
+    }
+    return bonus ? styles[bonus] : styles.default;
   };
 
   return (
     <div
-      className={styles.squareContainer}
-      style={{ backgroundColor }}
+      className={`${styles.squareContainer} ${squareType(square)}`}
       key={square.location}
+      onClick={(ev) => clickSquare()}
     >
       <div className={styles.sizer}></div>
-      <div className={styles.square}>{squareContent(square.location)}</div>
+      <div className={styles.square}>
+        {square.tile ? (
+          <Tile
+            letter={square.tile.letter}
+            value={square.tile.value}
+            context={"board"}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };
 
 export default Square;
-
-// {square.location === 0 ? (
-// ) : (
-//   ""
-// )}

@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import rackReducer from "../features/rabble/rackSlice";
 import playReducer from "../features/rabble/playSlice";
+import boardReducer from "../features/rabble/boardSlice";
 
 export const store = configureStore({
   reducer: {
+    board: boardReducer,
     rack: rackReducer,
     play: playReducer,
   },

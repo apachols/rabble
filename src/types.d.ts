@@ -21,6 +21,7 @@ type Square = {
   bonus: string | null;
   location: number;
   tile: Tile | null;
+  selection: string | null;
 };
 
 type WordList = {

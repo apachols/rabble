@@ -1,5 +1,7 @@
 ## TODO
 
+- Play letters on the board
+
 - Bingo doesn't break game lol
 
 - Join autopopulates existing nickname
@@ -8,8 +10,6 @@
 
 - Blank window let's make it look nicer
 - Still get the blank window if you type a space!
-
-- Fix UL styles for "nav bar"
 
 - Input accepts char13 to submit form
 - Allow key press to auto select letter for blank
