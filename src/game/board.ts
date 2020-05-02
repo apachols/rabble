@@ -51,7 +51,13 @@ export const bonusConfig = {
   ],
 };
 
-const getNext = (location: number, direction: string) => {
+export const getNextLocation = (
+  location: number,
+  direction: Direction
+): number | null => {
+  if (!direction) {
+    return null;
+  }
   if (direction === VERTICAL) {
     const next = location + 15;
     return next >= 225 ? null : next;
@@ -75,11 +81,6 @@ export const generateBoard = () => {
       bonus: null,
       tile: null,
       playTile: null,
-      selection: null,
-      next: {
-        [HORIZONTAL]: getNext(location, HORIZONTAL),
-        [VERTICAL]: getNext(location, VERTICAL),
-      },
     };
     if (bonusConfig["W3"].includes(location)) {
       square.bonus = "W3";

@@ -17,16 +17,13 @@ type UserInfo = {
 
 type Bonus = { bonus: string; locations: number[] };
 
+type Direction = "H" | "V" | null;
+
 type Square = {
   bonus: string | null;
   location: number;
   tile: Tile | null;
   playTile: Tile | null;
-  selection: string | null;
-  next: {
-    H: number | null;
-    V: number | null;
-  };
 };
 
 type WordList = {
