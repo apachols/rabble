@@ -4,38 +4,38 @@
 - Update letter play logic to allow you to play on both sides of a word
 - Scoring needs to work
 
-- Exchange pops a modal or something
+* Exchange pops a modal or something
 
-- Can check word in dictionary (without modal?)
+* Can check word in dictionary (without modal?)
 
-- Join autopopulates existing nickname
+* Join autopopulates existing nickname
 
-- Add an integration test that checks all the turns plus the racks against the config.
+* Add an integration test that checks all the turns plus the racks against the config.
 
-- Blank window let's make it look nicer
-- Still get the blank window if you type a space!
+* Blank window let's make it look nicer
+* Still get the blank window if you type a space!
 
-- Input accepts char13 to submit form
-- Allow key press to auto select letter for blank
+* Input accepts char13 to submit form
+* Allow key press to auto select letter for blank
 
-- Shuffled rack order preserved on server when state changes.
-- Join link click to copy on desktop and mobile web
+* Shuffled rack order preserved on server when state changes.
+* Join link click to copy on desktop and mobile web
 
-- prod build script with env vars
-- Security errors for NPM packages
-- Tests for Rabble game file
-- Abstraction for API
-- package.json dev dependencies
+* prod build script with env vars
+* Security errors for NPM packages
+* Tests for Rabble game file
+* Abstraction for API
+* package.json dev dependencies
 
-- Bingo scoring rules
-- Victory conditions
-- Update server scores
+* Bingo scoring rules
+* Victory conditions
+* Update server scores
 
-- Game board needs component breakout
+* Game board needs component breakout
 
-- Recent games list has dates and opponents
-- /game/{id} handles error if something goes wrong
+* Recent games list has dates and opponents
+* /game/{id} handles error if something goes wrong
 
-- THE TOAST OMG
+* THE TOAST OMG
 
-- Invite system
+* Invite system

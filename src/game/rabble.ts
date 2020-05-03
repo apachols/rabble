@@ -179,6 +179,10 @@ const Rabble = (wordlist: WordList) => ({
             return;
           }
         }
+        //
+        // Also, check that the play has a single direction
+        //
+        // Rename this
         if (!playIsValid(wordAsTiles, tileRack)) {
           console.log("playIsValid", wordAsString);
           currentPlay.invalidReason = "Mismatch between play and hand";
@@ -186,6 +190,7 @@ const Rabble = (wordlist: WordList) => ({
           currentPlay.valid = false;
           return;
         }
+        // Expand this to cover all words created by playSquares
         if (!wordlist[wordAsString.toUpperCase()]) {
           currentPlay.invalidReason = `${wordAsString.toUpperCase()} is not in the dictionary`;
           console.log("wordList", wordAsString);

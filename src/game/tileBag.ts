@@ -85,6 +85,9 @@ export const playIsValid = (word: Tile[], rackTiles: Tile[]) => {
   });
 };
 
+export const stringFromTiles = (tiles: Tile[]) =>
+  tiles.map((t) => t.letter).join("");
+
 export const tilesFromString = (word: string): Tile[] => {
   const playLetters = word.toUpperCase().split("");
   if (!playLetters.every((letter) => tileBagConfig[letter])) {
@@ -122,9 +125,6 @@ export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
   let rackLetters = rack.map((t) => t.letter);
   let exchangeLetters = exchange.map((t) => (t.blank ? " " : t.letter));
 
-  console.log(rackLetters);
-  console.log(exchangeLetters);
-
   for (let II = 0; II < exchange.length; II++) {
     console.log("finding", exchangeLetters[II]);
     const pos = rackLetters.indexOf(exchangeLetters[II]);
@@ -144,19 +144,13 @@ export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
     }
   }
 
-  console.log(bag.map((t) => t.letter));
-
-  console.log("Before DrawTiles");
   drawTiles(rack, bag);
-  console.log("Before exchange.forEach");
   exchange.forEach((t) => {
-    console.log("pushing old letter into bag:", t.letter);
     bag.push({
       ...t,
       letter: t.blank ? " " : t.letter,
     });
   });
-  console.log(bag.map((t) => t.letter));
   shuffleTiles(bag);
   return;
 };

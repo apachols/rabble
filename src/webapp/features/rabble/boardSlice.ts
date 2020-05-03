@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState /* , AppThunk */ } from "../../app/store";
 
-import { HORIZONTAL, VERTICAL, getNextLocation } from "../../../game/board";
+import {
+  HORIZONTAL,
+  VERTICAL,
+  getNextLocation,
+  layTiles,
+} from "../../../game/board";
 
 interface BoardState {
   squares: Square[];
@@ -27,27 +32,6 @@ const getNextDirection = (current: Direction): Direction => {
   return HORIZONTAL;
 };
 
-// Let's move this to a board utility functions file of some kind
-const layTiles = (
-  board: Square[],
-  direction: Direction,
-  toPlay: Tile[],
-  location: number | null
-) => {
-  if (!location) {
-    return;
-  }
-  if (toPlay.length === 0) {
-    return;
-  }
-  if (board[location].tile) {
-    return;
-  }
-  board[location].playTile = toPlay[0];
-  const nextLocation = getNextLocation(location, direction);
-  layTiles(board, direction, toPlay.slice(1), nextLocation);
-};
-
 export const slice = createSlice({
   name: "board",
   initialState,
@@ -62,7 +46,13 @@ export const slice = createSlice({
         return;
       }
 
-      layTiles(squares, direction, tiles, selectedLocation);
+      layTiles({
+        board: squares,
+        direction,
+        toPlay: tiles,
+        location: selectedLocation,
+        callback: layTiles,
+      });
 
       // Zero length play means clear the play off the board
       if (tiles.length === 0) {
