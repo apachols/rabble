@@ -1,5 +1,4 @@
 import { INVALID_MOVE } from "boardgame.io/core";
-import { generateBoard } from "./board";
 import {
   createTileBag,
   shuffleTiles,
@@ -8,7 +7,14 @@ import {
   pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
-import { playTilesFromSquares, finalizePlayOnBoard } from "./board";
+import {
+  playTilesFromSquares,
+  finalizePlayOnBoard,
+  adjacentToAWord,
+  hasCenterSquare,
+  generateBoard,
+  isFirstPlay,
+} from "./board";
 
 function IsVictory(G: Game) {
   return false;
@@ -146,6 +152,7 @@ const Rabble = (wordlist: WordList) => ({
     checkWord: {
       move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
+        const { gameBoard } = G;
         const { tileRack, currentPlay } = G.players[currentPlayer];
 
         const wordAsTiles = playTilesFromSquares(playSquares);
@@ -153,6 +160,25 @@ const Rabble = (wordlist: WordList) => ({
 
         console.log("CHECKWORD", wordAsString);
 
+        if (isFirstPlay(gameBoard)) {
+          if (!hasCenterSquare(playSquares)) {
+            console.log("firstPlayNotCentered");
+            currentPlay.invalidReason =
+              "The first play must include the center square";
+            currentPlay.tilesLaid = wordAsTiles;
+            currentPlay.valid = false;
+            return;
+          }
+        } else {
+          if (!adjacentToAWord(playSquares, gameBoard)) {
+            console.log("playNotAdjacent", wordAsString);
+            currentPlay.invalidReason =
+              "Your play must touch a tile on the board";
+            currentPlay.tilesLaid = wordAsTiles;
+            currentPlay.valid = false;
+            return;
+          }
+        }
         if (!playIsValid(wordAsTiles, tileRack)) {
           console.log("playIsValid", wordAsString);
           currentPlay.invalidReason = "Mismatch between play and hand";

@@ -1,9 +1,8 @@
 ## TODO
 
 - Every word you are making must be a word
-- Word must touch existing tiles
-- First word must touch the start square
 - Update letter play logic to allow you to play on both sides of a word
+- Scoring needs to work
 
 - Exchange pops a modal or something
 

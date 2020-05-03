@@ -1,5 +1,6 @@
 export const HORIZONTAL = "H";
 export const VERTICAL = "V";
+export const CENTER_SQUARE = 112;
 
 export const bonusConfig = {
   W3: [0, 7, 14, 105, 119, 210, 217, 224],
@@ -51,6 +52,27 @@ export const bonusConfig = {
   ],
 };
 
+export const getPreviousLocation = (
+  location: number,
+  direction: Direction
+): number | null => {
+  if (!direction) {
+    return null;
+  }
+  if (direction === VERTICAL) {
+    const prev = location - 15;
+    return prev < 0 ? null : prev;
+  }
+  if (direction === HORIZONTAL) {
+    const prev = location - 1;
+    if (prev >= 0 && prev % 15 === (location % 15) - 1) {
+      return prev;
+    }
+    return null;
+  }
+  return null;
+};
+
 export const getNextLocation = (
   location: number,
   direction: Direction
@@ -64,7 +86,7 @@ export const getNextLocation = (
   }
   if (direction === HORIZONTAL) {
     const next = location + 1;
-    if (next % 15 === (location % 15) + 1) {
+    if (next < 225 && next % 15 === (location % 15) + 1) {
       return next;
     }
     return null;
@@ -121,3 +143,20 @@ export const finalizePlayOnBoard = (
     gameBoard[s.location].tile = s.playTile;
   });
 };
+
+export const isFirstPlay = (gameBoard: Square[]) =>
+  !gameBoard.some((s) => s.tile);
+
+export const hasCenterSquare = (playSquares: Square[]) =>
+  playSquares.some((s) => s.location === CENTER_SQUARE);
+
+export const adjacentToAWord = (playSquares: Square[], gameBoard: Square[]) =>
+  playSquares.some((s) => {
+    const toCheck = [
+      getPreviousLocation(s.location, VERTICAL),
+      getNextLocation(s.location, VERTICAL),
+      getPreviousLocation(s.location, HORIZONTAL),
+      getNextLocation(s.location, HORIZONTAL),
+    ];
+    return toCheck.some((loc) => (loc ? gameBoard[loc].tile : false));
+  });
