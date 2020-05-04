@@ -9,6 +9,8 @@ import {
   generateBoard,
   allTilesFromSquares,
   squaresAreAValidWord,
+  finalizePlayOnBoard,
+  checkForInvalidWords,
 } from "./board";
 import { tilesFromString, stringFromTiles } from "./tileBag";
 
@@ -329,12 +331,39 @@ describe("checkForInvalidWords", () => {
   beforeEach(() => {
     board = generateBoard();
     layTilesArgs = { board, callback: layTiles };
-    // Lay tiles for existing words, and finalize
+    layTiles({
+      ...layTilesArgs,
+      direction: HORIZONTAL,
+      location: 0,
+      toPlay: tilesFromString("FEET"),
+    });
+    layTiles({
+      ...layTilesArgs,
+      direction: VERTICAL,
+      location: 15,
+      toPlay: tilesFromString("ASTER"),
+    });
+    finalizePlayOnBoard(board, board);
   });
-  xit("returns empty array if all words valid", () => {
-    // Lay tiles for word that makes valid
+  it("returns empty array if all words valid", () => {
+    layTiles({
+      ...layTilesArgs,
+      direction: HORIZONTAL,
+      location: 16,
+      toPlay: tilesFromString("ND"),
+    });
+    const playSquares = [board[16], board[17]];
+    const wordlist = {
+      FEET: 1,
+      FASTER: 1,
+      AND: 1,
+      EN: 1,
+      ED: 1,
+    };
+    const invalidWordList = checkForInvalidWords(playSquares, board, wordlist);
+    expect(invalidWordList.length).toBe(0);
   });
-  xit("returns invalid words if words invalid", () => {
-    // Lay tiles for word that makes invalid
-  });
+  it("returns invalid words if any invalid", () => {});
+  it("find valid words for non-contiguous play", () => {});
+  it("find invalid words for non-contiguous play", () => {});
 });

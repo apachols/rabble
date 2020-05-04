@@ -12,6 +12,7 @@ import {
   playIsValid,
   pullPlayTilesFromRack,
   tilesFromString,
+  stringFromTiles,
 } from "../../../game/tileBag";
 
 import TileRack from "./components/TileRack";

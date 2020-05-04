@@ -1,8 +1,9 @@
 ## TODO
 
 - Every word you are making must be a word
-- Update letter play logic to allow you to play on both sides of a word
 - Scoring needs to work
+
+- Need to untangle handleInputChange and GameControls.tsx
 
 * Exchange pops a modal or something
 

@@ -225,15 +225,22 @@ export const layTiles = ({
     return;
   }
   if (board[location].tile) {
+    // what if we skipped it:
+    callback({
+      board,
+      direction,
+      toPlay,
+      location: getNextLocation(location, direction),
+      callback,
+    });
     return;
   }
   board[location].playTile = toPlay[0];
-  const nextLocation = getNextLocation(location, direction);
   callback({
     board,
     direction,
     toPlay: toPlay.slice(1),
-    location: nextLocation,
+    location: getNextLocation(location, direction),
     callback,
   });
 };

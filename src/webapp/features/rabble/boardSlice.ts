@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState /* , AppThunk */ } from "../../app/store";
+import { RootState } from "../../app/store";
 
 import {
   HORIZONTAL,
   VERTICAL,
   getNextLocation,
   layTiles,
+  playTilesFromSquares,
 } from "../../../game/board";
 
 interface BoardState {
   squares: Square[];
   selectedLocation: number | null;
-  currentPlay: Tile[];
+  currentPlay: Square[];
   direction: Direction;
 }
 
@@ -60,7 +61,7 @@ export const slice = createSlice({
           sq.playTile = null;
         });
       }
-      state.currentPlay = [...tiles];
+      state.currentPlay = squares.filter((s) => s.playTile);
     },
     changeSquareSelection: (state, action: PayloadAction<number>) => {
       const { squares, selectedLocation, currentPlay } = state;
@@ -109,28 +110,25 @@ export const {
 
 export const canPlayOneMoreTile = (state: RootState) => {
   const { squares, selectedLocation, currentPlay, direction } = state.board;
-  if (selectedLocation === null) {
+
+  if (!selectedLocation) {
     return false;
   }
 
-  const selectedSquare = squares[selectedLocation];
+  // If there's no tile on the selectedLocation, start your play
+  if (selectedLocation && currentPlay.length === 0) {
+    return !squares[selectedLocation].tile;
+  }
 
-  let currentSquare = selectedSquare;
-  return currentPlay.every((pt) => {
-    if (currentSquare.tile) {
-      return false;
-    }
-    const nextLocation = getNextLocation(currentSquare.location, direction);
-    if (!nextLocation) {
-      // we have fallen off the edge of the board
-      return false;
-    }
-    currentSquare = squares[nextLocation];
-    if (currentSquare.tile) {
-      return false;
-    }
-    return true;
-  });
+  // Spin through however many consecutive tiles to lay one on the other side
+  const lastSquare = currentPlay[currentPlay.length - 1];
+  let nextLocation = getNextLocation(lastSquare.location, direction);
+  while (nextLocation !== null && squares[nextLocation].tile) {
+    nextLocation = getNextLocation(nextLocation, direction);
+  }
+
+  // If we have found the edge of the board, no more tiles
+  return nextLocation !== null;
 };
 
 export const selectPlaySquares = (state: RootState) =>
@@ -143,6 +141,7 @@ export const selectDirection = (state: RootState) => state.board.direction;
 
 export const selectSquares = (state: RootState) => state.board.squares;
 
-export const selectPlayTiles = (state: RootState) => state.board.currentPlay;
+export const selectPlayTiles = (state: RootState) =>
+  playTilesFromSquares(state.board.currentPlay);
 
 export default slice.reducer;
