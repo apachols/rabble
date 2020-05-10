@@ -68,7 +68,7 @@ export const drawTiles = (tileRack: Tile[], tileBag: Tile[]) => {
 };
 
 // play is valid if playLetters are a subset of rackLetters (which may have duplicates)
-export const playIsValid = (word: Tile[], rackTiles: Tile[]) => {
+export const checkForPlayTilesInRack = (word: Tile[], rackTiles: Tile[]) => {
   const playLetters = [...word];
   if (!playLetters.length) {
     return false;

@@ -9,7 +9,7 @@ import {
   selectPlaySquares,
 } from "./boardSlice";
 import {
-  playIsValid,
+  checkForPlayTilesInRack,
   pullPlayTilesFromRack,
   tilesFromString,
   stringFromTiles,
@@ -66,6 +66,7 @@ const GameBoard = (props: GameBoardProps) => {
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     if (!currentPlayIsValid && currentPlayTilesLaid?.length) {
+      console.log("PACHOLSKI TRYING TO CLEAR INVALID PLAY");
       dispatch(boardPlayTiles([]));
       setWordToPlay("");
       setErrorMessage(currentPlay.invalidReason);
@@ -165,7 +166,7 @@ const GameBoard = (props: GameBoardProps) => {
         {currentPlayerHasTurn && (
           <button
             onClick={() => {
-              if (playIsValid(playTiles, tileRack)) {
+              if (checkForPlayTilesInRack(playTiles, tileRack)) {
                 dispatch(boardPlayTiles([]));
                 exchangeTiles(playTiles);
                 setWordToPlay("");

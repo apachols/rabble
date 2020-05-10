@@ -139,12 +139,30 @@ export const rowForLocation = (location: number) => Math.floor(location / 15);
 export const columnForLocation = (location: number) => location % 15;
 export const anyTile = (square: Square) => square.tile || square.playTile;
 
+export const copyPlaySquaresToBoard = (
+  playSquares: Square[],
+  gameBoard: Square[]
+) => {
+  playSquares.forEach(({ location, playTile }) => {
+    if (gameBoard[location].tile || gameBoard[location].playTile) {
+      throw new Error(`Logic Error - copy to occupied square ${location}`);
+    }
+    gameBoard[location].playTile = playTile;
+  });
+};
+
 export const finalizePlayOnBoard = (
   playSquares: Square[],
   gameBoard: Square[]
 ) => {
   playSquares.forEach((s) => {
     gameBoard[s.location].tile = s.playTile;
+  });
+};
+
+export const removePlayFromBoard = (gameBoard: Square[]) => {
+  gameBoard.forEach((sq) => {
+    sq.playTile = null;
   });
 };
 
@@ -289,6 +307,13 @@ export const checkForInvalidWords = (
     gameBoard,
     direction
   );
+
+  if (directional.length === 0) {
+    throw new Error(
+      "Logic Error - directional play should not have zero length"
+    );
+  }
+
   // If word isn't in the dictionary, push it into return string array
   if (!squaresAreAValidWord(directional, wordlist)) {
     invalidWords.push(stringFromTiles(allTilesFromSquares(directional)));

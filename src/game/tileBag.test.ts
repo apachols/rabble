@@ -3,7 +3,7 @@ import {
   createTiles,
   createTileBag,
   drawTiles,
-  playIsValid,
+  checkForPlayTilesInRack,
   MAX_PLAYER_RACK_TILES,
   tilesFromString,
   pullPlayTilesFromRack,
@@ -102,7 +102,7 @@ describe("drawTiles", () => {
   });
 });
 
-describe("playIsValid", () => {
+describe("checkForPlayTilesInRack", () => {
   it.each`
     wordString   | rackLetters  | result
     ${"test"}    | ${"TESTERS"} | ${true}
@@ -117,7 +117,9 @@ describe("playIsValid", () => {
     const rack = rackLetters
       .split("")
       .map((l: string) => ({ letter: l, value: 1, blank: false }));
-    expect(playIsValid(tilesFromString(wordString), rack)).toEqual(result);
+    expect(checkForPlayTilesInRack(tilesFromString(wordString), rack)).toEqual(
+      result
+    );
   });
   it.each`
     wordString | rackLetters  | result
@@ -133,7 +135,7 @@ describe("playIsValid", () => {
       }));
       const wordTiles = tilesFromString(wordString);
       wordTiles.push({ letter: "Y", value: 0, blank: true });
-      expect(playIsValid(wordTiles, rack)).toEqual(result);
+      expect(checkForPlayTilesInRack(wordTiles, rack)).toEqual(result);
     }
   );
 });

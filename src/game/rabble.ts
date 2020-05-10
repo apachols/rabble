@@ -3,7 +3,7 @@ import {
   createTileBag,
   shuffleTiles,
   drawTiles,
-  playIsValid,
+  checkForPlayTilesInRack,
   pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
@@ -14,6 +14,10 @@ import {
   hasCenterSquare,
   generateBoard,
   isFirstPlay,
+  playDirection,
+  checkForInvalidWords,
+  copyPlaySquaresToBoard,
+  removePlayFromBoard,
 } from "./board";
 
 function IsVictory(G: Game) {
@@ -76,12 +80,11 @@ const Rabble = (wordlist: WordList) => ({
         console.log("playword", wordAsTiles);
 
         // (Re)Check for valid move
-        if (!playIsValid(wordAsTiles, tileRack)) {
-          console.log("playword invalid, playIsValid", wordAsString);
-          return INVALID_MOVE;
-        }
-        if (!wordlist[wordAsString.toUpperCase()]) {
-          console.log("playword invalid, wordlist", wordAsString);
+        if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
+          console.log(
+            "playword invalid, checkForPlayTilesInRack",
+            wordAsString
+          );
           return INVALID_MOVE;
         }
         if (!currentPlay.valid) {
@@ -179,21 +182,33 @@ const Rabble = (wordlist: WordList) => ({
             return;
           }
         }
-        //
-        // Also, check that the play has a single direction
-        //
-        // Rename this
-        if (!playIsValid(wordAsTiles, tileRack)) {
-          console.log("playIsValid", wordAsString);
+        if (playDirection(playSquares) === null) {
+          console.log("playDirection", wordAsString);
+          currentPlay.invalidReason = "Play must be in a single row or column";
+          currentPlay.tilesLaid = wordAsTiles;
+          currentPlay.valid = false;
+        }
+        if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
+          console.log("checkForPlayTilesInRack", wordAsString);
           currentPlay.invalidReason = "Mismatch between play and hand";
           currentPlay.tilesLaid = wordAsTiles;
           currentPlay.valid = false;
           return;
         }
-        // Expand this to cover all words created by playSquares
-        if (!wordlist[wordAsString.toUpperCase()]) {
-          currentPlay.invalidReason = `${wordAsString.toUpperCase()} is not in the dictionary`;
-          console.log("wordList", wordAsString);
+
+        // To check for valid words and score the play, the playTiles must be on the board
+        copyPlaySquaresToBoard(playSquares, gameBoard);
+        // TODO, right now we're leaving them on there... is that ok?
+        const invalidWordList = checkForInvalidWords(
+          playSquares,
+          gameBoard,
+          wordlist
+        );
+        if (invalidWordList.length) {
+          const invalidWords = invalidWordList.join(", ");
+          currentPlay.invalidReason = `These words are not in the dictionary: ${invalidWords}`;
+          console.log("checkForInvalidWords", invalidWordList);
+          removePlayFromBoard(gameBoard);
           currentPlay.tilesLaid = wordAsTiles;
           currentPlay.valid = false;
           return;
