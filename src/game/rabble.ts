@@ -20,14 +20,6 @@ import {
   removePlayFromBoard,
 } from "./board";
 
-function IsVictory(G: Game) {
-  return false;
-}
-
-function IsDraw(G: Game) {
-  return false;
-}
-
 const Rabble = (wordlist: WordList) => ({
   name: "rabble",
 
@@ -44,13 +36,16 @@ const Rabble = (wordlist: WordList) => ({
           valid: false,
         },
         tileRack,
-        score: 0,
       };
     };
     return {
       tileBag,
       gameBoard,
       turns: [],
+      scores: {
+        "0": 0,
+        "1": 0,
+      },
       players: {
         "0": makePlayer(),
         "1": makePlayer(),
@@ -98,6 +93,8 @@ const Rabble = (wordlist: WordList) => ({
 
         // TODO score needs to look at the board, obviously
         const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);
+
+        G.scores[currentPlayer] += score;
 
         // record the turn in the turn list - TODO update server scores
         const thisTurn = {
@@ -155,13 +152,14 @@ const Rabble = (wordlist: WordList) => ({
     checkWord: {
       move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
-        const { gameBoard } = G;
+        const { gameBoard, tileBag } = G;
         const { tileRack, currentPlay } = G.players[currentPlayer];
 
         const wordAsTiles = playTilesFromSquares(playSquares);
         const wordAsString = wordAsTiles.map((t) => t.letter).join("");
 
         console.log("CHECKWORD", wordAsString);
+        console.log("TILES REMAINING", tileBag.length);
 
         if (isFirstPlay(gameBoard)) {
           if (!hasCenterSquare(playSquares)) {
@@ -198,17 +196,16 @@ const Rabble = (wordlist: WordList) => ({
 
         // To check for valid words and score the play, the playTiles must be on the board
         copyPlaySquaresToBoard(playSquares, gameBoard);
-        // TODO, right now we're leaving them on there... is that ok?
         const invalidWordList = checkForInvalidWords(
           playSquares,
           gameBoard,
           wordlist
         );
+        removePlayFromBoard(gameBoard);
         if (invalidWordList.length) {
           const invalidWords = invalidWordList.join(", ");
           currentPlay.invalidReason = `These words are not in the dictionary: ${invalidWords}`;
           console.log("checkForInvalidWords", invalidWordList);
-          removePlayFromBoard(gameBoard);
           currentPlay.tilesLaid = wordAsTiles;
           currentPlay.valid = false;
           return;
@@ -220,12 +217,20 @@ const Rabble = (wordlist: WordList) => ({
   },
 
   endIf: (G: Game, ctx: GameContext) => {
-    if (IsVictory(G)) {
-      return { winner: ctx.currentPlayer };
-    }
-    if (IsDraw(G)) {
+    const { tileBag } = G;
+    const emptyTileBag = tileBag.length === 0;
+    if (emptyTileBag) {
+      // TODO more than two players obviously
+      if (G.scores["0"] > G.scores["1"]) {
+        return { winner: "0" };
+      }
+      if (G.scores["1"] > G.scores["0"]) {
+        return { winner: "1" };
+      }
       return { draw: true };
     }
+    console.log("END-IF PLAYER 0 SCORE", G.scores["0"]);
+    console.log("END-IF PLAYER 1 SCORE", G.scores["1"]);
   },
 });
 

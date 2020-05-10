@@ -15,9 +15,10 @@ import Square from "./Square";
 
 type BoardProps = {
   gameBoard: Square[];
+  wordToPlayInputRef: React.RefObject<HTMLInputElement>;
 };
 
-const Board = ({ gameBoard }: BoardProps) => {
+const Board = ({ gameBoard, wordToPlayInputRef }: BoardProps) => {
   const dispatch = useDispatch();
   const boardConfig = useSelector(selectSquares);
   const direction = useSelector(selectDirection);
@@ -36,7 +37,10 @@ const Board = ({ gameBoard }: BoardProps) => {
             direction={direction}
             square={square}
             selectedLocation={selectedLocation}
-            clickSquare={() => dispatch(changeSquareSelection(square.location))}
+            clickSquare={() => {
+              dispatch(changeSquareSelection(square.location));
+              wordToPlayInputRef.current?.focus();
+            }}
           />
         ))}
       </div>

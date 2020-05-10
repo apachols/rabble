@@ -243,7 +243,6 @@ export const layTiles = ({
     return;
   }
   if (board[location].tile) {
-    // what if we skipped it:
     callback({
       board,
       direction,

@@ -63,9 +63,16 @@ export const slice = createSlice({
       }
       state.currentPlay = squares.filter((s) => s.playTile);
     },
-    changeSquareSelection: (state, action: PayloadAction<number>) => {
+    changeSquareSelection: (state, action: PayloadAction<number | null>) => {
       const { squares, selectedLocation, currentPlay } = state;
       const newSelectedLocation = action.payload;
+
+      if (newSelectedLocation === null) {
+        state.selectedLocation = newSelectedLocation;
+        state.direction = null;
+        return;
+      }
+
       const newSelectedSquare = squares[newSelectedLocation];
 
       if (newSelectedSquare.tile || newSelectedSquare.playTile) {

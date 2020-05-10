@@ -8,18 +8,11 @@ import GameControls from "./GameControls";
 const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
-    G: { turns },
+    G: { turns, scores },
     ctx: { currentPlayer },
   } = props;
 
   const { gameID } = useParams();
-
-  // Scores should be part of the non-secret sauce instead
-  const playerScoreFromTurns = (id: string) =>
-    turns
-      .filter((t) => t.playerID === id)
-      .map((t) => t.score)
-      .reduce((sum: number, score: number) => sum + score, 0);
 
   return (
     <div className={styles.board}>
@@ -39,11 +32,11 @@ const GameBoard = (props: GameBoardProps) => {
       <ul className={styles.scoreList}>
         <li>
           <span>Player 0: </span>
-          <span style={{ float: "right" }}>{playerScoreFromTurns("0")}</span>
+          <span style={{ float: "right" }}>{scores["0"]}</span>
         </li>
         <li>
           <span>Player 1: </span>
-          <span style={{ float: "right" }}>{playerScoreFromTurns("1")}</span>
+          <span style={{ float: "right" }}>{scores["1"]}</span>
         </li>
       </ul>
 

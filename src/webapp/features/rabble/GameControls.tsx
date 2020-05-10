@@ -7,12 +7,12 @@ import {
   selectPlayTiles,
   canPlayOneMoreTile,
   selectPlaySquares,
+  changeSquareSelection,
 } from "./boardSlice";
 import {
   checkForPlayTilesInRack,
   pullPlayTilesFromRack,
   tilesFromString,
-  stringFromTiles,
 } from "../../../game/tileBag";
 
 import TileRack from "./components/TileRack";
@@ -57,6 +57,7 @@ const GameBoard = (props: GameBoardProps) => {
     if (currentPlayIsValid && playSquares.length > 0) {
       playWord(playSquares);
       dispatch(boardPlayTiles([]));
+      dispatch(changeSquareSelection(null));
       setWordToPlay("");
       setPlayed(true);
     }
@@ -66,8 +67,8 @@ const GameBoard = (props: GameBoardProps) => {
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     if (!currentPlayIsValid && currentPlayTilesLaid?.length) {
-      console.log("PACHOLSKI TRYING TO CLEAR INVALID PLAY");
       dispatch(boardPlayTiles([]));
+      dispatch(changeSquareSelection(null));
       setWordToPlay("");
       setErrorMessage(currentPlay.invalidReason);
       cleanUp();
@@ -94,7 +95,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const wordToPlayInput: React.RefObject<HTMLInputElement> = useRef(null);
+  const wordToPlayInputRef: React.RefObject<HTMLInputElement> = useRef(null);
 
   const playIsClear = useSelector(canPlayOneMoreTile);
 
@@ -138,7 +139,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <div className={styles.controls}>
-      <Board gameBoard={gameBoard} />
+      <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
       <h4>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
         <TileRack tileRack={playTiles} />
@@ -150,7 +151,7 @@ const GameBoard = (props: GameBoardProps) => {
           onChange={(ev) => {
             handleInputChange(ev.target.value, tileRack, playTiles);
           }}
-          ref={wordToPlayInput}
+          ref={wordToPlayInputRef}
         />
       </div>
       <div>
@@ -205,7 +206,7 @@ const GameBoard = (props: GameBoardProps) => {
               console.log("ChooseBlank did not find a blank...");
             }
             dispatch(boardPlayTiles(tiles));
-            wordToPlayInput.current?.focus();
+            wordToPlayInputRef.current?.focus();
           }}
         />
       </Modal>

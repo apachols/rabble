@@ -68,7 +68,6 @@ type GameBoardProps = {
 
 type PlayerInfo = {
   tileRack: Tile[];
-  score: number;
   currentPlay: {
     invalidReason: string;
     tilesLaid: Tile[];
@@ -89,6 +88,9 @@ type Game = {
   turns: Turn[];
   players: {
     [key: string]: PlayerInfo;
+  };
+  scores: {
+    [key: string]: number;
   };
 };
 

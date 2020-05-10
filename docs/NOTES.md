@@ -1,7 +1,9 @@
 ## TODO
 
-- Every word you are making must be a word
+- Test Victory conditions
+
 - Scoring needs to work
+- Turn list needs to show actual words
 
 - Need to untangle handleInputChange and GameControls.tsx
 
