@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./join.module.css";
 import { useParams } from "react-router-dom";
 import {
+  getUserInfo,
   getPlayerGame,
   updateUserNickName,
   joinUserGame,
@@ -71,7 +72,7 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
 
 const JoinGame = () => {
   const { gameID } = useParams();
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(getUserInfo().nickname);
 
   if (!gameID) {
     return <div>Game ID Missing</div>;

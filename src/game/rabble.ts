@@ -71,11 +71,8 @@ const Rabble = (wordlist: WordList) => ({
 
         copyPlaySquaresToBoard(playSquares, gameBoard);
 
-        console.log(`PACHOLSKI playSquares ${playSquares}`);
         const direction = playDirection(playSquares);
-        console.log(`PACHOLSKI direction ${direction}`);
         const allSquares = allSquaresInWord(playSquares, gameBoard, direction);
-        console.log(`PACHOLSKI allSquares ${allSquares}`);
         const allSquaresAsString = allTilesFromSquares(allSquares)
           .map((t) => t.letter)
           .join("");
@@ -105,7 +102,7 @@ const Rabble = (wordlist: WordList) => ({
 
         finalizePlayOnBoard(playSquares, gameBoard);
 
-        // record the turn in the turn list - TODO update server scores
+        // record the turn in the turn list
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: allTilesFromSquares(allSquares),
@@ -225,18 +222,52 @@ const Rabble = (wordlist: WordList) => ({
     },
   },
 
+  // TODO more than two players obviously
   endIf: (G: Game, ctx: GameContext) => {
     const { tileBag } = G;
     const emptyTileBag = tileBag.length === 0;
-    if (emptyTileBag) {
-      // TODO more than two players obviously
-      if (G.scores["0"] > G.scores["1"]) {
-        return { winner: "0" };
+    const player0 = G.players["0"];
+    const player1 = G.players["1"];
+    const emptyRackPlayer0 = player0.tileRack.length === 0;
+    const emptyRackPlayer1 = player1.tileRack.length === 0;
+    const finalScores = { ...G.scores };
+    if (emptyTileBag && (emptyRackPlayer0 || emptyRackPlayer1)) {
+      // Play-out bonus
+      const rackToCalculate = emptyRackPlayer0
+        ? player1.tileRack
+        : player0.tileRack;
+      console.log(`FINAL rack ${rackToCalculate.map((t) => t.letter)}`);
+      const points = rackToCalculate.reduce(
+        (score, tile) => score + tile.value,
+        0
+      );
+      console.log(`FINAL points ${points}`);
+      const applyFinalBonus = (playerID: string, score: number) => {
+        finalScores[playerID] += score;
+      };
+      if (emptyRackPlayer0) {
+        applyFinalBonus("0", points);
+        applyFinalBonus("1", -1 * points);
+      } else {
+        applyFinalBonus("1", points);
+        applyFinalBonus("0", -1 * points);
       }
-      if (G.scores["1"] > G.scores["0"]) {
-        return { winner: "1" };
+
+      finalScores["0"] = 69;
+      finalScores["1"] = 69;
+
+      // Victory!
+      console.log(`Score Player0 ${finalScores["0"]}`);
+      console.log(`Score Player1 ${finalScores["1"]}`);
+
+      if (finalScores["0"] > finalScores["1"]) {
+        return { winner: "0", finalScores };
       }
-      return { draw: true };
+      if (finalScores["1"] > finalScores["0"]) {
+        return { winner: "1", finalScores };
+      }
+      // Or not
+      return { draw: true, finalScores };
     }
   },
 });

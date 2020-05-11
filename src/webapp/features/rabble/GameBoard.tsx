@@ -9,10 +9,15 @@ const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
     G: { turns, scores },
-    ctx: { currentPlayer },
+    ctx: { currentPlayer, gameover },
   } = props;
 
   const { gameID } = useParams();
+
+  console.log(gameover);
+  console.log(`scores`, scores);
+
+  const displayScores = gameover ? gameover.finalScores : scores;
 
   return (
     <div className={styles.board}>
@@ -32,11 +37,11 @@ const GameBoard = (props: GameBoardProps) => {
       <ul className={styles.scoreList}>
         <li>
           <span>Player 0: </span>
-          <span style={{ float: "right" }}>{scores["0"]}</span>
+          <span style={{ float: "right" }}>{displayScores["0"]}</span>
         </li>
         <li>
           <span>Player 1: </span>
-          <span style={{ float: "right" }}>{scores["1"]}</span>
+          <span style={{ float: "right" }}>{displayScores["1"]}</span>
         </li>
       </ul>
 

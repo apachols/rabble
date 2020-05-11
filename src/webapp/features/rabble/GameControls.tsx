@@ -24,7 +24,7 @@ import Board from "./board/Board";
 const GameBoard = (props: GameBoardProps) => {
   const {
     playerID,
-    ctx: { currentPlayer },
+    ctx: { currentPlayer, gameover },
     G: { players, gameBoard },
     moves: { playWord, exchangeTiles, checkWord, cleanUp },
     events: { endTurn },
@@ -137,13 +137,16 @@ const GameBoard = (props: GameBoardProps) => {
     }
   };
 
-  return (
-    <div className={styles.controls}>
-      <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
-      <h4>
-        <div className={styles.invalidPlayError}>{errorMessage}</div>
-        <TileRack tileRack={playTiles} />
-      </h4>
+  const gameOverScreen = (
+    <h2>
+      {gameover?.draw ? "You Tied! Weird!" : `Player ${gameover?.winner} Wins!`}
+    </h2>
+  );
+
+  // props will be
+  // wordToPlay, currentPlayerHasTurn, wordToPlayInputRef(?), onExchange, onPlay, onShuffle
+  const buttonsAndInput = (
+    <>
       <div>
         <input
           name="wordToPlay"
@@ -180,6 +183,18 @@ const GameBoard = (props: GameBoardProps) => {
         )}
         <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
       </div>
+    </>
+  );
+
+  return (
+    <div className={styles.controls}>
+      <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
+      <h4>
+        <div className={styles.invalidPlayError}>{errorMessage}</div>
+        <TileRack tileRack={playTiles} />
+      </h4>
+
+      {gameover ? gameOverScreen : buttonsAndInput}
 
       <h4>
         <TileRack tileRack={displayTileRack} />

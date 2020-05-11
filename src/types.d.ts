@@ -100,6 +100,9 @@ type GameContext = {
   gameover?: {
     winner?: number;
     draw?: boolean;
+    finalScores: {
+      [key: string]: number;
+    };
   };
 };
 

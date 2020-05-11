@@ -1,17 +1,26 @@
 ## TODO
 
-- Test Victory conditions
+- Saw a bug playing a single letter?
 
-- Scoring needs to work
-- Turn list needs to show actual words
+- Show score during play (on the board)
+
+- Can check word in dictionary (without modal?)
+
+- Fix Tile CSS at the bottom of the board
+
+- Blank choose responds to character key press
+
+* Tests for Rabble game file
 
 - Need to untangle handleInputChange and GameControls.tsx
 
+- Three / Four player
+
 * Exchange pops a modal or something
 
-* Can check word in dictionary (without modal?)
+* Join auto-joins game if nickname present
 
-* Join autopopulates existing nickname
+- Can we recover player 1 (incognito) with lost credentials?
 
 * Add an integration test that checks all the turns plus the racks against the config.
 
@@ -26,13 +35,9 @@
 
 * prod build script with env vars
 * Security errors for NPM packages
-* Tests for Rabble game file
+
 * Abstraction for API
 * package.json dev dependencies
-
-* Bingo scoring rules
-* Victory conditions
-* Update server scores
 
 * Game board needs component breakout
 
