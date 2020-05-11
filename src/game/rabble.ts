@@ -229,8 +229,6 @@ const Rabble = (wordlist: WordList) => ({
       }
       return { draw: true };
     }
-    console.log("END-IF PLAYER 0 SCORE", G.scores["0"]);
-    console.log("END-IF PLAYER 1 SCORE", G.scores["1"]);
   },
 });
 

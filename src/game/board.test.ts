@@ -10,7 +10,7 @@ import {
   allTilesFromSquares,
   squaresAreAValidWord,
   finalizePlayOnBoard,
-  checkForInvalidWords,
+  allWordsForPlay,
 } from "./board";
 import { tilesFromString, stringFromTiles } from "./tileBag";
 
@@ -325,7 +325,7 @@ describe("squaresAreAValidWord", () => {
   });
 });
 
-describe("checkForInvalidWords", () => {
+describe("allWordsForPlay", () => {
   let board: Square[];
   let layTilesArgs: any;
   let wordlist: WordList;
@@ -354,50 +354,15 @@ describe("checkForInvalidWords", () => {
     board[15].tile = tilesFromString("E")[0];
     board[16].tile = tilesFromString("R")[0];
     const playSquares = [board[15], board[16]];
-    const invalidWordList = checkForInvalidWords(playSquares, board, {
-      ...wordlist,
-      RE: 1,
-      ER: 1,
-      ERE: 1,
-    });
-    expect(invalidWordList.length).toBe(0);
-  });
-  it("returns invalid words if any invalid", () => {
-    board[15].tile = tilesFromString("E")[0];
-    board[16].tile = tilesFromString("R")[0];
-    const playSquares = [board[15], board[16]];
-    const invalidWordList = checkForInvalidWords(playSquares, board, {
-      ...wordlist,
-    });
-    expect(invalidWordList.includes("RE"));
-    expect(invalidWordList.includes("ER"));
-    expect(invalidWordList.includes("ERE"));
+    const allWords = allWordsForPlay(playSquares, board);
+    expect(allWords.length).toBe(3);
   });
   it("find valid words for non-contiguous play", () => {
     board[16].tile = tilesFromString("T")[0];
     board[18].tile = tilesFromString("T")[0];
     board[19].tile = tilesFromString("E")[0];
     const playSquares = [board[16], board[18], board[19]];
-    const invalidWordList = checkForInvalidWords(playSquares, board, {
-      ...wordlist,
-      TETE: 1,
-      ET: 1,
-      TE: 1,
-    });
-    console.log(invalidWordList);
-    expect(invalidWordList.length).toBe(0);
-  });
-  it("find invalid words for non-contiguous play", () => {
-    board[16].tile = tilesFromString("T")[0];
-    board[18].tile = tilesFromString("T")[0];
-    board[19].tile = tilesFromString("E")[0];
-    const playSquares = [board[16], board[18], board[19]];
-    const invalidWordList = checkForInvalidWords(playSquares, board, {
-      ...wordlist,
-    });
-    expect(invalidWordList.length).toBe(4);
-    expect(invalidWordList.includes("TETE"));
-    expect(invalidWordList.includes("TE"));
-    expect(invalidWordList.filter((w) => w === "ET").length).toBe(2);
+    const allWords = allWordsForPlay(playSquares, board);
+    expect(allWords.length).toBe(4);
   });
 });

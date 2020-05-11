@@ -283,11 +283,10 @@ export const allSquaresInWord = (
   return allSquares;
 };
 
-export const checkForInvalidWords = (
+export const allWordsForPlay = (
   playSquares: Square[],
-  gameBoard: Square[],
-  wordlist: WordList
-): string[] => {
+  gameBoard: Square[]
+): Array<Array<Square>> => {
   // Find the direction that the play is headed in
   const direction = playDirection(playSquares);
   if (direction === null) {
@@ -296,32 +295,20 @@ export const checkForInvalidWords = (
       "Logic error - checkForInvalidWords found out of line play"
     );
   }
-  const invalidWords = [];
 
-  //
-  // [1] Check the primary word, in the direction it was played
-  //
   const directional: Square[] = allSquaresInWord(
     playSquares,
     gameBoard,
     direction
   );
-
   if (directional.length === 0) {
     throw new Error(
       "Logic Error - directional play should not have zero length"
     );
   }
 
-  // If word isn't in the dictionary, push it into return string array
-  if (!squaresAreAValidWord(directional, wordlist)) {
-    invalidWords.push(stringFromTiles(allTilesFromSquares(directional)));
-  }
+  const allWords = [directional];
 
-  //
-  // [2] Check any other words the playSquares have created
-  //
-  // In the opposite direction, go through each of our play letters
   const oppositeDirection = direction === VERTICAL ? HORIZONTAL : VERTICAL;
   const orthogonal: Square[] = playSquares.filter((s) => {
     // Find each tile that touches another tile orthogonally
@@ -336,14 +323,87 @@ export const checkForInvalidWords = (
     return false;
   });
 
-  // For each of our play tiles that makes an orthogonal word
+  // For each of our play tiles that makes a new orthogonal word, include that word
   orthogonal.forEach((square) => {
-    const allSquares = allSquaresInWord([square], gameBoard, oppositeDirection);
-    // Check the dictionary, and if word is invalid, return it
-    if (!squaresAreAValidWord(allSquares, wordlist)) {
-      invalidWords.push(stringFromTiles(allTilesFromSquares(allSquares)));
-    }
+    allWords.push(allSquaresInWord([square], gameBoard, oppositeDirection));
   });
 
+  return allWords;
+};
+
+const bonusIsWordBonus = (bonus: string) => bonus.includes("W");
+
+type BonusToNumberMap = {
+  [key: string]: number;
+};
+
+const numberMultiplierForBonus: BonusToNumberMap = {
+  W2: 2,
+  W3: 3,
+  L2: 2,
+  L3: 3,
+};
+
+export const scoreForLetter = ({ tile, playTile, bonus, location }: Square) => {
+  if (tile) {
+    return tile.value;
+  }
+  if (playTile) {
+    const letterValue = playTile.value;
+    if (bonus && !bonusIsWordBonus(bonus)) {
+      return letterValue * numberMultiplierForBonus[bonus];
+    }
+    return letterValue;
+  }
+  throw new Error(
+    `Logic Error - should not be missing tile in score function, location ${location}`
+  );
+};
+
+export const wordBonusesForWord = (word: Square[]): number[] => {
+  const wordBonuses: number[] = [];
+  word.forEach(({ bonus, playTile }) => {
+    if (playTile && bonus && bonusIsWordBonus(bonus)) {
+      wordBonuses.push(numberMultiplierForBonus[bonus]);
+    }
+  });
+  return wordBonuses;
+};
+
+export const scoreForWord = (word: Square[]) => {
+  let wordScore = 0;
+  word.forEach((square) => {
+    wordScore += scoreForLetter(square);
+  });
+  wordBonusesForWord(word).forEach((bonus) => {
+    wordScore *= bonus;
+  });
+  return wordScore;
+};
+
+export const scoreForValidWords = (
+  playSquares: Square[],
+  gameBoard: Square[]
+): number => {
+  let totalScore = 0;
+  // TODO Reduce here please
+  allWordsForPlay(playSquares, gameBoard).forEach((word) => {
+    totalScore += scoreForWord(word);
+  });
+  return totalScore;
+};
+
+export const checkForInvalidWords = (
+  playSquares: Square[],
+  gameBoard: Square[],
+  wordlist: WordList
+): string[] => {
+  const allWords = allWordsForPlay(playSquares, gameBoard);
+  const invalidWords: string[] = [];
+  allWords.forEach((word) => {
+    if (!squaresAreAValidWord(word, wordlist)) {
+      invalidWords.push(stringFromTiles(allTilesFromSquares(word)));
+    }
+  });
   return invalidWords;
 };
