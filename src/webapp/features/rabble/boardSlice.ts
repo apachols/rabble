@@ -1,13 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-import {
-  HORIZONTAL,
-  VERTICAL,
-  getNextLocation,
-  layTiles,
-  playTilesFromSquares,
-} from "../../../game/board";
+import { HORIZONTAL, VERTICAL, getNextLocation } from "../../../game/board";
+
+import { layTiles, playTilesFromSquares } from "../../../game/play";
 
 interface BoardState {
   squares: Square[];

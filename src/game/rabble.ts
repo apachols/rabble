@@ -7,18 +7,18 @@ import {
   pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
+import { hasCenterSquare, generateBoard, isFirstPlay } from "./board";
 import {
+  allTilesFromSquares,
   playTilesFromSquares,
   finalizePlayOnBoard,
   adjacentToAWord,
-  hasCenterSquare,
-  generateBoard,
-  isFirstPlay,
   playDirection,
-  checkForInvalidWords,
   copyPlaySquaresToBoard,
   removePlayFromBoard,
-} from "./board";
+  allSquaresInWord,
+} from "./play";
+import { checkForInvalidWords, scoreForValidWords } from "./score";
 
 const Rabble = (wordlist: WordList) => ({
   name: "rabble",
@@ -69,37 +69,46 @@ const Rabble = (wordlist: WordList) => ({
         const { tileRack, currentPlay } = G.players[currentPlayer];
         const { tileBag, gameBoard } = G;
 
+        copyPlaySquaresToBoard(playSquares, gameBoard);
+
+        console.log(`PACHOLSKI playSquares ${playSquares}`);
+        const direction = playDirection(playSquares);
+        console.log(`PACHOLSKI direction ${direction}`);
+        const allSquares = allSquaresInWord(playSquares, gameBoard, direction);
+        console.log(`PACHOLSKI allSquares ${allSquares}`);
+        const allSquaresAsString = allTilesFromSquares(allSquares)
+          .map((t) => t.letter)
+          .join("");
+
+        console.log("playword", allSquaresAsString);
+
         const wordAsTiles = playTilesFromSquares(playSquares);
-        const wordAsString = wordAsTiles.map((t) => t.letter).join("");
-
-        console.log("playword", wordAsTiles);
-
-        // (Re)Check for valid move
         if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
           console.log(
-            "playword invalid, checkForPlayTilesInRack",
-            wordAsString
+            "playword - invalid - play / rack tile mismatch",
+            allSquaresAsString
           );
           return INVALID_MOVE;
         }
         if (!currentPlay.valid) {
-          console.log("playword invalid, currentPlay.valid", wordAsString);
+          console.log(
+            "playword - invalid - currentPlay.valid",
+            allSquaresAsString
+          );
           return INVALID_MOVE;
         }
+        pullPlayTilesFromRack(wordAsTiles, tileRack);
 
-        const playTiles = pullPlayTilesFromRack(wordAsTiles, tileRack);
-
-        finalizePlayOnBoard(playSquares, gameBoard);
-
-        // TODO score needs to look at the board, obviously
-        const score = playTiles.reduce((s: number, t: Tile) => s + t.value, 0);
+        const score = scoreForValidWords(playSquares, gameBoard);
 
         G.scores[currentPlayer] += score;
+
+        finalizePlayOnBoard(playSquares, gameBoard);
 
         // record the turn in the turn list - TODO update server scores
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: wordAsTiles,
+          tiles: allTilesFromSquares(allSquares),
           playerID: currentPlayer,
           score,
         };
