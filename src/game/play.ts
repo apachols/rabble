@@ -89,6 +89,16 @@ export const adjacentToAWord = (playSquares: Square[], gameBoard: Square[]) =>
     return toCheck.some((loc) => (loc !== null ? gameBoard[loc].tile : false));
   });
 
+export const locationHasTileAdjacentForDirection = (
+  location: number,
+  direction: Direction,
+  gameBoard: Square[]
+) =>
+  [
+    getPreviousLocation(location, direction),
+    getNextLocation(location, direction),
+  ].some((loc) => (loc !== null ? gameBoard[loc].tile : false));
+
 // TS isn't happy with a .filter here... i bet there's a better way
 export const playTilesFromSquares = (playSquares: Square[]) => {
   const wordAsTilesOrNulls: (Tile | null)[] = playSquares.map(
@@ -121,10 +131,25 @@ export const squaresAreAValidWord = (
   wordlist: WordList
 ) => Boolean(wordlist[stringFromTiles(allTilesFromSquares(allSquares))]);
 
-export const playDirection = (playSquares: Square[]): Direction => {
+export const playDirection = (
+  playSquares: Square[],
+  gameBoard: Square[]
+): Direction => {
   const { location } = playSquares[0];
   const row = rowForLocation(location);
   const column = columnForLocation(location);
+  // For length 1, we need to look at the board - are we next to tiles?
+  if (playSquares.length === 1) {
+    const { location } = playSquares[0];
+    if (locationHasTileAdjacentForDirection(location, HORIZONTAL, gameBoard)) {
+      return HORIZONTAL;
+    }
+    if (locationHasTileAdjacentForDirection(location, VERTICAL, gameBoard)) {
+      return VERTICAL;
+    }
+    return null;
+  }
+  // Greater than length 1, we can just see if all squares have the same row / column
   if (playSquares.every((s) => rowForLocation(s.location) === row)) {
     return HORIZONTAL;
   }

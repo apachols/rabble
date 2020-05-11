@@ -71,7 +71,7 @@ const Rabble = (wordlist: WordList) => ({
 
         copyPlaySquaresToBoard(playSquares, gameBoard);
 
-        const direction = playDirection(playSquares);
+        const direction = playDirection(playSquares, gameBoard);
         const allSquares = allSquaresInWord(playSquares, gameBoard, direction);
         const allSquaresAsString = allTilesFromSquares(allSquares)
           .map((t) => t.letter)
@@ -186,7 +186,7 @@ const Rabble = (wordlist: WordList) => ({
             return;
           }
         }
-        if (playDirection(playSquares) === null) {
+        if (playDirection(playSquares, gameBoard) === null) {
           console.log("playDirection", wordAsString);
           currentPlay.invalidReason = "Play must be in a single row or column";
           currentPlay.tilesLaid = wordAsTiles;
@@ -252,9 +252,6 @@ const Rabble = (wordlist: WordList) => ({
         applyFinalBonus("1", points);
         applyFinalBonus("0", -1 * points);
       }
-
-      finalScores["0"] = 69;
-      finalScores["1"] = 69;
 
       // Victory!
       console.log(`Score Player0 ${finalScores["0"]}`);

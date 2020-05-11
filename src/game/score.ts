@@ -21,7 +21,7 @@ export const allWordsForPlay = (
   gameBoard: Square[]
 ): Array<Array<Square>> => {
   // Find the direction that the play is headed in
-  const direction = playDirection(playSquares);
+  const direction = playDirection(playSquares, gameBoard);
   if (direction === null) {
     // We should already have checked for out-of-line plays
     throw new Error(

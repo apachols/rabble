@@ -72,7 +72,7 @@ describe("playDirection", () => {
     });
     const playSquares = board.filter((s) => s.playTile);
     expect(playSquares.length).toBe(6);
-    expect(playDirection(playSquares)).toBe(VERTICAL);
+    expect(playDirection(playSquares, board)).toBe(VERTICAL);
   });
   it("finds a horizontal play", () => {
     layTiles({
@@ -84,7 +84,7 @@ describe("playDirection", () => {
     });
     const playSquares = board.filter((s) => s.playTile);
     expect(playSquares.length).toBe(6);
-    expect(playDirection(playSquares)).toBe(HORIZONTAL);
+    expect(playDirection(playSquares, board)).toBe(HORIZONTAL);
   });
   it("finds an illegal play", () => {
     layTiles({
@@ -103,9 +103,9 @@ describe("playDirection", () => {
     });
     const playSquares = board.filter((s) => s.playTile);
     expect(playSquares.length).toBe(12);
-    expect(playDirection(playSquares)).toBe(null);
+    expect(playDirection(playSquares, board)).toBe(null);
   });
-  it("returns horizontal for length 1", () => {
+  it("returns null for length 1 not adjacent", () => {
     layTiles({
       board,
       direction: VERTICAL,
@@ -115,7 +115,20 @@ describe("playDirection", () => {
     });
     const playSquares = board.filter((s) => s.playTile);
     expect(playSquares.length).toBe(1);
-    expect(playDirection(playSquares)).toBe(HORIZONTAL);
+    expect(playDirection(playSquares, board)).toBe(null);
+  });
+  it("returns HORIZONTAL when length 1 adjacent", () => {
+    board[0].playTile = tilesFromString("Q")[0];
+    board[1].tile = tilesFromString("I")[0];
+    const playSquares = board.slice(0, 1);
+    expect(playDirection(playSquares, board)).toBe(HORIZONTAL);
+  });
+  it("returns VERTICAL when length 1 adjacent", () => {
+    board[0].playTile = tilesFromString("Q")[0];
+    board[15].tile = tilesFromString("I")[0];
+    const playSquares = board.slice(0, 1);
+    expect(playSquares.length).toBe(1);
+    expect(playDirection(playSquares, board)).toBe(VERTICAL);
   });
 });
 
