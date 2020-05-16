@@ -159,18 +159,21 @@ const ButtonsAndInput = ({
           </button>
         )}
         {currentPlayerHasTurn && (
-          <button
-            onClick={() => {
-              if (checkForPlayTilesInRack(playTiles, tileRack)) {
-                dispatch(updatePlayTiles([]));
-                exchangeTiles(playTiles);
-                setWordToPlay("");
-                setPlayed(true);
-              }
-            }}
-          >
-            exchange tiles
-          </button>
+          <>
+            <button
+              onClick={() => {
+                if (checkForPlayTilesInRack(playTiles, tileRack)) {
+                  dispatch(updatePlayTiles([]));
+                  exchangeTiles(playTiles);
+                  setWordToPlay("");
+                  setPlayed(true);
+                }
+              }}
+            >
+              exchange tiles
+            </button>
+            <button onClick={() => endTurn()}>pass</button>
+          </>
         )}
 
         <Modal showModal={showModal}>

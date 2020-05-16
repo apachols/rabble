@@ -1,20 +1,18 @@
 ## TODO
 
-- Pass turn button
-
 - Better logs for "unexpected state error"
+
+- Show score during play (on the board)
+
+- Can check word in dictionary (without modal?)
 
 - Drag and drop for tile rack
 
 - Drag and drop for place tile
 
-- Show score during play (on the board)
-
-- Compact the header so the board is at the top
-
-- Can check word in dictionary (without modal?)
-
 - Fix Tile text CSS at medium sizes (too small)
+
+* Exchange pops a modal
 
 - Blank choose responds to character key press
 
@@ -25,8 +23,6 @@
 - Need to untangle handleInputChange and GameControls.tsx
 
 - Three / Four player
-
-* Exchange pops a modal
 
 * Join auto-joins game if nickname present
 
