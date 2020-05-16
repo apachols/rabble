@@ -21,7 +21,7 @@ import ChooseBlank from "./components/ChooseBlank";
 
 import Board from "./board/Board";
 
-const GameBoard = (props: GameBoardProps) => {
+const GameControls = (props: GameBoardProps) => {
   const {
     playerID,
     ctx: { currentPlayer, gameover },
@@ -188,7 +188,10 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <div className={styles.controls}>
-      <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
+      <Board
+        gameBoard={gameBoard}
+        // wordToPlayInputRef={wordToPlayInputRef}
+      />
       <h4>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
         <TileRack tileRack={playTiles} />
@@ -221,7 +224,7 @@ const GameBoard = (props: GameBoardProps) => {
               console.log("ChooseBlank did not find a blank...");
             }
             dispatch(boardPlayTiles(tiles));
-            wordToPlayInputRef.current?.focus();
+            // wordToPlayInputRef.current?.focus();
           }}
         />
       </Modal>
@@ -229,4 +232,4 @@ const GameBoard = (props: GameBoardProps) => {
   );
 };
 
-export default GameBoard;
+export default GameControls;

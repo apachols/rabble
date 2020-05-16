@@ -6,6 +6,7 @@ npm install -g pm2
 
 cat "env vars plz" > ./.env
 source ./.env
+
 cd $WORKDIR
 git pull
 pm2 stop all

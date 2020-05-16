@@ -33,19 +33,42 @@ const getGameInfo = async (gameID: string) => {
   return getResult.data;
 };
 
-const getNextOpenSeat = (gameInfo: any): string => {
+const getOpenSeat = (gameInfo: any): string | null => {
   const players: serverPlayerMetadata[] = gameInfo.players;
-  const openSeatsOrderedById = players.filter((p) => !p.name).sort((p) => p.id);
-  const nextOpenSeat = openSeatsOrderedById[0];
-  if (!nextOpenSeat) {
+  const openSeatsOrderedByPlayerID = players
+    .filter((p) => !p.name)
+    .sort((p) => p.id);
+  const nextOpenSeat = openSeatsOrderedByPlayerID[0];
+  if (nextOpenSeat) {
+    return String(nextOpenSeat.id);
+  }
+  return null;
+};
+
+const getSeatedPlayerIDForNickname = (
+  gameInfo: any,
+  nickname: string
+): string | null => {
+  const players: serverPlayerMetadata[] = gameInfo.players;
+  const existingSeatForNickname = players.find(({ name }) => name === nickname);
+  if (existingSeatForNickname) {
+    return String(existingSeatForNickname.id);
+  }
+  return null;
+};
+
+const getExistingOrNewPlayerID = (gameInfo: any, nickname: string): string => {
+  const playerID =
+    getSeatedPlayerIDForNickname(gameInfo, nickname) || getOpenSeat(gameInfo);
+  if (!playerID) {
     throw new Error("Game is already full");
   }
-  return String(nextOpenSeat.id);
+  return playerID;
 };
 
 const postToJoinGame = async (gameID: string, nickname: string) => {
   const gameInfo = await getGameInfo(gameID);
-  const playerID = getNextOpenSeat(gameInfo);
+  const playerID = getExistingOrNewPlayerID(gameInfo, nickname);
 
   const postResult = await axios({
     method: "post",
@@ -73,6 +96,7 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
 const JoinGame = () => {
   const { gameID } = useParams();
   const [nickname, setNickname] = useState(getUserInfo().nickname);
+  const [joinError, setJoinError] = useState("");
 
   if (!gameID) {
     return <div>Game ID Missing</div>;
@@ -83,15 +107,27 @@ const JoinGame = () => {
     redirectToGameView(gameID);
   }
 
+  const joinGameOrError = async (gameID: string, nickname: string) => {
+    try {
+      // This is eating the error for some reason :<
+      postToJoinGame(gameID, nickname);
+      // So just assume that if we don't redirect, there was an error :<
+      setTimeout(() => setJoinError(`Failed to join ${gameID}`), 250);
+    } catch (err) {
+      setJoinError(`Failed to join ${gameID}`);
+    }
+  };
+
   return (
     <div className={styles.form}>
       <h3>Join game {gameID}</h3>
+      <h4 style={{ color: "red" }}>{joinError}</h4>
       <input
         name="nickname"
         value={nickname}
         onChange={(ev) => setNickname(ev.target.value)}
       />
-      <button onClick={() => postToJoinGame(gameID, nickname)}>join</button>
+      <button onClick={() => joinGameOrError(gameID, nickname)}>join</button>
     </div>
   );
 };

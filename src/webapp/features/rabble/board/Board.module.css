@@ -7,3 +7,10 @@
 .gridContainer {
   width: 100%;
 }
+
+@media (min-width: 600px) {
+  .gridContainer {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}

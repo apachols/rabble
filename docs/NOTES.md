@@ -1,12 +1,20 @@
 ## TODO
 
-- Saw a bug playing a single letter?
+- Input focus jumping around on phone :<
+
+- Better logs for "unexpected state error"
+
+- Pass turn button
 
 - Show score during play (on the board)
 
 - Can check word in dictionary (without modal?)
 
 - Fix Tile CSS at the bottom of the board
+
+- Fix Tile text CSS at large sizes (too small)
+
+- Log in to existing game via your nickname (NEEDS SERVER AUTH STATE)
 
 - Blank choose responds to character key press
 
