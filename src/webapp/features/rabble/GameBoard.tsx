@@ -14,9 +14,6 @@ const GameBoard = (props: GameBoardProps) => {
 
   const { gameID } = useParams();
 
-  console.log(gameover);
-  console.log(`scores`, scores);
-
   const displayScores = gameover ? gameover.finalScores : scores;
 
   return (
@@ -45,6 +42,7 @@ const GameBoard = (props: GameBoardProps) => {
         </li>
       </ul>
 
+      <h5 className={styles.subheading}>Turns</h5>
       <TurnList turns={turns} />
     </div>
   );

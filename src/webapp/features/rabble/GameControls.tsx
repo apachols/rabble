@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./GameControls.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { selectTileRack, updateRackTiles } from "./rackSlice";
+import { selectTileRack, updateRackTiles, shuffleRack } from "./rackSlice";
 import { selectPlayTiles } from "./boardSlice";
 
 import TileRack from "./components/TileRack";
@@ -41,16 +41,17 @@ const GameControls = (props: GameBoardProps) => {
     </h2>
   );
 
+  const wordToPlayInputRef: React.RefObject<HTMLInputElement> = useRef(null);
+
   return (
     <div className={styles.controls}>
-      <Board
-        gameBoard={gameBoard}
-        // wordToPlayInputRef={wordToPlayInputRef}
-      />
+      <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
       <h4>
-        <TileRack tileRack={playTiles} />
+        <TileRack
+          onClick={() => dispatch(shuffleRack())}
+          tileRack={displayTileRack}
+        />
       </h4>
-
       {gameover ? (
         gameOverScreen
       ) : (
@@ -66,12 +67,9 @@ const GameControls = (props: GameBoardProps) => {
           cleanUp={cleanUp}
           currentPlayTilesLaid={currentPlayTilesLaid}
           currentPlay={currentPlay}
+          wordToPlayInputRef={wordToPlayInputRef}
         />
       )}
-
-      <h4>
-        <TileRack tileRack={displayTileRack} />
-      </h4>
     </div>
   );
 };

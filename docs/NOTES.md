@@ -1,22 +1,22 @@
 ## TODO
 
-- Input focus jumping around on phone :<
+- Pass turn button
 
 - Better logs for "unexpected state error"
 
-- Pass turn button
+- Drag and drop for tile rack
+
+- Drag and drop for place tile
 
 - Show score during play (on the board)
 
 - Can check word in dictionary (without modal?)
 
-- Fix Tile CSS at the bottom of the board
-
-- Fix Tile text CSS at large sizes (too small)
-
-- Log in to existing game via your nickname (NEEDS SERVER AUTH STATE)
+- Fix Tile text CSS at medium sizes (too small)
 
 - Blank choose responds to character key press
+
+- Log in to existing game via your nickname (NEEDS SERVER AUTH STATE)
 
 * Tests for Rabble game file
 
@@ -55,3 +55,5 @@
 * THE TOAST OMG
 
 * Invite system
+
+* https://react-dnd.github.io/react-dnd/docs/tutorial

@@ -1,3 +1,14 @@
+.wordToPlayInput {
+  border-color: transparent;
+  color: transparent;
+  position: fixed;
+  top: 0;
+  left: 30%;
+  z-index: -10;
+  outline: none;
+  font-size: 16px;
+}
+
 .invalidPlayError {
   color: red;
 }

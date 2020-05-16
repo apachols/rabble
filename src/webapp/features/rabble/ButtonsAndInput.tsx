@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ButtonsAndInput.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { shuffleRack, updateRackTiles } from "./rackSlice";
+import { updateRackTiles } from "./rackSlice";
 import {
   updatePlayTiles,
   changeSquareSelection,
@@ -28,6 +28,7 @@ type ButtonsAndInputProps = {
   cleanUp: () => void;
   currentPlayTilesLaid: Tile[];
   currentPlay: any;
+  wordToPlayInputRef: React.RefObject<HTMLInputElement>;
 };
 
 const ButtonsAndInput = ({
@@ -42,6 +43,7 @@ const ButtonsAndInput = ({
   cleanUp,
   currentPlayTilesLaid,
   currentPlay,
+  wordToPlayInputRef,
 }: ButtonsAndInputProps) => {
   const dispatch = useDispatch();
 
@@ -79,8 +81,8 @@ const ButtonsAndInput = ({
     dispatch,
   ]);
 
-  // TODO - endTurn comes too soon after playWord.
-  // How can we fix the timing issue?
+  // end turn when played is true
+  // TODO - timing issue, otherwise endTurn comes too soon after playWord
   useEffect(() => {
     if (played) {
       setTimeout(() => {
@@ -89,8 +91,6 @@ const ButtonsAndInput = ({
       }, 500);
     }
   }, [played, endTurn]);
-
-  const wordToPlayInputRef: React.RefObject<HTMLInputElement> = useRef(null);
 
   const playIsClear = useSelector(canPlayOneMoreTile);
 
@@ -139,6 +139,7 @@ const ButtonsAndInput = ({
       <div>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
         <input
+          className={styles.wordToPlayInput}
           name="wordToPlay"
           value={wordToPlay}
           onChange={(ev) => {
@@ -168,10 +169,9 @@ const ButtonsAndInput = ({
               }
             }}
           >
-            exchangeTiles tiles
+            exchange tiles
           </button>
         )}
-        <button onClick={() => dispatch(shuffleRack())}>shuffle rack</button>
 
         <Modal showModal={showModal}>
           <ChooseBlank
