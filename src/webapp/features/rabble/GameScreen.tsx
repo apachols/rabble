@@ -1,13 +1,12 @@
 import React from "react";
-import styles from "./GameBoard.module.css";
+import styles from "./GameScreen.module.css";
 import { useParams } from "react-router-dom";
 
 import TurnList from "./components/TurnList";
 import GameControls from "./GameControls";
 
-const GameBoard = (props: GameBoardProps) => {
+const GameScreen = (props: GameBoardProps) => {
   const {
-    playerID,
     G: { turns, scores },
     ctx: { currentPlayer, gameover },
   } = props;
@@ -45,4 +44,4 @@ const GameBoard = (props: GameBoardProps) => {
   );
 };
 
-export default GameBoard;
+export default GameScreen;
