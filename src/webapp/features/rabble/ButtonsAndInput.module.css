@@ -1,8 +1,9 @@
 .wordToPlayInput {
   border-color: transparent;
+  caret-color: transparent;
   color: transparent;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 300px;
   left: 30%;
   z-index: -10;
   outline: none;

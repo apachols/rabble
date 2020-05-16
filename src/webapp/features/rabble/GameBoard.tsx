@@ -18,17 +18,14 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <div className={styles.board}>
+      <GameControls nowPlaying={currentPlayer} {...props} />
+
       <div>
         <span>
           <strong>Invite a friend: </strong>
         </span>
         <div>{`${window.location.origin}/join/${gameID}`}</div>
       </div>
-
-      <h2 className={styles.heading}>Welcome Player {playerID}!</h2>
-      <h3 className={styles.subheading}>Now Playing: {currentPlayer}</h3>
-
-      <GameControls nowPlaying={currentPlayer} {...props} />
 
       <h5 className={styles.subheading}>Scores</h5>
       <ul className={styles.scoreList}>

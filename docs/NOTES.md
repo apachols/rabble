@@ -10,13 +10,15 @@
 
 - Show score during play (on the board)
 
+- Compact the header so the board is at the top
+
 - Can check word in dictionary (without modal?)
 
 - Fix Tile text CSS at medium sizes (too small)
 
 - Blank choose responds to character key press
 
-- Log in to existing game via your nickname (NEEDS SERVER AUTH STATE)
+- Rejoin existing game without local storage (need a DB)
 
 * Tests for Rabble game file
 
@@ -24,7 +26,7 @@
 
 - Three / Four player
 
-* Exchange pops a modal or something
+* Exchange pops a modal
 
 * Join auto-joins game if nickname present
 

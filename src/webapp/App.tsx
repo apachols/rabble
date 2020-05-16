@@ -25,8 +25,6 @@ export default function App() {
             </li>
           </ul>
         </nav>
-
-        <header className="App-header"></header>
         <Switch>
           <Route path="/game/:gameID">
             <Game />
