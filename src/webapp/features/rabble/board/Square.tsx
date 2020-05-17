@@ -40,11 +40,7 @@ const Square = ({
       <div className={styles.sizer}></div>
       <div className={styles.square}>
         {theTile ? (
-          <Tile
-            letter={theTile.letter}
-            value={theTile.value}
-            context={"board"}
-          />
+          <Tile tile={theTile} context={"board"} onClick={() => {}} />
         ) : null}
       </div>
     </div>

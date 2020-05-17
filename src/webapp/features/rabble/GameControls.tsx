@@ -9,6 +9,10 @@ import TileRack from "./components/TileRack";
 import Board from "./board/Board";
 import ButtonsAndInput from "./ButtonsAndInput";
 
+import { pullPlayTilesFromRack } from "../../../game/tileBag";
+
+import { addPlayTile } from "./boardSlice";
+
 const GameControls = (props: GameBoardProps) => {
   const {
     playerID,
@@ -48,7 +52,20 @@ const GameControls = (props: GameBoardProps) => {
       <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
       <h4>
         <TileRack
-          onClick={() => dispatch(shuffleRack())}
+          onTileClick={(tile) => {
+            const copyRack = [...displayTileRack];
+
+            pullPlayTilesFromRack([tile], copyRack);
+
+            // Put the tiles on the board
+            dispatch(addPlayTile(tile));
+
+            // The rack is now everything that hasn't been played
+            dispatch(updateRackTiles(copyRack));
+
+            // setErrorMessage("");
+            console.log("clicked", tile);
+          }}
           tileRack={displayTileRack}
         />
       </h4>

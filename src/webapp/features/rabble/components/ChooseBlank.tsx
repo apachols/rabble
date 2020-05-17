@@ -16,7 +16,7 @@ const ChooseBlank = ({ selectTile }: ChooseBlankProps) => {
           className={styles.tileWrapper}
           onClick={(ev) => selectTile(t)}
         >
-          <Tile letter={t.letter} value={t.value} />
+          <Tile onClick={() => {}} tile={t} />
         </div>
       ))}
     </div>

@@ -1,5 +1,5 @@
 .wordToPlayInput {
-  border-color: transparent;
+  /* border-color: transparent;
   caret-color: transparent;
   color: transparent;
   position: absolute;
@@ -7,7 +7,10 @@
   left: 30%;
   z-index: -10;
   outline: none;
-  font-size: 16px;
+  font-size: 16px; */
+  position: fixed;
+  top: 0px;
+  left: 30%;
 }
 
 .invalidPlayError {

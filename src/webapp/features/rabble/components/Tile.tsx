@@ -3,13 +3,15 @@ import blank from "./blank.png";
 import styles from "./Tile.module.css";
 
 type TileProps = {
-  letter: string;
-  value: number;
+  tile: Tile;
   context?: string;
+  onClick: (tile: Tile) => void;
 };
 
 const Tile = (props: TileProps) => {
-  const { letter, value, context } = props;
+  const { tile, context, onClick } = props;
+
+  const { letter, value } = tile;
 
   const textSize =
     context === "board" ? styles.textSizeBoard : styles.textSizeRack;
@@ -17,7 +19,7 @@ const Tile = (props: TileProps) => {
   const blankStyle = value === 0 ? { color: "red" } : {};
 
   return (
-    <div className={styles.tileImageContainer}>
+    <div onClick={() => onClick(tile)} className={styles.tileImageContainer}>
       <img src={blank} className={styles.tileImage} alt={letter} />
       <div className={styles.tileTextContainer}>
         <div className={`${textSize} ${styles.letterText}`} style={blankStyle}>

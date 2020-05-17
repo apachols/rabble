@@ -36,6 +36,24 @@ export const slice = createSlice({
     updateBoard: (state, action: PayloadAction<Square[]>) => {
       state.squares = [...action.payload];
     },
+    addPlayTile: (state, action: PayloadAction<Tile>) => {
+      const tile = action.payload;
+      const { squares, selectedLocation, currentPlay, direction } = state;
+
+      const playAtLocation =
+        currentPlay.length === 0
+          ? selectedLocation
+          : getNextLocation(
+              currentPlay[currentPlay.length - 1].location,
+              direction
+            );
+
+      if (playAtLocation === null) return;
+
+      squares[playAtLocation].playTile = tile;
+
+      state.currentPlay = squares.filter((s) => s.playTile);
+    },
     updatePlayTiles: (state, action: PayloadAction<Tile[]>) => {
       const tiles = action.payload;
       const { squares, selectedLocation, direction } = state;
@@ -109,6 +127,7 @@ export const {
   updateBoard,
   changeSquareSelection,
   updatePlayTiles,
+  addPlayTile,
 } = slice.actions;
 
 export const canPlayOneMoreTile = (state: RootState) => {
