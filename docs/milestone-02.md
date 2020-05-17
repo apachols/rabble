@@ -10,17 +10,18 @@
 - 15 x 15 Game board ✅
 - Game board has bonus squares ✅
 
-- Shuffled rack order preserved on server
 - Bingos are scored correctly ✅
 - Victory conditions are implemented ✅
+
+- Shuffled rack order preserved on server
 
 #### Lobby
 
 - Recent games list has dates and opponents
 - Create screen does not just have a button that says create
-- Join screen checks for credentials and waves you through
+- Join screen checks for credentials and waves you through ✅
 - Link to invite a friend is sharable
-- Link to invite a friend is copyable
+- Link to invite a friend is copyable ✅
 
 ### Technical requirements
 
