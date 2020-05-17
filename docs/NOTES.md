@@ -1,6 +1,6 @@
 ## TODO
 
-- Get rid of hidden text input with tile taps, add shuffle button back
+- Add .env setup instructions to README
 
 - https://react-dnd.github.io/react-dnd/docs/tutorial
 

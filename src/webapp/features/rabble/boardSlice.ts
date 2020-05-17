@@ -70,8 +70,6 @@ export const slice = createSlice({
       const { squares, selectedLocation, currentPlay } = state;
       const newSelectedLocation = action.payload;
 
-      console.log(`newSelectedLocation ${newSelectedLocation}`);
-
       if (newSelectedLocation === null) {
         state.selectedLocation = newSelectedLocation;
         state.direction = null;
@@ -124,12 +122,12 @@ export const {
 export const canPlayOneMoreTile = (state: RootState) => {
   const { squares, selectedLocation, currentPlay, direction } = state.board;
 
-  if (!selectedLocation) {
+  if (selectedLocation === null) {
     return false;
   }
 
   // If there's no tile on the selectedLocation, start your play
-  if (selectedLocation && currentPlay.length === 0) {
+  if (currentPlay.length === 0) {
     return !squares[selectedLocation].tile;
   }
 

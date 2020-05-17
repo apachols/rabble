@@ -66,6 +66,7 @@ const ButtonsAndInput = ({
     currentPlay.invalidReason,
     cleanUp,
     dispatch,
+    setErrorMessage,
   ]);
 
   // end turn when played is true
