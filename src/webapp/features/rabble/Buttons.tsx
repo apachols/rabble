@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./ButtonsAndInput.module.css";
+import styles from "./Buttons.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { shuffleRack, updateRackTiles } from "./rackSlice";
 import {
@@ -9,7 +9,7 @@ import {
 } from "./boardSlice";
 import { playTilesFromSquares } from "../../../game/play";
 
-type ButtonsAndInputProps = {
+type ButtonsProps = {
   currentPlayIsValid: boolean;
   currentPlayerHasTurn: boolean;
   tileRack: Tile[];
@@ -23,7 +23,7 @@ type ButtonsAndInputProps = {
   setErrorMessage: (message: string) => void;
 };
 
-const ButtonsAndInput = ({
+const Buttons = ({
   currentPlayIsValid,
   currentPlayerHasTurn,
   exchangeTiles,
@@ -35,7 +35,7 @@ const ButtonsAndInput = ({
   currentPlayTilesLaid,
   currentPlay,
   setErrorMessage,
-}: ButtonsAndInputProps) => {
+}: ButtonsProps) => {
   const dispatch = useDispatch();
 
   const [played, setPlayed] = useState(false);
@@ -124,4 +124,4 @@ const ButtonsAndInput = ({
   );
 };
 
-export default ButtonsAndInput;
+export default Buttons;

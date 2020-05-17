@@ -9,7 +9,7 @@ import ChooseBlank from "./components/ChooseBlank";
 import TileRack from "./components/TileRack";
 
 import Board from "./board/Board";
-import ButtonsAndInput from "./ButtonsAndInput";
+import Buttons from "./Buttons";
 
 import { pullPlayTilesFromRack } from "../../../game/tileBag";
 
@@ -49,7 +49,7 @@ const GameControls = (props: GameBoardProps) => {
       <Board gameBoard={gameBoard} />
       <h4>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
-        <ButtonsAndInput
+        <Buttons
           currentPlayIsValid={currentPlayIsValid}
           currentPlayerHasTurn={currentPlayerHasTurn}
           exchangeTiles={exchangeTiles}
