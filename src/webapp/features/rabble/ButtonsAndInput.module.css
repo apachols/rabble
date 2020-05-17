@@ -1,18 +1,6 @@
-.wordToPlayInput {
-  /* border-color: transparent;
-  caret-color: transparent;
-  color: transparent;
-  position: absolute;
-  top: 300px;
-  left: 30%;
-  z-index: -10;
-  outline: none;
-  font-size: 16px; */
-  position: fixed;
-  top: 0px;
-  left: 30%;
-}
-
-.invalidPlayError {
-  color: red;
+.buttons {
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }

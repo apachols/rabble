@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./GameControls.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { selectTileRack, updateRackTiles, shuffleRack } from "./rackSlice";
-import { selectPlayTiles } from "./boardSlice";
+import { selectTileRack, updateRackTiles } from "./rackSlice";
+import { canPlayOneMoreTile } from "./boardSlice";
 
+import Modal from "./components/Modal";
+import ChooseBlank from "./components/ChooseBlank";
 import TileRack from "./components/TileRack";
 
 import Board from "./board/Board";
@@ -36,42 +38,17 @@ const GameControls = (props: GameBoardProps) => {
     dispatch(updateRackTiles(tileRack));
   }, [dispatch, tileRack]);
 
-  // These are tiles with which the player is trying to make a word
-  const playTiles = useSelector(selectPlayTiles);
+  const canAddOneMoreTile = useSelector(canPlayOneMoreTile);
 
-  const gameOverScreen = (
-    <h2>
-      {gameover?.draw ? "You Tied! Weird!" : `Player ${gameover?.winner} Wins!`}
-    </h2>
-  );
+  const [showModal, setShowModal] = useState(false);
 
-  const wordToPlayInputRef: React.RefObject<HTMLInputElement> = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <div className={styles.controls}>
-      <Board gameBoard={gameBoard} wordToPlayInputRef={wordToPlayInputRef} />
+      <Board gameBoard={gameBoard} />
       <h4>
-        <TileRack
-          onTileClick={(tile) => {
-            const copyRack = [...displayTileRack];
-
-            pullPlayTilesFromRack([tile], copyRack);
-
-            // Put the tiles on the board
-            dispatch(addPlayTile(tile));
-
-            // The rack is now everything that hasn't been played
-            dispatch(updateRackTiles(copyRack));
-
-            // setErrorMessage("");
-            console.log("clicked", tile);
-          }}
-          tileRack={displayTileRack}
-        />
-      </h4>
-      {gameover ? (
-        gameOverScreen
-      ) : (
+        <div className={styles.invalidPlayError}>{errorMessage}</div>
         <ButtonsAndInput
           currentPlayIsValid={currentPlayIsValid}
           currentPlayerHasTurn={currentPlayerHasTurn}
@@ -80,13 +57,68 @@ const GameControls = (props: GameBoardProps) => {
           checkWord={checkWord}
           endTurn={endTurn}
           tileRack={tileRack}
-          playTiles={playTiles}
           cleanUp={cleanUp}
           currentPlayTilesLaid={currentPlayTilesLaid}
           currentPlay={currentPlay}
-          wordToPlayInputRef={wordToPlayInputRef}
+          setErrorMessage={setErrorMessage}
         />
+        <TileRack
+          onTileClick={(tile) => {
+            if (canAddOneMoreTile) {
+              const copyRack = [...displayTileRack];
+
+              if (tile.blank) {
+                setShowModal(true);
+                return;
+              }
+
+              pullPlayTilesFromRack([tile], copyRack);
+
+              // Put the tiles on the board
+              dispatch(addPlayTile(tile));
+
+              // The rack is now everything that hasn't been played
+              dispatch(updateRackTiles(copyRack));
+
+              setErrorMessage("");
+            }
+          }}
+          tileRack={displayTileRack}
+        />
+      </h4>
+
+      {gameover && (
+        <h2>
+          {gameover?.draw
+            ? "You Tied! Weird!"
+            : `Player ${gameover?.winner} Wins!`}
+        </h2>
       )}
+
+      <Modal showModal={showModal}>
+        <ChooseBlank
+          selectTile={(selectedTile: Tile) => {
+            // Find a blank tile in the player's rack
+            const blankTile = displayTileRack.find((t) => t.blank);
+            if (!blankTile) {
+              throw new Error("ChooseBlank could not find a blank tile");
+            }
+
+            // Remove blank tile from player rack
+            const copyRack = [...displayTileRack];
+            pullPlayTilesFromRack([blankTile], copyRack);
+            dispatch(updateRackTiles(copyRack));
+
+            // Add blank tile to the board with a new selected letter
+            dispatch(
+              addPlayTile({ ...blankTile, letter: selectedTile.letter })
+            );
+
+            // Close the modal
+            setShowModal(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 };
