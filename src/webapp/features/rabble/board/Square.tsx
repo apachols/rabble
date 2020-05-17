@@ -19,7 +19,7 @@ const Square = ({
 }: SquareProps) => {
   const theTile = square.tile || square.playTile;
 
-  const squareType = ({ bonus, location }: Square) => {
+  const squareTypeClassName = ({ bonus, location }: Square) => {
     if (selectedLocation === location) {
       if (direction === HORIZONTAL) {
         return styles.selectedHorizontal;
@@ -31,18 +31,22 @@ const Square = ({
     return bonus ? styles[bonus] : styles.default;
   };
 
+  const squareContents = theTile ? (
+    <Tile tile={theTile} context={"board"} onClick={() => {}} />
+  ) : (
+    <div className={styles.displayBonus}>
+      {selectedLocation !== square.location ? square.bonus : null}
+    </div>
+  );
+
   return (
     <div
-      className={`${styles.squareContainer} ${squareType(square)}`}
+      className={`${styles.squareContainer} ${squareTypeClassName(square)}`}
       key={square.location}
       onClick={(ev) => clickSquare()}
     >
       <div className={styles.sizer}></div>
-      <div className={styles.square}>
-        {theTile ? (
-          <Tile tile={theTile} context={"board"} onClick={() => {}} />
-        ) : null}
-      </div>
+      <div className={styles.square}>{squareContents}</div>
     </div>
   );
 };

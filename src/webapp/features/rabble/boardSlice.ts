@@ -3,8 +3,6 @@ import { RootState } from "../../app/store";
 
 import { HORIZONTAL, VERTICAL, getNextLocation } from "../../../game/board";
 
-import { layTiles, playTilesFromSquares } from "../../../game/play";
-
 interface BoardState {
   squares: Square[];
   selectedLocation: number | null;
