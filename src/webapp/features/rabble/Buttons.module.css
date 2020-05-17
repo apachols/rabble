@@ -1,0 +1,6 @@
+.buttons {
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}

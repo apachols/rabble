@@ -4,15 +4,15 @@ import Tile from "./Tile";
 
 type TileRackProps = {
   tileRack: Tile[];
-  onClick: () => void;
+  onTileClick: (tile: Tile) => void;
 };
 
-const TileRack = ({ tileRack, onClick }: TileRackProps) => {
+const TileRack = ({ tileRack, onTileClick }: TileRackProps) => {
   return (
-    <div onClick={() => onClick()} className={styles.tileRack}>
+    <div className={styles.tileRack}>
       {tileRack.map((t, idx) => (
         <div key={idx} className={styles.tileContainer}>
-          <Tile letter={t.letter} value={t.value} />
+          <Tile onClick={onTileClick} tile={t} />
         </div>
       ))}
     </div>

@@ -3,8 +3,6 @@ import { RootState } from "../../app/store";
 
 import { HORIZONTAL, VERTICAL, getNextLocation } from "../../../game/board";
 
-import { layTiles, playTilesFromSquares } from "../../../game/play";
-
 interface BoardState {
   squares: Square[];
   selectedLocation: number | null;
@@ -36,28 +34,37 @@ export const slice = createSlice({
     updateBoard: (state, action: PayloadAction<Square[]>) => {
       state.squares = [...action.payload];
     },
-    updatePlayTiles: (state, action: PayloadAction<Tile[]>) => {
-      const tiles = action.payload;
-      const { squares, selectedLocation, direction } = state;
-      if (selectedLocation === null) {
-        return;
+    addPlayTile: (state, action: PayloadAction<Tile>) => {
+      const tile = action.payload;
+      const { squares, selectedLocation, currentPlay, direction } = state;
+
+      // If no played letters, begin at selectedLocation
+      // Otherwise begin at next location from end of currentPlay
+      let playAtLocation =
+        currentPlay.length === 0
+          ? selectedLocation
+          : getNextLocation(
+              currentPlay[currentPlay.length - 1].location,
+              direction
+            );
+
+      // If we run into tiles from previous turns, skip them until we find a playable location
+      while (playAtLocation !== null && squares[playAtLocation].tile) {
+        playAtLocation = getNextLocation(playAtLocation, direction);
       }
 
-      layTiles({
-        board: squares,
-        direction,
-        toPlay: tiles,
-        location: selectedLocation,
-        callback: layTiles,
-      });
+      // If we have run off the edge of the board, we cannot add another tile, return...
+      if (playAtLocation === null) return;
 
-      // Zero length play means clear the play off the board
-      if (tiles.length === 0) {
-        squares.forEach((sq) => {
-          sq.playTile = null;
-        });
-      }
+      squares[playAtLocation].playTile = tile;
+
       state.currentPlay = squares.filter((s) => s.playTile);
+    },
+    clearPlayTiles: (state, action: PayloadAction<void>) => {
+      state.currentPlay = [];
+      state.squares.forEach((sq) => {
+        sq.playTile = null;
+      });
     },
     changeSquareSelection: (state, action: PayloadAction<number | null>) => {
       const { squares, selectedLocation, currentPlay } = state;
@@ -108,18 +115,19 @@ export const slice = createSlice({
 export const {
   updateBoard,
   changeSquareSelection,
-  updatePlayTiles,
+  addPlayTile,
+  clearPlayTiles,
 } = slice.actions;
 
 export const canPlayOneMoreTile = (state: RootState) => {
   const { squares, selectedLocation, currentPlay, direction } = state.board;
 
-  if (!selectedLocation) {
+  if (selectedLocation === null) {
     return false;
   }
 
   // If there's no tile on the selectedLocation, start your play
-  if (selectedLocation && currentPlay.length === 0) {
+  if (currentPlay.length === 0) {
     return !squares[selectedLocation].tile;
   }
 
@@ -143,8 +151,5 @@ export const selectSelectedLocation = (state: RootState) =>
 export const selectDirection = (state: RootState) => state.board.direction;
 
 export const selectSquares = (state: RootState) => state.board.squares;
-
-export const selectPlayTiles = (state: RootState) =>
-  playTilesFromSquares(state.board.currentPlay);
 
 export default slice.reducer;

@@ -39,3 +39,23 @@
   left: 0;
   right: 0;
 }
+
+.displayBonus {
+  color: rgb(224, 224, 224);
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .displayBonus {
+    font-size: smaller;
+  }
+}
+
+@media (max-width: 600px) {
+  .displayBonus {
+    font-size: x-small;
+  }
+}
