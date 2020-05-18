@@ -4,19 +4,20 @@ import { useParams } from "react-router-dom";
 
 import TurnList from "./components/TurnList";
 import GameControls from "./GameControls";
-import { getUserInfo } from "../../app/localStorage";
+import { getUserInfo, getPlayerGame } from "../../app/localStorage";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
-    G: { turns, scores },
+    G: { turns, scores, players },
     ctx: { currentPlayer, gameover },
   } = props;
 
-  const nickname = getUserInfo().nickname;
-  const playerName = !nickname ? `Player ${currentPlayer}` : nickname;
-  const otherPlayerID = currentPlayer === "0" ? "1" : "0";
-
   const { gameID } = useParams();
+
+  const { nickname } = getUserInfo();
+  const { playerID } = getPlayerGame(gameID || "");
+  const playerName = !nickname ? `Player ${playerID}` : nickname;
+  const otherPlayerID = playerID === "0" ? "1" : "0";
 
   const displayScores = gameover ? gameover.finalScores : scores;
 
@@ -58,9 +59,9 @@ const GameScreen = (props: GameBoardProps) => {
       <ul className={styles.scoreList}>
         <li>
           <span>
-            [P{currentPlayer}] {playerName}
+            [P{playerID}] {playerName}
           </span>
-          <span style={{ float: "right" }}>{displayScores[currentPlayer]}</span>
+          <span style={{ float: "right" }}>{displayScores[playerID]}</span>
         </li>
         <li>
           <span>[P{otherPlayerID}] Opponent</span>
