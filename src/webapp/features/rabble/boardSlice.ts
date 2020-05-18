@@ -6,6 +6,7 @@ import { HORIZONTAL, VERTICAL, getNextLocation } from "../../../game/board";
 interface BoardState {
   squares: Square[];
   selectedLocation: number | null;
+  playableLocations: number[];
   currentPlay: Square[];
   direction: Direction;
 }
@@ -13,6 +14,7 @@ interface BoardState {
 const initialState: BoardState = {
   selectedLocation: null,
   squares: [],
+  playableLocations: [],
   currentPlay: [],
   direction: null,
 };
@@ -25,6 +27,30 @@ const getNextDirection = (current: Direction): Direction => {
       return null;
   }
   return HORIZONTAL;
+};
+
+const getPlayableLocations = (
+  location: number,
+  direction: Direction,
+  squares: Square[]
+) => {
+  // TODO - This implementation assumes player's rack has 7 tiles
+  const playableLocations = [location];
+  let nextLocation: number | null = location;
+  for (let ii = 0; ii < 6; ii++) {
+    if (nextLocation !== null) {
+      nextLocation = getNextLocation(nextLocation, direction);
+    }
+    // This needs to be a getNextEmptySquare function
+    while (nextLocation !== null && squares[nextLocation].tile) {
+      nextLocation = getNextLocation(nextLocation, direction);
+    }
+    if (nextLocation !== null) {
+      playableLocations.push(nextLocation);
+    }
+  }
+
+  return playableLocations;
 };
 
 export const slice = createSlice({
@@ -92,6 +118,11 @@ export const slice = createSlice({
         // nothing selected, select something
         state.selectedLocation = newSelectedLocation;
         state.direction = getNextDirection(null);
+        state.playableLocations = getPlayableLocations(
+          newSelectedLocation,
+          state.direction,
+          squares
+        );
         return;
       }
 
@@ -101,6 +132,13 @@ export const slice = createSlice({
         state.direction = getNextDirection(currentValue);
         if (!state.direction) {
           state.selectedLocation = null;
+          state.playableLocations = [];
+        } else {
+          state.playableLocations = getPlayableLocations(
+            newSelectedLocation,
+            state.direction,
+            squares
+          );
         }
         return;
       }
@@ -108,6 +146,11 @@ export const slice = createSlice({
       // Unselect the current square and select a new square
       state.direction = getNextDirection(null);
       state.selectedLocation = newSelectedLocation;
+      state.playableLocations = getPlayableLocations(
+        newSelectedLocation,
+        state.direction,
+        squares
+      );
     },
   },
 });
@@ -151,5 +194,8 @@ export const selectSelectedLocation = (state: RootState) =>
 export const selectDirection = (state: RootState) => state.board.direction;
 
 export const selectSquares = (state: RootState) => state.board.squares;
+
+export const selectPlayableLocations = (state: RootState) =>
+  state.board.playableLocations;
 
 export default slice.reducer;

@@ -9,6 +9,7 @@ type SquareProps = {
   square: Square;
   clickSquare: () => void;
   selectedLocation: number | null;
+  playableLocations: number[];
 };
 
 const Square = ({
@@ -16,6 +17,7 @@ const Square = ({
   square,
   clickSquare,
   selectedLocation,
+  playableLocations,
 }: SquareProps) => {
   const theTile = square.tile || square.playTile;
 
@@ -34,14 +36,25 @@ const Square = ({
   const squareContents = theTile ? (
     <Tile tile={theTile} context={"board"} onClick={() => {}} />
   ) : (
-    <div className={styles.displayBonus}>
-      {selectedLocation !== square.location ? square.bonus : null}
-    </div>
+    <div className={styles.displayBonus}>{square.bonus}</div>
   );
+
+  const playableHighlight = ({ location }: Square, direction: Direction) => {
+    if (playableLocations.includes(location)) {
+      return styles[`playable${direction}`];
+    }
+    return "";
+  };
+
+  const applyClasses = [
+    styles.squareContainer,
+    squareTypeClassName(square),
+    playableHighlight(square, direction),
+  ].join(" ");
 
   return (
     <div
-      className={`${styles.squareContainer} ${squareTypeClassName(square)}`}
+      className={applyClasses}
       key={square.location}
       onClick={(ev) => clickSquare()}
     >

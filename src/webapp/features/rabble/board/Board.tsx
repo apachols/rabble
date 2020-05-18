@@ -9,6 +9,7 @@ import {
   selectSquares,
   selectDirection,
   selectSelectedLocation,
+  selectPlayableLocations,
 } from "../boardSlice";
 
 import Square from "./Square";
@@ -22,6 +23,7 @@ const Board = ({ gameBoard }: BoardProps) => {
   const boardConfig = useSelector(selectSquares);
   const direction = useSelector(selectDirection);
   const selectedLocation = useSelector(selectSelectedLocation);
+  const playableLocations = useSelector(selectPlayableLocations);
 
   useEffect(() => {
     dispatch(updateBoard(gameBoard));
@@ -36,6 +38,7 @@ const Board = ({ gameBoard }: BoardProps) => {
             direction={direction}
             square={square}
             selectedLocation={selectedLocation}
+            playableLocations={playableLocations}
             clickSquare={() => {
               dispatch(changeSquareSelection(square.location));
             }}

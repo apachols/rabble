@@ -20,12 +20,18 @@
   background-color: white;
 }
 .selectedHorizontal {
-  border: 2px solid white;
   background-color: purple;
 }
 .selectedVertical {
-  border: 2px solid white;
   background-color: gold;
+}
+.playableH {
+  outline: 2px dashed purple;
+  border: 1px dashed purple;
+}
+.playableV {
+  outline: 2px dashed gold;
+  border: 1px dashed gold;
 }
 
 .sizer {
