@@ -21,18 +21,6 @@ const Square = ({
 }: SquareProps) => {
   const theTile = square.tile || square.playTile;
 
-  const squareTypeClassName = ({ bonus, location }: Square) => {
-    if (selectedLocation === location) {
-      if (direction === HORIZONTAL) {
-        return styles.selectedHorizontal;
-      }
-      if (direction === VERTICAL) {
-        return styles.selectedVertical;
-      }
-    }
-    return bonus ? styles[bonus] : styles.default;
-  };
-
   const squareContents = theTile ? (
     <Tile tile={theTile} context={"board"} onClick={() => {}} />
   ) : (
@@ -41,14 +29,14 @@ const Square = ({
 
   const playableHighlight = ({ location }: Square, direction: Direction) => {
     if (playableLocations.includes(location)) {
-      return styles[`playable${direction}`];
+      return styles[`playable`];
     }
     return "";
   };
 
   const applyClasses = [
     styles.squareContainer,
-    squareTypeClassName(square),
+    square.bonus ? styles[square.bonus] : styles.default,
     playableHighlight(square, direction),
   ].join(" ");
 

@@ -19,19 +19,9 @@
 .default {
   background-color: white;
 }
-.selectedHorizontal {
-  background-color: purple;
-}
-.selectedVertical {
-  background-color: gold;
-}
-.playableH {
-  outline: 2px dashed purple;
+.playable {
+  background-color: coral;
   border: 1px dashed purple;
-}
-.playableV {
-  outline: 2px dashed gold;
-  border: 1px dashed gold;
 }
 
 .sizer {
