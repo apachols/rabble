@@ -1,3 +1,18 @@
 .form {
-  text-align: center;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+label {
+  display: block;
+  font-size: smaller;
+}
+
+input {
+  display: inline-block;
+}
+
+.inputGroupContainer {
+  text-align: left;
+  display: inline-block;
 }

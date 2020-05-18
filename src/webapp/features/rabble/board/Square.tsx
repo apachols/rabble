@@ -20,13 +20,6 @@ const Square = ({ square, clickSquare, playableLocations }: SquareProps) => {
     <div className={styles.displayBonus}>{square.bonus}</div>
   );
 
-  const playableHighlight = ({ location }: Square) => {
-    if (playableLocations.includes(location)) {
-      return styles[`playable`];
-    }
-    return "";
-  };
-
   const applyClasses = [
     styles.squareContainer,
     bonus ? styles[bonus] : styles.default,

@@ -122,12 +122,15 @@ const JoinGame = () => {
     <div className={styles.form}>
       <h3>Join game {gameID}</h3>
       <h4 style={{ color: "red" }}>{joinError}</h4>
-      <input
-        name="nickname"
-        value={nickname}
-        onChange={(ev) => setNickname(ev.target.value)}
-      />
-      <button onClick={() => joinGameOrError(gameID, nickname)}>join</button>
+      <div className={styles.inputGroupContainer}>
+        <label>Enter Your Nickname</label>
+        <input
+          name="nickname"
+          value={nickname}
+          onChange={(ev) => setNickname(ev.target.value)}
+        />
+        <button onClick={() => joinGameOrError(gameID, nickname)}>join</button>
+      </div>
     </div>
   );
 };
