@@ -2,8 +2,6 @@ import React from "react";
 import styles from "./Square.module.css";
 import Tile from "../components/Tile";
 
-import { HORIZONTAL, VERTICAL } from "../../../../game/board";
-
 type SquareProps = {
   direction: Direction;
   square: Square;
@@ -12,13 +10,8 @@ type SquareProps = {
   playableLocations: number[];
 };
 
-const Square = ({
-  direction,
-  square,
-  clickSquare,
-  selectedLocation,
-  playableLocations,
-}: SquareProps) => {
+const Square = ({ square, clickSquare, playableLocations }: SquareProps) => {
+  const { location, bonus } = square;
   const theTile = square.tile || square.playTile;
 
   const squareContents = theTile ? (
@@ -27,7 +20,7 @@ const Square = ({
     <div className={styles.displayBonus}>{square.bonus}</div>
   );
 
-  const playableHighlight = ({ location }: Square, direction: Direction) => {
+  const playableHighlight = ({ location }: Square) => {
     if (playableLocations.includes(location)) {
       return styles[`playable`];
     }
@@ -36,8 +29,8 @@ const Square = ({
 
   const applyClasses = [
     styles.squareContainer,
-    square.bonus ? styles[square.bonus] : styles.default,
-    playableHighlight(square, direction),
+    bonus ? styles[bonus] : styles.default,
+    playableLocations.includes(location) ? styles.playable : "",
   ].join(" ");
 
   return (

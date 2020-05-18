@@ -97,8 +97,9 @@ export const slice = createSlice({
       const newSelectedLocation = action.payload;
 
       if (newSelectedLocation === null) {
-        state.selectedLocation = newSelectedLocation;
+        state.selectedLocation = null;
         state.direction = null;
+        state.playableLocations = [];
         return;
       }
 

@@ -101,6 +101,7 @@ const Buttons = ({
       <button
         onClick={() => {
           dispatch(clearPlayTiles());
+          dispatch(changeSquareSelection(null));
           dispatch(updateRackTiles(tileRack));
         }}
       >
@@ -111,6 +112,7 @@ const Buttons = ({
           onClick={() => {
             dispatch(clearPlayTiles());
             exchangeTiles(playTilesFromSquares(playSquares));
+            dispatch(changeSquareSelection(null));
             setPlayed(true);
           }}
         >
