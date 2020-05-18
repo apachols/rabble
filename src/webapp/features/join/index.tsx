@@ -112,7 +112,7 @@ const JoinGame = () => {
       // This is eating the error for some reason :<
       postToJoinGame(gameID, nickname);
       // So just assume that if we don't redirect, there was an error :<
-      setTimeout(() => setJoinError(`Failed to join ${gameID}`), 250);
+      setTimeout(() => setJoinError(`Failed to join ${gameID}`), 1500);
     } catch (err) {
       setJoinError(`Failed to join ${gameID}`);
     }

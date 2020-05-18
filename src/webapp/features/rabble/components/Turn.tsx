@@ -6,12 +6,12 @@ type TurnProps = {
 
 const Turn = (props: TurnProps) => {
   const {
-    turn: { tiles, playerID, score }
+    turn: { tiles, playerID, score },
   } = props;
   return (
     <li>
       <span>
-        [{playerID}] {tiles.map(t => t.letter)}
+        [P{playerID}] {tiles.map((t) => t.letter)}
       </span>
       <span style={{ float: "right" }}>{score}</span>
     </li>

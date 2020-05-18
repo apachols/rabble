@@ -4,12 +4,17 @@ import { useParams } from "react-router-dom";
 
 import TurnList from "./components/TurnList";
 import GameControls from "./GameControls";
+import { getUserInfo } from "../../app/localStorage";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
     G: { turns, scores },
     ctx: { currentPlayer, gameover },
   } = props;
+
+  const nickname = getUserInfo().nickname;
+  const playerName = !nickname ? `Player ${currentPlayer}` : nickname;
+  const otherPlayerID = currentPlayer === "0" ? "1" : "0";
 
   const { gameID } = useParams();
 
@@ -19,7 +24,7 @@ const GameScreen = (props: GameBoardProps) => {
 
   return (
     <div className={styles.board}>
-      <div>
+      <div className={styles.copyInviteLink}>
         <input
           readOnly
           ref={inputRef}
@@ -52,12 +57,14 @@ const GameScreen = (props: GameBoardProps) => {
       <h5 className={styles.subheading}>Scores</h5>
       <ul className={styles.scoreList}>
         <li>
-          <span>Player 0: </span>
-          <span style={{ float: "right" }}>{displayScores["0"]}</span>
+          <span>
+            [P{currentPlayer}] {playerName}
+          </span>
+          <span style={{ float: "right" }}>{displayScores[currentPlayer]}</span>
         </li>
         <li>
-          <span>Player 1: </span>
-          <span style={{ float: "right" }}>{displayScores["1"]}</span>
+          <span>[P{otherPlayerID}] Opponent</span>
+          <span style={{ float: "right" }}>{displayScores[otherPlayerID]}</span>
         </li>
       </ul>
 
