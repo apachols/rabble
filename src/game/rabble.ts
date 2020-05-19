@@ -20,6 +20,21 @@ import {
 } from "./play";
 import { checkForInvalidWords, scoreForValidWords } from "./score";
 
+const prefixed = (logPrefixFunction: any, original: any) =>
+  function () {
+    original(logPrefixFunction(), ...arguments);
+  };
+
+const logMetaData: any = {
+  pid: null,
+};
+
+if (process?.env) {
+  console.log = prefixed(() => logMetaData, console.log);
+  console.info = prefixed(() => logMetaData, console.info);
+  console.error = prefixed(() => logMetaData, console.error);
+}
+
 const Rabble = (wordlist: WordList) => ({
   name: "rabble",
 
@@ -69,6 +84,8 @@ const Rabble = (wordlist: WordList) => ({
         const { tileRack, currentPlay } = G.players[currentPlayer];
         const { tileBag, gameBoard } = G;
 
+        logMetaData.pid = currentPlayer;
+
         copyPlaySquaresToBoard(playSquares, gameBoard);
 
         const direction = playDirection(playSquares, gameBoard);
@@ -111,8 +128,7 @@ const Rabble = (wordlist: WordList) => ({
           };
           G.turns.push(thisTurn);
         } catch (err) {
-          console.error(`Found an error in scoreForValidWords ${err}`);
-          console.error(`Found an error in scoreForValidWords ${err.stack}`);
+          console.error(`Error in scoreForValidWords ${err} \n${err.stack}`);
           return INVALID_MOVE;
         }
 
@@ -131,6 +147,9 @@ const Rabble = (wordlist: WordList) => ({
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
+
+        logMetaData.pid = currentPlayer;
+
         drawTiles(tileRack, tileBag);
       },
       client: false,
@@ -140,6 +159,9 @@ const Rabble = (wordlist: WordList) => ({
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
+
+        logMetaData.pid = currentPlayer;
+
         exchangeTiles(tileBag, tileRack, exchange);
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
@@ -165,6 +187,8 @@ const Rabble = (wordlist: WordList) => ({
         const { currentPlayer } = ctx;
         const { gameBoard, tileBag } = G;
         const { tileRack, currentPlay } = G.players[currentPlayer];
+
+        logMetaData.pid = currentPlayer;
 
         const wordAsTiles = playTilesFromSquares(playSquares);
         const wordAsString = wordAsTiles.map((t) => t.letter).join("");
@@ -236,6 +260,7 @@ const Rabble = (wordlist: WordList) => ({
     const emptyRackPlayer0 = player0.tileRack.length === 0;
     const emptyRackPlayer1 = player1.tileRack.length === 0;
     const finalScores = { ...G.scores };
+
     if (emptyTileBag && (emptyRackPlayer0 || emptyRackPlayer1)) {
       // Play-out bonus
       const rackToCalculate = emptyRackPlayer0

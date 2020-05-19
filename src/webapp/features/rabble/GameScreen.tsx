@@ -25,6 +25,9 @@ const GameScreen = (props: GameBoardProps) => {
 
   return (
     <div className={styles.board}>
+      <div className={styles.reloadButton}>
+        <button onClick={() => window.location.reload()}>reload</button>
+      </div>
       <div className={styles.copyInviteLink}>
         <input
           readOnly

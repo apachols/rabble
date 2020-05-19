@@ -68,3 +68,19 @@ export const clearRecentGames = () => {
   userInfo.games = {};
   updateUserInfo(userInfo);
 };
+
+// TODO please 2 remove this
+const login = (
+  nick: string,
+  gameID: string,
+  playerID: string,
+  creds: string
+) => {
+  const gameInfo = `{"gameID":"${gameID}","playerID":"${playerID}","playerCredentials":"${creds}"}`;
+  localStorage.setItem(
+    "userInfo",
+    `{"nickname":"${nick}","games":{"${gameID}":${gameInfo}}}`
+  );
+};
+// @ts-ignore
+window.rabble = { login };
