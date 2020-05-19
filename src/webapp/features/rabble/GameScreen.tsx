@@ -8,7 +8,7 @@ import { getUserInfo, getPlayerGame } from "../../app/localStorage";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
-    G: { turns, scores, players },
+    G: { turns, scores },
     ctx: { currentPlayer, gameover },
   } = props;
 

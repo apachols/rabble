@@ -25,7 +25,9 @@ export const allWordsForPlay = (
   if (direction === null) {
     // We should already have checked for out-of-line plays
     throw new Error(
-      "Logic error - checkForInvalidWords found out of line play"
+      `Logic error - allWordsForPlay found out of line play ${JSON.stringify(
+        playSquares
+      )}`
     );
   }
 

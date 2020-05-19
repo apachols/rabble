@@ -96,20 +96,25 @@ const Rabble = (wordlist: WordList) => ({
         }
         pullPlayTilesFromRack(wordAsTiles, tileRack);
 
-        const score = scoreForValidWords(playSquares, gameBoard);
+        try {
+          const score = scoreForValidWords(playSquares, gameBoard);
+          G.scores[currentPlayer] += score;
 
-        G.scores[currentPlayer] += score;
+          finalizePlayOnBoard(playSquares, gameBoard);
 
-        finalizePlayOnBoard(playSquares, gameBoard);
-
-        // record the turn in the turn list
-        const thisTurn = {
-          turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: allTilesFromSquares(allSquares),
-          playerID: currentPlayer,
-          score,
-        };
-        G.turns.push(thisTurn);
+          // record the turn in the turn list
+          const thisTurn = {
+            turnID: `${ctx.turn}-${currentPlayer}`,
+            tiles: allTilesFromSquares(allSquares),
+            playerID: currentPlayer,
+            score,
+          };
+          G.turns.push(thisTurn);
+        } catch (err) {
+          console.error(`Found an error in scoreForValidWords ${err}`);
+          console.error(`Found an error in scoreForValidWords ${err.stack}`);
+          return INVALID_MOVE;
+        }
 
         // draw back to a full hand
         drawTiles(tileRack, tileBag);
