@@ -178,7 +178,7 @@ const Rabble = (wordlist: WordList) => ({
 
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: exchange,
+          tiles: [],
           playerID: currentPlayer,
           score: 0,
         };
@@ -191,6 +191,7 @@ const Rabble = (wordlist: WordList) => ({
         const { currentPlayer } = ctx;
         const { currentPlay } = G.players[currentPlayer];
         currentPlay.tilesLaid = [];
+        currentPlay.valid = false;
         currentPlay.invalidReason = "";
       },
       client: true,
@@ -262,7 +263,7 @@ const Rabble = (wordlist: WordList) => ({
           }
           currentPlay.valid = true;
         } catch (err) {
-          console.error(`Error in scoreForValidWords ${err} \n${err.stack}`);
+          console.error(`Error in checkWord ${err} \n${err.stack}`);
           return INVALID_MOVE;
         }
       },

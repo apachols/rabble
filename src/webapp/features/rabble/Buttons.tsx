@@ -49,6 +49,7 @@ const Buttons = ({
       dispatch(clearPlayTiles());
       dispatch(changeSquareSelection(null));
       setPlayed(true);
+      cleanUp();
     }
   }, [currentPlayIsValid, playSquares, dispatch, playWord]);
 
@@ -103,6 +104,7 @@ const Buttons = ({
           dispatch(clearPlayTiles());
           dispatch(changeSquareSelection(null));
           dispatch(updateRackTiles(tileRack));
+          cleanUp();
         }}
       >
         recall tiles
@@ -114,6 +116,7 @@ const Buttons = ({
             exchangeTiles(playTilesFromSquares(playSquares));
             dispatch(changeSquareSelection(null));
             setPlayed(true);
+            cleanUp();
           }}
         >
           exchange tiles
