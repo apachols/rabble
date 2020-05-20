@@ -49,19 +49,6 @@ const GameControls = (props: GameBoardProps) => {
       <Board gameBoard={gameBoard} />
       <h4>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
-        <Buttons
-          currentPlayIsValid={currentPlayIsValid}
-          currentPlayerHasTurn={currentPlayerHasTurn}
-          exchangeTiles={exchangeTiles}
-          playWord={playWord}
-          checkWord={checkWord}
-          endTurn={endTurn}
-          tileRack={tileRack}
-          cleanUp={cleanUp}
-          currentPlayTilesLaid={currentPlayTilesLaid}
-          currentPlay={currentPlay}
-          setErrorMessage={setErrorMessage}
-        />
         <TileRack
           onTileClick={(tile) => {
             if (canAddOneMoreTile) {
@@ -84,6 +71,19 @@ const GameControls = (props: GameBoardProps) => {
             }
           }}
           tileRack={displayTileRack}
+        />
+        <Buttons
+          currentPlayIsValid={currentPlayIsValid}
+          currentPlayerHasTurn={currentPlayerHasTurn}
+          exchangeTiles={exchangeTiles}
+          playWord={playWord}
+          checkWord={checkWord}
+          endTurn={endTurn}
+          tileRack={tileRack}
+          cleanUp={cleanUp}
+          currentPlayTilesLaid={currentPlayTilesLaid}
+          currentPlay={currentPlay}
+          setErrorMessage={setErrorMessage}
         />
       </h4>
 
