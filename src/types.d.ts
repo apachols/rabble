@@ -95,6 +95,9 @@ type Game = {
 };
 
 type GameContext = {
+  events: {
+    endTurn: any;
+  };
   turn: number;
   currentPlayer: string;
   gameover?: {

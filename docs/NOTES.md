@@ -2,8 +2,6 @@
 
 - Creating a game needs a spinner...
 
-- Apparently can call end turn from playword?
-
 - Websocket sleep problem leads to server confusion
 
 - Redo turn list to not show your exchange letters

@@ -51,7 +51,7 @@ const Buttons = ({
       setPlayed(true);
       cleanUp();
     }
-  }, [currentPlayIsValid, playSquares, dispatch, playWord]);
+  }, [currentPlayIsValid, playSquares, dispatch, playWord, cleanUp]);
 
   // If the user has played but the word is invalid, clear tiles
   useEffect(() => {
@@ -72,6 +72,7 @@ const Buttons = ({
 
   // end turn when played is true
   // TODO - timing issue, otherwise endTurn comes too soon after playWord
+  // If we try to do this on the server, we get "ERROR: invalid stateID"
   useEffect(() => {
     if (played) {
       setTimeout(() => {
