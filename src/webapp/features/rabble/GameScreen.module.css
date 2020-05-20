@@ -42,6 +42,7 @@
   margin: 10px auto;
 }
 
-.reloadButton {
-  float: left;
+.topButtonContainer {
+  display: flex;
+  justify-content: space-between;
 }

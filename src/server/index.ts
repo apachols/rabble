@@ -6,6 +6,10 @@ import loadWordList from "./loadWordList";
 
 import dotenv from "dotenv";
 
+import Router from "koa-router";
+import koaBody from "koa-body";
+import cors from "@koa/cors";
+
 dotenv.config();
 
 const prefixed = (returnThingToLog: any, original: any) =>
@@ -14,6 +18,7 @@ const prefixed = (returnThingToLog: any, original: any) =>
   };
 const freshTimestamp = () =>
   new Date().toISOString().replace(/[TZ]/g, " ").substring(0, 23);
+
 console.log = prefixed(freshTimestamp, console.log);
 console.error = prefixed(freshTimestamp, console.error);
 
@@ -28,5 +33,15 @@ loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
     }),
   });
 
-  server.run({ port: 8000, lobbyConfig: { apiPort: 8080 } });
+  const router = new Router();
+  router.post("/client-logs", koaBody(), async (ctx: any) => {
+    // "Sane" limit on what client can send us
+    const logMessage = JSON.stringify(ctx.request.body).slice(0, 8192);
+    console.warn("client-logs", logMessage);
+    ctx.status = 204;
+  });
+  server.app.use(cors());
+  server.app.use(router.routes()).use(router.allowedMethods());
+
+  server.run({ port: 8000 });
 });

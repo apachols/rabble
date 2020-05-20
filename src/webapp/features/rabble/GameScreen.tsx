@@ -25,10 +25,10 @@ const GameScreen = (props: GameBoardProps) => {
 
   return (
     <div className={styles.board}>
-      <div className={styles.reloadButton}>
-        <button onClick={() => window.location.reload()}>reload</button>
-      </div>
-      <div className={styles.copyInviteLink}>
+      <div className={styles.topButtonContainer}>
+        <div className={styles.reloadButton}>
+          <button onClick={() => window.location.reload()}>reload</button>
+        </div>
         <input
           readOnly
           ref={inputRef}
@@ -53,6 +53,15 @@ const GameScreen = (props: GameBoardProps) => {
           }}
         >
           <strong>Invite a friend! (Click to copy) </strong>
+        </button>
+        <button
+          onClick={() => {
+            throw new Error(
+              "Take me to your server, I need to speak with your manager."
+            );
+          }}
+        >
+          test
         </button>
       </div>
 

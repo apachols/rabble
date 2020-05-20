@@ -22,17 +22,21 @@ import { checkForInvalidWords, scoreForValidWords } from "./score";
 
 const prefixed = (logPrefixFunction: any, original: any) =>
   function () {
-    original(logPrefixFunction(), ...arguments);
+    const payload = logPrefixFunction();
+    if (payload) {
+      original(payload, ...arguments);
+    } else {
+      original(...arguments);
+    }
   };
 
-const logMetaData: any = {
-  pid: null,
-};
+const logMetaData: any = {};
 
 if (process?.env) {
-  console.log = prefixed(() => logMetaData, console.log);
-  console.info = prefixed(() => logMetaData, console.info);
-  console.error = prefixed(() => logMetaData, console.error);
+  const logMetaDataIfAny = () => logMetaData;
+  console.log = prefixed(logMetaDataIfAny, console.log);
+  console.info = prefixed(logMetaDataIfAny, console.info);
+  console.error = prefixed(logMetaDataIfAny, console.error);
 }
 
 const Rabble = (wordlist: WordList) => ({
@@ -86,34 +90,38 @@ const Rabble = (wordlist: WordList) => ({
 
         logMetaData.pid = currentPlayer;
 
-        copyPlaySquaresToBoard(playSquares, gameBoard);
-
-        const direction = playDirection(playSquares, gameBoard);
-        const allSquares = allSquaresInWord(playSquares, gameBoard, direction);
-        const allSquaresAsString = allTilesFromSquares(allSquares)
-          .map((t) => t.letter)
-          .join("");
-
-        console.log("playword", allSquaresAsString);
-
-        const wordAsTiles = playTilesFromSquares(playSquares);
-        if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
-          console.log(
-            "playword - invalid - play / rack tile mismatch",
-            allSquaresAsString
-          );
-          return INVALID_MOVE;
-        }
-        if (!currentPlay.valid) {
-          console.log(
-            "playword - invalid - currentPlay.valid",
-            allSquaresAsString
-          );
-          return INVALID_MOVE;
-        }
-        pullPlayTilesFromRack(wordAsTiles, tileRack);
-
         try {
+          copyPlaySquaresToBoard(playSquares, gameBoard);
+
+          const direction = playDirection(playSquares, gameBoard);
+          const allSquares = allSquaresInWord(
+            playSquares,
+            gameBoard,
+            direction
+          );
+          const allSquaresAsString = allTilesFromSquares(allSquares)
+            .map((t) => t.letter)
+            .join("");
+
+          console.log("playword", allSquaresAsString);
+
+          const wordAsTiles = playTilesFromSquares(playSquares);
+          if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
+            console.log(
+              "playword - invalid - play / rack tile mismatch",
+              allSquaresAsString
+            );
+            return INVALID_MOVE;
+          }
+          if (!currentPlay.valid) {
+            console.log(
+              "playword - invalid - currentPlay.valid",
+              allSquaresAsString
+            );
+            return INVALID_MOVE;
+          }
+          pullPlayTilesFromRack(wordAsTiles, tileRack);
+
           const score = scoreForValidWords(playSquares, gameBoard);
           G.scores[currentPlayer] += score;
 
@@ -128,7 +136,7 @@ const Rabble = (wordlist: WordList) => ({
           };
           G.turns.push(thisTurn);
         } catch (err) {
-          console.error(`Error in scoreForValidWords ${err} \n${err.stack}`);
+          console.error(`Error in playWord ${err} \n${err.stack}`);
           return INVALID_MOVE;
         }
 
@@ -161,8 +169,13 @@ const Rabble = (wordlist: WordList) => ({
         const { tileBag } = G;
 
         logMetaData.pid = currentPlayer;
+        try {
+          exchangeTiles(tileBag, tileRack, exchange);
+        } catch (err) {
+          console.error(`Error in exchangeTiles ${err} \n${err.stack}`);
+          return INVALID_MOVE;
+        }
 
-        exchangeTiles(tileBag, tileRack, exchange);
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
           tiles: exchange,
@@ -196,56 +209,62 @@ const Rabble = (wordlist: WordList) => ({
         console.log("CHECKWORD", wordAsString);
         console.log("TILES REMAINING", tileBag.length);
 
-        if (isFirstPlay(gameBoard)) {
-          if (!hasCenterSquare(playSquares)) {
-            console.log("firstPlayNotCentered");
+        try {
+          if (isFirstPlay(gameBoard)) {
+            if (!hasCenterSquare(playSquares)) {
+              console.log("firstPlayNotCentered");
+              currentPlay.invalidReason =
+                "The first play must include the center square";
+              currentPlay.tilesLaid = wordAsTiles;
+              currentPlay.valid = false;
+              return;
+            }
+          } else {
+            if (!adjacentToAWord(playSquares, gameBoard)) {
+              console.log("playNotAdjacent", wordAsString);
+              currentPlay.invalidReason =
+                "Your play must touch a tile on the board";
+              currentPlay.tilesLaid = wordAsTiles;
+              currentPlay.valid = false;
+              return;
+            }
+          }
+          if (playDirection(playSquares, gameBoard) === null) {
+            console.log("playDirection", wordAsString);
             currentPlay.invalidReason =
-              "The first play must include the center square";
+              "Play must be in a single row or column";
+            currentPlay.tilesLaid = wordAsTiles;
+            currentPlay.valid = false;
+          }
+          if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
+            console.log("checkForPlayTilesInRack", wordAsString);
+            currentPlay.invalidReason = "Mismatch between play and hand";
             currentPlay.tilesLaid = wordAsTiles;
             currentPlay.valid = false;
             return;
           }
-        } else {
-          if (!adjacentToAWord(playSquares, gameBoard)) {
-            console.log("playNotAdjacent", wordAsString);
-            currentPlay.invalidReason =
-              "Your play must touch a tile on the board";
-            currentPlay.tilesLaid = wordAsTiles;
-            currentPlay.valid = false;
-            return;
-          }
-        }
-        if (playDirection(playSquares, gameBoard) === null) {
-          console.log("playDirection", wordAsString);
-          currentPlay.invalidReason = "Play must be in a single row or column";
-          currentPlay.tilesLaid = wordAsTiles;
-          currentPlay.valid = false;
-        }
-        if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
-          console.log("checkForPlayTilesInRack", wordAsString);
-          currentPlay.invalidReason = "Mismatch between play and hand";
-          currentPlay.tilesLaid = wordAsTiles;
-          currentPlay.valid = false;
-          return;
-        }
 
-        // To check for valid words and score the play, the playTiles must be on the board
-        copyPlaySquaresToBoard(playSquares, gameBoard);
-        const invalidWordList = checkForInvalidWords(
-          playSquares,
-          gameBoard,
-          wordlist
-        );
-        removePlayFromBoard(gameBoard);
-        if (invalidWordList.length) {
-          const invalidWords = invalidWordList.join(", ");
-          currentPlay.invalidReason = `These words are not in the dictionary: ${invalidWords}`;
-          console.log("checkForInvalidWords", invalidWordList);
-          currentPlay.tilesLaid = wordAsTiles;
-          currentPlay.valid = false;
-          return;
+          // To check for valid words and score the play, the playTiles must be on the board
+          copyPlaySquaresToBoard(playSquares, gameBoard);
+          const invalidWordList = checkForInvalidWords(
+            playSquares,
+            gameBoard,
+            wordlist
+          );
+          removePlayFromBoard(gameBoard);
+          if (invalidWordList.length) {
+            const invalidWords = invalidWordList.join(", ");
+            currentPlay.invalidReason = `These words are not in the dictionary: ${invalidWords}`;
+            console.log("checkForInvalidWords", invalidWordList);
+            currentPlay.tilesLaid = wordAsTiles;
+            currentPlay.valid = false;
+            return;
+          }
+          currentPlay.valid = true;
+        } catch (err) {
+          console.error(`Error in scoreForValidWords ${err} \n${err.stack}`);
+          return INVALID_MOVE;
         }
-        currentPlay.valid = true;
       },
       client: false,
     },

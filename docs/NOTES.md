@@ -1,11 +1,5 @@
 ## TODO
 
-- Catch and log client side errors to server
-
-- Server logs have useful metadata instead of nothing (hook console.log)?
-
-- Error handling and debugging
-
 - Add .env setup instructions to README
 
 - https://react-dnd.github.io/react-dnd/docs/tutorial
