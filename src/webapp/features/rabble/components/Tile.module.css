@@ -4,6 +4,8 @@
   position: relative;
   display: inline-block;
   overflow-y: hidden;
+  user-select: none;
+  font-family: 'Lato', sans-serif;
 }
 
 .tileImage {
@@ -18,14 +20,13 @@
   left: 55%;
   transform: translate(-50%, -50%);
   position: absolute;
-  font-family: "Book Antiqua";
+  font-size: x-large;
   z-index: 10;
 }
 
 .valueText {
   position: absolute;
-  font-family: "Book Antiqua";
-  font-size: xx-small;
+  font-size: x-small;
   z-index: 10;
 }
 
@@ -42,9 +43,9 @@
 }
 
 .textSizeRack {
-  font-size: medium;
+  font-size: x-large;
 }
 
 .valueSize {
-  font-size: calc(100% - 5px);
+  font-size: x-small;
 }
