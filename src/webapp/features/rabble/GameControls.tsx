@@ -14,6 +14,7 @@ import Buttons from "./Buttons";
 import { pullPlayTilesFromRack } from "../../../game/tileBag";
 
 import { addPlayTile } from "./boardSlice";
+import ThemeSelector from "./components/ThemeSelector";
 
 const GameControls = (props: GameBoardProps) => {
   const {
@@ -85,6 +86,7 @@ const GameControls = (props: GameBoardProps) => {
           currentPlay={currentPlay}
           setErrorMessage={setErrorMessage}
         />
+        <ThemeSelector />
       </h4>
 
       {gameover && (

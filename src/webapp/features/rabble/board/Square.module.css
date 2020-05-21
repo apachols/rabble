@@ -1,27 +1,36 @@
 .squareContainer {
   display: inline-block;
   position: relative;
-  border: 1px solid black;
+  border: 1px solid var(--square-border);
+  font-family: 'Lato', sans-serif;
 }
 
-.W2 {
-  background-color: red;
-}
-.W3 {
-  background-color: orange;
+.L2 {
+  background-color: var(--square-dl);
 }
 .L3 {
-  background-color: green;
+  background-color: var(--square-tl);
 }
-.L2 {
-  background-color: blue;
+.W2 {
+  background-color: var(--square-dw);
+}
+.W3 {
+  background-color: var(--square-tw);
 }
 .default {
-  background-color: white;
+  background-color: var(--square-empty);
 }
 .playable {
-  background-color: coral;
-  border: 1px dashed purple;
+  background-color: var(--selection);
+  border: 1px dashed var(--square-tw);
+}
+.playableLight {
+  background-color: var(--selection-light);
+  border: 1px dashed var(--square-tw);
+}
+.playableLighter {
+  background-color: var(--selection-lighter);
+  border: 1px dashed var(--square-tw);
 }
 
 .sizer {
@@ -42,6 +51,7 @@
   justify-content: center;
   height: 100%;
   align-items: center;
+  user-select: none;
 }
 
 @media (min-width: 600px) {
