@@ -49,7 +49,7 @@ const Rabble = (wordlist: WordList) => ({
       const tileRack: Tile[] = [];
       drawTiles(tileRack, tileBag);
       return {
-        nickname: "Anon",
+        nickname: "Player",
         currentPlay: {
           invalidReason: "",
           tilesLaid: [],
@@ -62,6 +62,17 @@ const Rabble = (wordlist: WordList) => ({
       tileBag,
       gameBoard,
       turns: [],
+      scoreList: {
+        "0": {
+          nickname: "",
+          score: 0,
+        },
+        "1": {
+          nickname: "",
+          score: 0,
+        },
+      },
+      // TODO remove old scores that's missing nickname
       scores: {
         "0": 0,
         "1": 0,
@@ -124,7 +135,22 @@ const Rabble = (wordlist: WordList) => ({
           pullPlayTilesFromRack(wordAsTiles, tileRack);
 
           const score = scoreForValidWords(playSquares, gameBoard);
+          // TODO - remove old scores list that's missing nickname
           G.scores[currentPlayer] += score;
+          if (!G.scoreList) {
+            G.scoreList = {
+              "0": {
+                nickname: "",
+                score: 0,
+              },
+              "1": {
+                nickname: "",
+                score: 0,
+              },
+            };
+          }
+          G.scoreList[currentPlayer].score += score;
+          G.scoreList[currentPlayer].nickname = nickname;
 
           finalizePlayOnBoard(playSquares, gameBoard);
 
@@ -197,9 +223,13 @@ const Rabble = (wordlist: WordList) => ({
     setNickName: {
       move: (G: Game, ctx: GameContext, nickname: string) => {
         const { currentPlayer } = ctx;
+        console.log("SETNICKNAME", nickname);
         G.players[currentPlayer].nickname = nickname;
+        if (G.scoreList) {
+          G.scoreList[currentPlayer].nickname = nickname;
+        }
       },
-      client: true,
+      client: false,
     },
     cleanUp: {
       move: (G: Game, ctx: GameContext) => {
@@ -296,6 +326,16 @@ const Rabble = (wordlist: WordList) => ({
     const emptyRackPlayer1 = player1.tileRack.length === 0;
     const finalScores = { ...G.scores };
 
+    // Here, pull scores from scorelist instead of obsoleted G.scores
+    const finalScores2 = G.scoreList
+      ? Object.keys(G.scoreList).reduce(
+          (fscores: { [key: string]: number }, playerID: string) => {
+            return { ...fscores, [playerID]: G.scoreList[playerID].score };
+          },
+          {}
+        )
+      : null;
+
     if (emptyTileBag && (emptyRackPlayer0 || emptyRackPlayer1)) {
       // Play-out bonus
       const rackToCalculate = emptyRackPlayer0
@@ -322,14 +362,26 @@ const Rabble = (wordlist: WordList) => ({
       console.log(`Score Player0 ${finalScores["0"]}`);
       console.log(`Score Player1 ${finalScores["1"]}`);
 
+      // TODO - Clean up scores and use only scorelist
+      const scoreList = {
+        "0": {
+          nickname: G.scoreList?.["0"] || "",
+          score: finalScores["0"],
+        },
+        "1": {
+          nickname: G.scoreList?.["1"] || "",
+          score: finalScores["1"],
+        },
+      };
+
       if (finalScores["0"] > finalScores["1"]) {
-        return { winner: "0", finalScores };
+        return { winner: "0", finalScores, scoreList };
       }
       if (finalScores["1"] > finalScores["0"]) {
-        return { winner: "1", finalScores };
+        return { winner: "1", finalScores, scoreList };
       }
       // Or not
-      return { draw: true, finalScores };
+      return { draw: true, finalScores, scoreList };
     }
   },
 });

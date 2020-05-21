@@ -95,6 +95,16 @@ type Game = {
   scores: {
     [key: string]: number;
   };
+  scoreList: ScoreList;
+};
+
+type ScoreList = {
+  [key: string]: ScoreData;
+};
+
+type ScoreData = {
+  nickname: string;
+  score: number;
 };
 
 type GameContext = {
@@ -104,6 +114,7 @@ type GameContext = {
   turn: number;
   currentPlayer: string;
   gameover?: {
+    scoreList: ScoreList;
     winner?: number;
     draw?: boolean;
     finalScores: {

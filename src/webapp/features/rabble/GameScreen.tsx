@@ -7,9 +7,11 @@ import GameControls from "./GameControls";
 import { getUserInfo, getPlayerGame } from "../../app/localStorage";
 import ThemeSelector from "./components/ThemeSelector";
 
+import ScoreList from "./components/ScoreList";
+
 const GameScreen = (props: GameBoardProps) => {
   const {
-    G: { turns, scores },
+    G: { turns, scores, scoreList },
     ctx: { currentPlayer, gameover },
   } = props;
 
@@ -19,8 +21,9 @@ const GameScreen = (props: GameBoardProps) => {
   const { playerID } = getPlayerGame(gameID || "");
   const playerName = !nickname ? `Player ${playerID}` : nickname;
   const otherPlayerID = playerID === "0" ? "1" : "0";
-
   const displayScores = gameover ? gameover.finalScores : scores;
+
+  const useScoreList = gameover?.scoreList || scoreList;
 
   const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
 
@@ -53,9 +56,9 @@ const GameScreen = (props: GameBoardProps) => {
           <strong>Invite a friend! (Click to copy) </strong>
         </button>
       </div>
+      <ScoreList scoreList={useScoreList} />
 
       <GameControls nowPlaying={currentPlayer} {...props} />
-
       <h4 className={styles.subheading}>Scores</h4>
       <ul className={styles.scoreList}>
         <li>
