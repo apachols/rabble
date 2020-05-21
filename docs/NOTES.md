@@ -1,6 +1,10 @@
 ## TODO
 
-- Prevent exchange if fewer than 7 tiles in bag
+- Nicknames on turn list
+
+- Nice table for turn list
+
+- Keep tiles from jumping around as you play...
 
 - Add an integration test that checks all the turns plus the racks against the config
 

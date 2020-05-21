@@ -165,8 +165,13 @@ const Rabble = (wordlist: WordList) => ({
     exchangeTiles: {
       move: (G: Game, ctx: GameContext, exchange: Tile[]) => {
         const { currentPlayer } = ctx;
-        const { tileRack } = G.players[currentPlayer];
+        const { currentPlay, tileRack } = G.players[currentPlayer];
         const { tileBag } = G;
+
+        if (tileBag.length < 7) {
+          currentPlay.invalidReason = "Not enough tiles in bag for exchange";
+          return INVALID_MOVE;
+        }
 
         logMetaData.pid = currentPlayer;
         try {
