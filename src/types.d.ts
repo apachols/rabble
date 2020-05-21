@@ -118,6 +118,7 @@ type ClientConfig = {
   game: Object;
   board: Object;
   multiplayer: Object;
+  visibleAt?: number;
 };
 
 type SocketConfig = {

@@ -10,6 +10,7 @@ const Engine = Client({
   game: Rabble({}),
   board: GameScreen,
   multiplayer: SocketIO({ server: SOCKET_ROOT }),
+  visibleAt: 0,
 });
 
 export default Engine;
