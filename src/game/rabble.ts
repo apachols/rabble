@@ -49,6 +49,7 @@ const Rabble = (wordlist: WordList) => ({
       const tileRack: Tile[] = [];
       drawTiles(tileRack, tileBag);
       return {
+        nickname: "Anon",
         currentPlay: {
           invalidReason: "",
           tilesLaid: [],
@@ -85,7 +86,7 @@ const Rabble = (wordlist: WordList) => ({
     playWord: {
       move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
-        const { tileRack, currentPlay } = G.players[currentPlayer];
+        const { tileRack, currentPlay, nickname } = G.players[currentPlayer];
         const { tileBag, gameBoard } = G;
 
         logMetaData.pid = currentPlayer;
@@ -132,6 +133,7 @@ const Rabble = (wordlist: WordList) => ({
             turnID: `${ctx.turn}-${currentPlayer}`,
             tiles: allTilesFromSquares(allSquares),
             playerID: currentPlayer,
+            nickname,
             score,
           };
           G.turns.push(thisTurn);
@@ -165,7 +167,7 @@ const Rabble = (wordlist: WordList) => ({
     exchangeTiles: {
       move: (G: Game, ctx: GameContext, exchange: Tile[]) => {
         const { currentPlayer } = ctx;
-        const { currentPlay, tileRack } = G.players[currentPlayer];
+        const { currentPlay, tileRack, nickname } = G.players[currentPlayer];
         const { tileBag } = G;
 
         if (tileBag.length < 7) {
@@ -183,13 +185,21 @@ const Rabble = (wordlist: WordList) => ({
 
         const thisTurn = {
           turnID: `${ctx.turn}-${currentPlayer}`,
-          tiles: [],
           playerID: currentPlayer,
+          tiles: [],
+          nickname,
           score: 0,
         };
         G.turns.push(thisTurn);
       },
       client: false,
+    },
+    setNickName: {
+      move: (G: Game, ctx: GameContext, nickname: string) => {
+        const { currentPlayer } = ctx;
+        G.players[currentPlayer].nickname = nickname;
+      },
+      client: true,
     },
     cleanUp: {
       move: (G: Game, ctx: GameContext) => {

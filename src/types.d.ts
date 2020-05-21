@@ -60,6 +60,7 @@ type GameBoardProps = {
     playWord: (playSquares: Square[]) => void;
     checkWord: (playSquares: Square[]) => void;
     cleanUp: () => void;
+    setNickName: (nickname: string) => void;
   };
   events: {
     endTurn: any;
@@ -67,6 +68,7 @@ type GameBoardProps = {
 };
 
 type PlayerInfo = {
+  nickname: string;
   tileRack: Tile[];
   currentPlay: {
     invalidReason: string;
@@ -78,6 +80,7 @@ type PlayerInfo = {
 type Turn = {
   turnID: string;
   playerID: string;
+  nickname: string;
   tiles: Tile[];
   score: number;
 };

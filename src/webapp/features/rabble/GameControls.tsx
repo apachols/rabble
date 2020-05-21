@@ -12,6 +12,7 @@ import Board from "./board/Board";
 import Buttons from "./Buttons";
 
 import { pullPlayTilesFromRack } from "../../../game/tileBag";
+import { getUserInfo } from "../../app/localStorage";
 
 import { addPlayTile } from "./boardSlice";
 
@@ -20,9 +21,18 @@ const GameControls = (props: GameBoardProps) => {
     playerID,
     ctx: { currentPlayer, gameover },
     G: { players, gameBoard },
-    moves: { playWord, exchangeTiles, checkWord, cleanUp },
+    moves: { playWord, exchangeTiles, checkWord, cleanUp, setNickName },
     events: { endTurn },
   } = props;
+
+  // Let the server know the player's nickname
+  const { nickname } = getUserInfo();
+  const serverNickname = players[playerID].nickname;
+  useEffect(() => {
+    if (nickname !== serverNickname) {
+      setNickName(nickname);
+    }
+  }, [nickname, serverNickname, setNickName]);
 
   // Pull info for the current player
   const { tileRack, currentPlay } = players[playerID];

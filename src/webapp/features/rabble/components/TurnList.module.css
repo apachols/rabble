@@ -7,3 +7,17 @@
   min-width: 200px;
   padding: 0px;
 }
+
+.turnTable {
+  width: 100%;
+  border: 1px solid black;
+  border-spacing: 0px;
+}
+.turnTable th {
+  padding: 10px 15px;
+  border: 1px solid black;
+}
+.turnTable td {
+  padding: 10px 15px;
+  border: 1px solid black;
+}

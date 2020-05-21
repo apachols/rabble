@@ -55,7 +55,7 @@ const GameScreen = (props: GameBoardProps) => {
 
       <GameControls nowPlaying={currentPlayer} {...props} />
 
-      <h5 className={styles.subheading}>Scores</h5>
+      <h4 className={styles.subheading}>Scores</h4>
       <ul className={styles.scoreList}>
         <li>
           <span>
@@ -69,7 +69,7 @@ const GameScreen = (props: GameBoardProps) => {
         </li>
       </ul>
 
-      <h5 className={styles.subheading}>Turns</h5>
+      <h4 className={styles.subheading}>Turns</h4>
       <TurnList turns={turns} />
     </div>
   );
