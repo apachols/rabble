@@ -1,11 +1,11 @@
 import React from "react";
-import styles from "./ScoreList.module.css";
+import styles from "./ScoreDisplay.module.css";
 
-type ScoreListProps = {
+type ScoreDisplayProps = {
   scoreList: ScoreList;
 };
 
-const ScoreList = (props: ScoreListProps) => {
+const ScoreDisplay = (props: ScoreDisplayProps) => {
   const { scoreList } = props;
 
   const playerScore = ({ nickname, score }: ScoreData) =>
@@ -22,4 +22,4 @@ const ScoreList = (props: ScoreListProps) => {
   );
 };
 
-export default ScoreList;
+export default ScoreDisplay;

@@ -7,7 +7,7 @@ import GameControls from "./GameControls";
 import { getUserInfo, getPlayerGame } from "../../app/localStorage";
 import ThemeSelector from "./components/ThemeSelector";
 
-import ScoreList from "./components/ScoreList";
+import ScoreDisplay from "./components/ScoreDisplay";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
@@ -56,7 +56,7 @@ const GameScreen = (props: GameBoardProps) => {
           <strong>Invite a friend! (Click to copy) </strong>
         </button>
       </div>
-      <ScoreList scoreList={useScoreList} />
+      <ScoreDisplay scoreList={useScoreList} />
 
       <GameControls nowPlaying={currentPlayer} {...props} />
       <h4 className={styles.subheading}>Scores</h4>
