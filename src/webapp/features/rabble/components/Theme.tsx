@@ -15,6 +15,7 @@ const themes = {
     'square-dw': "#DA799D",
     'square-tw': "#8D4E65",
     'square-border': "#FFFFFF",
+    'selected-darkfont': "#444",
   }
 }
 

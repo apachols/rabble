@@ -2,6 +2,7 @@
   display: inline-block;
   position: relative;
   border: 1px solid var(--square-border);
+  color: rgb(224, 224, 224);
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
 }
@@ -24,14 +25,17 @@
 .playable {
   background-color: var(--selection);
   border: 1px dashed var(--square-tw);
+  color: var(--selected-darkfont);
 }
 .playableLight {
   background-color: var(--selection-light);
   border: 1px dashed var(--square-tw);
+  color: var(--selected-darkfont);
 }
 .playableLighter {
   background-color: var(--selection-lighter);
   border: 1px dashed var(--square-tw);
+  color: var(--selected-darkfont);
 }
 
 .sizer {
@@ -47,7 +51,7 @@
 }
 
 .displayBonus {
-  color: rgb(224, 224, 224);
+  
   display: flex;
   justify-content: center;
   height: 100%;
