@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Turn.module.css";
 
 type TurnProps = {
   turn: Turn;
@@ -6,15 +7,17 @@ type TurnProps = {
 
 const Turn = (props: TurnProps) => {
   const {
-    turn: { tiles, playerID, score },
+    turn: { tiles, playerID, score, nickname },
   } = props;
   return (
-    <li>
-      <span>
-        [P{playerID}] {tiles.map((t) => t.letter)}
-      </span>
-      <span style={{ float: "right" }}>{score}</span>
-    </li>
+    <tr>
+      <td className={styles.player}>
+        <span>{nickname}</span>
+        <span className={styles.playerID}>{playerID}</span>
+      </td>
+      <td>{tiles.map((t) => t.letter)}</td>
+      <td className={styles.score}>{score}</td>
+    </tr>
   );
 };
 

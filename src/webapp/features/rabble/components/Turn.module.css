@@ -1,0 +1,16 @@
+.player {
+  text-align: left;
+  width: 40%;
+}
+
+.playerID {
+  float: right;
+  font-size: x-small;
+  width: 35%;
+  text-align: right;
+}
+
+.score {
+  text-align: right;
+  width: 25%;
+}

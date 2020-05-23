@@ -11,11 +11,16 @@ const TurnList = (props: TurnListProps) => {
 
   return (
     <div>
-      <ul className={styles.turnList}>
+      <table className={styles.turnTable}>
+        <tr>
+          <th>Player</th>
+          <th>Word</th>
+          <th>Score</th>
+        </tr>
         {turns.map((t) => {
           return <Turn key={t.turnID} turn={t} />;
         })}
-      </ul>
+      </table>
     </div>
   );
 };

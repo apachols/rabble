@@ -26,9 +26,6 @@ const GameScreen = (props: GameBoardProps) => {
   return (
     <div className={styles.board}>
       <div className={styles.topButtonContainer}>
-        <div className={styles.reloadButton}>
-          <button onClick={() => window.location.reload()}>reload</button>
-        </div>
         <input
           readOnly
           ref={inputRef}
@@ -54,20 +51,11 @@ const GameScreen = (props: GameBoardProps) => {
         >
           <strong>Invite a friend! (Click to copy) </strong>
         </button>
-        <button
-          onClick={() => {
-            throw new Error(
-              "Take me to your server, I need to speak with your manager."
-            );
-          }}
-        >
-          test
-        </button>
       </div>
 
       <GameControls nowPlaying={currentPlayer} {...props} />
 
-      <h5 className={styles.subheading}>Scores</h5>
+      <h4 className={styles.subheading}>Scores</h4>
       <ul className={styles.scoreList}>
         <li>
           <span>
@@ -81,7 +69,7 @@ const GameScreen = (props: GameBoardProps) => {
         </li>
       </ul>
 
-      <h5 className={styles.subheading}>Turns</h5>
+      <h4 className={styles.subheading}>Turns</h4>
       <TurnList turns={turns} />
     </div>
   );

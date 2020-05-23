@@ -8,6 +8,7 @@ import {
   updateUserNickName,
   joinUserGame,
 } from "../../app/localStorage";
+import Loader from "react-loader-spinner";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
@@ -84,8 +85,6 @@ const postToJoinGame = async (gameID: string, nickname: string) => {
 
   const { playerCredentials } = postResult.data;
 
-  console.log(playerCredentials);
-
   updateUserNickName(nickname);
 
   joinUserGame(gameID, playerID, playerCredentials);
@@ -98,10 +97,11 @@ const JoinGame = () => {
   const [nickname, setNickname] = useState(getUserInfo().nickname);
   const [joinError, setJoinError] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   if (!gameID) {
     return <div>Game ID Missing</div>;
   }
-
   const gameInfo = getPlayerGame(gameID);
   if (gameInfo?.playerID && gameInfo?.playerCredentials) {
     redirectToGameView(gameID);
@@ -112,7 +112,7 @@ const JoinGame = () => {
       // This is eating the error for some reason :<
       postToJoinGame(gameID, nickname);
       // So just assume that if we don't redirect, there was an error :<
-      setTimeout(() => setJoinError(`Failed to join ${gameID}`), 1500);
+      setTimeout(() => setJoinError(`Failed to join ${gameID}`), 4500);
     } catch (err) {
       setJoinError(`Failed to join ${gameID}`);
     }
@@ -123,13 +123,32 @@ const JoinGame = () => {
       <h3>Join game {gameID}</h3>
       <h4 style={{ color: "red" }}>{joinError}</h4>
       <div className={styles.inputGroupContainer}>
-        <label>Enter Your Nickname</label>
-        <input
-          name="nickname"
-          value={nickname}
-          onChange={(ev) => setNickname(ev.target.value)}
-        />
-        <button onClick={() => joinGameOrError(gameID, nickname)}>join</button>
+        {loading ? (
+          <Loader
+            type="Grid"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            timeout={4000}
+          />
+        ) : (
+          <>
+            <label>Enter Your Nickname</label>
+            <input
+              name="nickname"
+              value={nickname}
+              onChange={(ev) => setNickname(ev.target.value)}
+            />
+            <button
+              onClick={() => {
+                setLoading(true);
+                joinGameOrError(gameID, nickname);
+              }}
+            >
+              join
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

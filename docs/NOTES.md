@@ -1,17 +1,13 @@
 ## TODO
 
-- Creating a game needs a spinner...
+- Add a favicon and remove create react app branding
 
-- Websocket sleep problem leads to server confusion
+- Display opponent nickname, also move total score display
 
-- Redo turn list to not show your exchange letters
+- Keep tiles from jumping around as you play...
+
+- Add an integration test that checks all the turns plus the racks against the config
 
 - Add .env setup instructions to README
 
-- Prevent exchange if fewer than 7 tiles in bag
-
-- Web socket goes to sleep if tab is inactive
-
 - https://react-dnd.github.io/react-dnd/docs/tutorial
-
-- Add an integration test that checks all the turns plus the racks against the config.
