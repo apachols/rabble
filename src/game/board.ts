@@ -114,6 +114,26 @@ export const getNextLocation = (
   return null;
 };
 
+export const getDistance = (
+  source: number,
+  destination: number,
+  direction: Direction
+): number | number | null => {
+  if (!direction || source === null || destination === null) {
+    return null;
+  }
+  if (source < 0 || source > 224 || destination < 0 || destination > 224 ) {
+    return null;
+  }
+  if (direction === VERTICAL) {
+    return Math.round((destination - source) / 15);
+  }
+  if (direction === HORIZONTAL) {
+    return destination - source;
+  }
+  return null;
+};
+
 export const generateBoard = () => {
   const Board: Square[] = [];
 

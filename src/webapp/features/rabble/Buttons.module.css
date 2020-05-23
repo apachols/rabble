@@ -4,3 +4,19 @@
   justify-content: space-evenly;
   width: 100%;
 }
+
+.buttons > button {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.buttons > button > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.play {}

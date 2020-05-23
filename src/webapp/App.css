@@ -5,11 +5,11 @@
 
 .Nav {
   list-style: none;
-  padding: 0px;
+  padding: 0;
   display: flex;
   justify-content: space-between;
 }
 
 .Nav > li {
-  margin: 0px 10px;
+  margin: 0 10px;
 }

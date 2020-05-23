@@ -8,6 +8,11 @@ import {
   selectPlaySquares,
 } from "./boardSlice";
 import { playTilesFromSquares } from "../../../game/play";
+import {ReactComponent as ShuffleIcon} from "./svg/shuffle-outline.svg";
+import {ReactComponent as UndoIcon} from "./svg/arrow-undo-outline.svg";
+import {ReactComponent as SwapIcon} from "./svg/swap-horizontal-outline.svg";
+import {ReactComponent as FlagIcon} from "./svg/flag-outline.svg";
+import {ReactComponent as PlayIcon} from "./svg/play-circle-outline.svg";
 
 type ButtonsProps = {
   currentPlayIsValid: boolean;
@@ -85,12 +90,30 @@ const Buttons = ({
   return (
     <div className={styles.buttons}>
       {currentPlayerHasTurn && (
+        <button onClick={() => endTurn()}>
+          <FlagIcon />
+          PASS
+        </button>
+      )}
+      <button
+        onClick={() => {
+          dispatch(clearPlayTiles());
+          dispatch(changeSquareSelection(null));
+          dispatch(updateRackTiles(tileRack));
+        }}
+      >
+        <UndoIcon />
+        UNDO
+      </button>      
+      {currentPlayerHasTurn && (
         <button
+          className={styles.play}
           onClick={() => {
             checkWord(playSquares);
           }}
         >
-          play tiles
+          <PlayIcon />
+          PLAY
         </button>
       )}
       <button
@@ -98,18 +121,10 @@ const Buttons = ({
           dispatch(shuffleRack());
         }}
       >
-        shuffle tiles
+        <ShuffleIcon />
+        SHUFFLE
       </button>
-      <button
-        onClick={() => {
-          dispatch(clearPlayTiles());
-          dispatch(changeSquareSelection(null));
-          dispatch(updateRackTiles(tileRack));
-          cleanUp();
-        }}
-      >
-        recall tiles
-      </button>
+
       {currentPlayerHasTurn && (
         <button
           onClick={() => {
@@ -120,12 +135,11 @@ const Buttons = ({
             cleanUp();
           }}
         >
-          exchange tiles
+          <SwapIcon />
+          SWAP
         </button>
       )}
-      {currentPlayerHasTurn && (
-        <button onClick={() => endTurn()}>pass turn</button>
-      )}
+
     </div>
   );
 };
