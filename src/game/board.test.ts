@@ -1,6 +1,7 @@
 import {
   getPreviousLocation,
   getNextLocation,
+  getDistance,
   HORIZONTAL,
   VERTICAL,
 } from "./board";
@@ -54,5 +55,25 @@ describe("getNextLocation", () => {
     ${225}   | ${VERTICAL}   | ${null}
   `("provides bounds checking", ({ location, direction, result }) => {
     expect(getNextLocation(location, direction)).toEqual(result);
+  });
+  describe("getDistance", () => {
+    it.each`
+    source  | destination  | direction     | result
+    ${0}    | ${15}         | ${VERTICAL} | ${1}
+    ${0}    | ${30}         | ${VERTICAL} | ${2}
+    ${25}    | ${26}        | ${HORIZONTAL} | ${1}
+    ${25}    | ${27}        | ${HORIZONTAL} | ${2} 
+  `("provides correct distance", ({ source, destination, direction, result }) => {
+      expect(getDistance(source, destination, direction)).toEqual(result);
+    });
+    it.each`
+    source  | destination  | direction     | result
+    ${-1}   | ${5}         | ${HORIZONTAL} | ${null}
+    ${225}  | ${5}         | ${HORIZONTAL} | ${null}
+    ${5}    | ${-1}        | ${HORIZONTAL} | ${null}
+    ${5}    | ${255}       | ${HORIZONTAL} | ${null} 
+  `("provides bounds checking", ({ source, destination, direction, result }) => {
+      expect(getDistance(source, destination, direction)).toEqual(result);
+    });
   });
 });

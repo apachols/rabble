@@ -22,10 +22,9 @@ const Square = ({ square, clickSquare, playableLocations, selectedLocation, dire
   );
 
   let playableClass = "";
-  if (selectedLocation && playableLocations.includes(location)) {
+  if (selectedLocation !== null && playableLocations.includes(location)) {
     
     const dist = getDistance(selectedLocation, square.location, direction) || 0;
-    console.log("using distance", dist);
     switch(dist) {
       case 0:
         playableClass = styles.playable;
@@ -33,7 +32,7 @@ const Square = ({ square, clickSquare, playableLocations, selectedLocation, dire
       case 1:
         playableClass = styles.playableLight;
         break;
-        default:
+      default:
           playableClass = styles.playableLighter;
         break;
     }
