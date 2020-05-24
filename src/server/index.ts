@@ -29,7 +29,7 @@ loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
 
     db: new FlatFile({
       dir: process.env.FLATFILE_PATH || "",
-      logging: true,
+      logging: false,
     }),
   });
 

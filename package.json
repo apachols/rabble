@@ -33,7 +33,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "phone": "env REACT_APP_API_ROOT=http://192.168.1.10:8000 REACT_APP_SOCKET_ROOT=http://192.168.1.10:8000 react-scripts start",
+    "phone": "env REACT_APP_API_ROOT=http://192.168.0.3:8000 REACT_APP_SOCKET_ROOT=http://192.168.0.3:8000 react-scripts start",
     "dev": "env REACT_APP_API_ROOT=http://localhost:8000 REACT_APP_SOCKET_ROOT=http://localhost:8000 react-scripts start",
     "repl": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node --files --project ./tsconfig.json npm",
     "server": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node --files --project ./tsconfig.json ./src/server/index.ts",

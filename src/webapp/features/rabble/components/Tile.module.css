@@ -5,7 +5,7 @@
   display: inline-block;
   overflow-y: hidden;
   user-select: none;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .tileImage {
@@ -16,6 +16,7 @@
 }
 
 .letterText {
+  color: black;
   top: 55%;
   left: 55%;
   transform: translate(-50%, -50%);

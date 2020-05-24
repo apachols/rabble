@@ -44,6 +44,12 @@
 
 .topButtonContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding-bottom: 8px;
+}
+
+.themeSelectorContainer {
+  margin-top: 50px;
+  display: flex;
+  justify-content: right;
 }

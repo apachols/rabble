@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import TurnList from "./components/TurnList";
 import GameControls from "./GameControls";
 import { getUserInfo, getPlayerGame } from "../../app/localStorage";
+import ThemeSelector from "./components/ThemeSelector";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
@@ -71,6 +72,9 @@ const GameScreen = (props: GameBoardProps) => {
 
       <h4 className={styles.subheading}>Turns</h4>
       <TurnList turns={turns} />
+      <div className={styles.themeSelectorContainer}>
+        <ThemeSelector />
+      </div>
     </div>
   );
 };
