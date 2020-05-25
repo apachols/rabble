@@ -19,6 +19,7 @@ import {
   allSquaresInWord,
 } from "./play";
 import { checkForInvalidWords, scoreForValidWords } from "./score";
+import { PlayerID } from "boardgame.io";
 
 const prefixed = (logPrefixFunction: any, original: any) =>
   function () {
@@ -228,7 +229,7 @@ const Rabble = (wordlist: WordList) => ({
           G.scoreList[currentPlayer].nickname = nickname;
         }
       },
-      client: false,
+      client: true,
     },
     cleanUp: {
       move: (G: Game, ctx: GameContext) => {
@@ -317,38 +318,45 @@ const Rabble = (wordlist: WordList) => ({
 
   // TODO more than two players obviously
   endIf: (G: Game, ctx: GameContext) => {
-    const { tileBag } = G;
+    const { tileBag, turns } = G;
     const emptyTileBag = tileBag.length === 0;
     const player0 = G.players["0"];
     const player1 = G.players["1"];
     const emptyRackPlayer0 = player0.tileRack.length === 0;
     const emptyRackPlayer1 = player1.tileRack.length === 0;
-    const finalScores = { ...G.scores };
 
-    // Here, pull scores from scorelist instead of obsoleted G.scores
-    const finalScores2 = G.scoreList
-      ? Object.keys(G.scoreList).reduce(
-          (fscores: { [key: string]: number }, playerID: string) => {
-            return { ...fscores, [playerID]: G.scoreList[playerID].score };
-          },
-          {}
-        )
-      : null;
+    // Create copies here since we cannot mutate in this hook >:|
+    const finalTurns = [...turns];
+    const finalScoreList: ScoreList = Object.keys(G.scoreList).reduce(
+      (fscorelist, pid) => ({ ...fscorelist, [pid]: { ...G.scoreList[pid] } }),
+      {}
+    );
 
     if (emptyTileBag && (emptyRackPlayer0 || emptyRackPlayer1)) {
       // Play-out bonus
       const rackToCalculate = emptyRackPlayer0
         ? player1.tileRack
         : player0.tileRack;
+
       console.log(`FINAL rack ${rackToCalculate.map((t) => t.letter)}`);
       const points = rackToCalculate.reduce(
         (score, tile) => score + tile.value,
         0
       );
       console.log(`FINAL points ${points}`);
+
       const applyFinalBonus = (playerID: string, score: number) => {
-        finalScores[playerID] += score;
+        finalScoreList[playerID].score += score;
+        const thisTurn = {
+          turnID: `${ctx.turn}-${playerID}`,
+          tiles: [...rackToCalculate],
+          playerID,
+          nickname: finalScoreList[playerID].nickname,
+          score,
+        };
+        finalTurns.push(thisTurn);
       };
+
       if (emptyRackPlayer0) {
         applyFinalBonus("0", points);
         applyFinalBonus("1", -1 * points);
@@ -358,29 +366,25 @@ const Rabble = (wordlist: WordList) => ({
       }
 
       // Victory!
-      console.log(`Score Player0 ${finalScores["0"]}`);
-      console.log(`Score Player1 ${finalScores["1"]}`);
+      console.log(`Score Player0 ${finalScoreList["0"].score}`);
+      console.log(`Score Player1 ${finalScoreList["1"].score}`);
 
-      // TODO - Clean up scores and use only scorelist
-      const scoreList = {
-        "0": {
-          nickname: G.scoreList?.["0"] || "",
-          score: finalScores["0"],
-        },
-        "1": {
-          nickname: G.scoreList?.["1"] || "",
-          score: finalScores["1"],
-        },
-      };
-
-      if (finalScores["0"] > finalScores["1"]) {
-        return { winner: "0", finalScores, scoreList };
+      if (finalScoreList["0"].score > finalScoreList["1"].score) {
+        return {
+          winner: finalScoreList["0"].nickname,
+          scoreList: finalScoreList,
+          finalTurns,
+        };
       }
-      if (finalScores["1"] > finalScores["0"]) {
-        return { winner: "1", finalScores, scoreList };
+      if (finalScoreList["1"].score > finalScoreList["0"].score) {
+        return {
+          winner: finalScoreList["1"].nickname,
+          scoreList: finalScoreList,
+          finalTurns,
+        };
       }
       // Or not
-      return { draw: true, finalScores, scoreList };
+      return { draw: true, scoreList: finalScoreList, finalTurns };
     }
   },
 });

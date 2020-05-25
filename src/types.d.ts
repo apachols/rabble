@@ -122,11 +122,12 @@ type GameContext = {
   currentPlayer: string;
   gameover?: {
     scoreList: ScoreList;
-    winner?: number;
+    winner?: string;
     draw?: boolean;
     finalScores: {
       [key: string]: number;
     };
+    finalTurns: Turn[];
   };
 };
 

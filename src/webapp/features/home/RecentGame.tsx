@@ -7,7 +7,7 @@ type GameProps = {
 
 const RecentGame = (props: GameProps) => {
   const {
-    game: { gameID, playerID, scoreList, createdAt },
+    game: { gameID, scoreList, createdAt },
   } = props;
 
   const content = () => {

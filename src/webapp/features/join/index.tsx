@@ -104,7 +104,7 @@ const JoinGame = () => {
     if (gameInfo?.playerID && gameInfo?.playerCredentials) {
       redirectToGameView(gameID);
     }
-  }, [gameInfo, redirectToGameView]);
+  }, [gameInfo, gameID]);
 
   useEffect(() => {
     if (loading) {
@@ -117,7 +117,7 @@ const JoinGame = () => {
         }
       })();
     }
-  }, [loading, gameID]);
+  }, [loading, gameID, nickname]);
 
   return (
     <div className={styles.form}>
