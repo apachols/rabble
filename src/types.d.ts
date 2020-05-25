@@ -1,9 +1,16 @@
 // User Types
 
+type ServerPlayerMetadata = {
+  id: number; // WHY
+  name: string;
+};
+
 type UserGameInfo = {
   gameID: string;
   playerID: string;
   playerCredentials: string;
+  scoreList: ScoreList;
+  createdAt: string;
 };
 
 type UserInfo = {
@@ -95,6 +102,16 @@ type Game = {
   scores: {
     [key: string]: number;
   };
+  scoreList: ScoreList;
+};
+
+type ScoreList = {
+  [key: string]: ScoreData;
+};
+
+type ScoreData = {
+  nickname: string;
+  score: number;
 };
 
 type GameContext = {
@@ -104,11 +121,13 @@ type GameContext = {
   turn: number;
   currentPlayer: string;
   gameover?: {
-    winner?: number;
+    scoreList: ScoreList;
+    winner?: string;
     draw?: boolean;
     finalScores: {
       [key: string]: number;
     };
+    finalTurns: Turn[];
   };
 };
 

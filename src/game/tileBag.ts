@@ -1,5 +1,20 @@
 export const MAX_PLAYER_RACK_TILES = 7;
 
+export const stringFromTiles = (tiles: Tile[]) =>
+  tiles.map((t) => t.letter).join("");
+
+export const tilesFromString = (word: string): Tile[] => {
+  const playLetters = word.toUpperCase().split("");
+  if (!playLetters.every((letter) => tileBagConfig[letter])) {
+    throw new Error(`Invalid word: '${word}'`);
+  }
+  return playLetters.map((letter) => ({
+    letter,
+    value: tileBagConfig[letter].value,
+    blank: tileBagConfig[letter].blank,
+  }));
+};
+
 export const tileBagConfig: TileBagConfig = {
   " ": { letter: " ", value: 0, blank: true, frequency: 2 },
   A: { letter: "A", value: 1, blank: false, frequency: 9 },
@@ -29,6 +44,9 @@ export const tileBagConfig: TileBagConfig = {
   Y: { letter: "Y", value: 4, blank: false, frequency: 2 },
   Z: { letter: "Z", value: 10, blank: false, frequency: 1 },
 };
+
+// Used in the blank chooser
+export const alphabetTiles = tilesFromString("abcdefghijklmnopqrstuvwxyz");
 
 // Creates copies of the tiles, preventing tileBagConfig refs from leaking
 export const createTiles = (tileClass: TileClass): Tile[] => {
@@ -84,24 +102,6 @@ export const checkForPlayTilesInRack = (word: Tile[], rackTiles: Tile[]) => {
     return true;
   });
 };
-
-export const stringFromTiles = (tiles: Tile[]) =>
-  tiles.map((t) => t.letter).join("");
-
-export const tilesFromString = (word: string): Tile[] => {
-  const playLetters = word.toUpperCase().split("");
-  if (!playLetters.every((letter) => tileBagConfig[letter])) {
-    throw new Error(`Invalid word: '${word}'`);
-  }
-  return playLetters.map((letter) => ({
-    letter,
-    value: tileBagConfig[letter].value,
-    blank: tileBagConfig[letter].blank,
-  }));
-};
-
-// Used in the blank chooser
-export const alphabetTiles = tilesFromString("abcdefghijklmnopqrstuvwxyz");
 
 export const pullPlayTilesFromRack = (
   word: Tile[],

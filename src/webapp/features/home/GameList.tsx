@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./home.module.css";
-import Game from "./Game";
+import RecentGame from "./RecentGame";
 import { clearRecentGames } from "../../app/localStorage";
 
 type GameListProps = {
@@ -15,7 +15,7 @@ const TurnList = (props: GameListProps) => {
       <h5>Recent games</h5>
       <ul className={styles.gameList}>
         {games.map((g) => {
-          return <Game key={g.gameID} game={g} />;
+          return <RecentGame key={g.gameID} game={g} />;
         })}
       </ul>
       <button

@@ -8,11 +8,12 @@ import {
   selectPlaySquares,
 } from "./boardSlice";
 import { playTilesFromSquares } from "../../../game/play";
-import {ReactComponent as ShuffleIcon} from "./svg/shuffle-outline.svg";
-import {ReactComponent as UndoIcon} from "./svg/arrow-undo-outline.svg";
-import {ReactComponent as SwapIcon} from "./svg/swap-horizontal-outline.svg";
-import {ReactComponent as FlagIcon} from "./svg/flag-outline.svg";
-import {ReactComponent as PlayIcon} from "./svg/play-circle-outline.svg";
+
+import { ReactComponent as ShuffleIcon } from "./svg/shuffle-outline.svg";
+import { ReactComponent as UndoIcon } from "./svg/arrow-undo-outline.svg";
+import { ReactComponent as SwapIcon } from "./svg/swap-horizontal-outline.svg";
+import { ReactComponent as FlagIcon } from "./svg/flag-outline.svg";
+import { ReactComponent as PlayIcon } from "./svg/play-circle-outline.svg";
 
 type ButtonsProps = {
   currentPlayIsValid: boolean;
@@ -104,7 +105,7 @@ const Buttons = ({
       >
         <UndoIcon />
         UNDO
-      </button>      
+      </button>
       {currentPlayerHasTurn && (
         <button
           className={styles.play}
@@ -139,7 +140,6 @@ const Buttons = ({
           SWAP
         </button>
       )}
-
     </div>
   );
 };

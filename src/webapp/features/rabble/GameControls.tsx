@@ -25,21 +25,22 @@ const GameControls = (props: GameBoardProps) => {
     events: { endTurn },
   } = props;
 
-  // Let the server know the player's nickname
-  const { nickname } = getUserInfo();
-  const serverNickname = players[playerID].nickname;
-  useEffect(() => {
-    if (nickname !== serverNickname) {
-      setNickName(nickname);
-    }
-  }, [nickname, serverNickname, setNickName]);
-
   // Pull info for the current player
   const { tileRack, currentPlay } = players[playerID];
   const nowPlaying = currentPlayer;
   const currentPlayerHasTurn = nowPlaying === playerID;
   const currentPlayIsValid = currentPlay.valid;
   const currentPlayTilesLaid = currentPlay.tilesLaid;
+
+  // Let the server know the player's nickname
+  const { nickname } = getUserInfo();
+  const serverNickname = players[playerID].nickname;
+  useEffect(() => {
+    console.log("SETNICKNAME", nickname);
+    if (currentPlayerHasTurn && nickname !== serverNickname) {
+      setNickName(nickname);
+    }
+  }, [nickname, serverNickname, setNickName, currentPlayerHasTurn]);
 
   // Update the rack tiles in the local reducer with the rack tiles from the server
   const dispatch = useDispatch();
@@ -99,9 +100,16 @@ const GameControls = (props: GameBoardProps) => {
 
       {gameover && (
         <h2>
-          {gameover?.draw
-            ? "You Tied! Weird!"
-            : `Player ${gameover?.winner} Wins!`}
+          {gameover?.draw ? (
+            "You Tied! Weird!"
+          ) : (
+            <>
+              <div style={{ color: "red", display: "inline-block" }}>
+                {gameover?.winner}
+              </div>{" "}
+              wins!
+            </>
+          )}
         </h2>
       )}
 
