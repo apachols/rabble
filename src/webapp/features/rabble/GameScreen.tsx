@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 
 import TurnList from "./components/TurnList";
 import GameControls from "./GameControls";
-import { getUserInfo, getPlayerGame } from "../../app/localStorage";
+import {
+  getUserInfo,
+  getPlayerGame,
+  updatePlayerGame,
+} from "../../app/localStorage";
 import ThemeSelector from "./components/ThemeSelector";
 
 import ScoreDisplay from "./components/ScoreDisplay";
@@ -18,12 +22,19 @@ const GameScreen = (props: GameBoardProps) => {
   const { gameID } = useParams();
 
   const { nickname } = getUserInfo();
-  const { playerID } = getPlayerGame(gameID || "");
+  const localGameInfo = getPlayerGame(gameID || "");
+  const { playerID } = localGameInfo;
+  const localScoreList = localGameInfo.scoreList;
   const playerName = !nickname ? `Player ${playerID}` : nickname;
   const otherPlayerID = playerID === "0" ? "1" : "0";
   const displayScores = gameover ? gameover.finalScores : scores;
 
   const useScoreList = gameover?.scoreList || scoreList;
+
+  // TODO - replace this with server side game history for players
+  if (JSON.stringify(localScoreList) !== JSON.stringify(useScoreList)) {
+    updatePlayerGame(gameID, { scoreList: useScoreList });
+  }
 
   const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
 
@@ -56,24 +67,11 @@ const GameScreen = (props: GameBoardProps) => {
           <strong>Invite a friend! (Click to copy) </strong>
         </button>
       </div>
+
       <ScoreDisplay scoreList={useScoreList} />
 
       <GameControls nowPlaying={currentPlayer} {...props} />
-      <h4 className={styles.subheading}>Scores</h4>
-      <ul className={styles.scoreList}>
-        <li>
-          <span>
-            [P{playerID}] {playerName}
-          </span>
-          <span style={{ float: "right" }}>{displayScores[playerID]}</span>
-        </li>
-        <li>
-          <span>[P{otherPlayerID}] Opponent</span>
-          <span style={{ float: "right" }}>{displayScores[otherPlayerID]}</span>
-        </li>
-      </ul>
 
-      <h4 className={styles.subheading}>Turns</h4>
       <TurnList turns={turns} />
       <div className={styles.themeSelectorContainer}>
         <ThemeSelector />

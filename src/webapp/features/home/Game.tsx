@@ -5,18 +5,32 @@ type GameProps = {
   game: UserGameInfo;
 };
 
-const Turn = (props: GameProps) => {
+const RecentGame = (props: GameProps) => {
   const {
-    game: { gameID, playerID }
+    game: { gameID, playerID, scoreList, createdAt },
   } = props;
+
+  const content = () => {
+    if (scoreList) {
+      const scoreListAsString = Object.keys(scoreList)
+        .map((pid) => `${scoreList[pid].nickname}: ${scoreList[pid].score}`)
+        .join(", ");
+      // Newest way
+      if (createdAt) {
+        return `${createdAt} - ${scoreListAsString}`;
+      }
+      // Newer way
+      return scoreListAsString;
+    }
+    // Old way (delete me)
+    return gameID;
+  };
+
   return (
     <li>
-      <Link to={`/game/${gameID}`}>
-        {" "}
-        {gameID} as Player {playerID}
-      </Link>
+      <Link to={`/game/${gameID}`}>{content()}</Link>
     </li>
   );
 };
 
-export default Turn;
+export default RecentGame;

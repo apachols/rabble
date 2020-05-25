@@ -40,7 +40,6 @@ const setCSSVariables = (theme: ThemeObject) => {
 
 export default (props: ThemeSelectorContextProps) => {
   const [themeName, setThemeName] = useState("light");
-  console.log("toggleTheme being defined");
   const toggleTheme = () => {
     themeName === "dark" ? setThemeName("light") : setThemeName("dark");
   };

@@ -223,7 +223,6 @@ const Rabble = (wordlist: WordList) => ({
     setNickName: {
       move: (G: Game, ctx: GameContext, nickname: string) => {
         const { currentPlayer } = ctx;
-        console.log("SETNICKNAME", nickname);
         G.players[currentPlayer].nickname = nickname;
         if (G.scoreList) {
           G.scoreList[currentPlayer].nickname = nickname;

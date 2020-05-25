@@ -3,10 +3,12 @@ const fixtureUserInfo = {
   games: {},
 };
 
-const fixtureGameInfo = {
+const fixtureGameInfo: UserGameInfo = {
   gameID: "",
   playerID: "",
   playerCredentials: "",
+  scoreList: {},
+  createdAt: new Date().toLocaleDateString("en-US"),
 };
 
 export const getUserInfo = (): UserInfo => {
@@ -21,7 +23,10 @@ const updateUserInfo = (userInfo: UserInfo) => {
   localStorage.setItem("userInfo", JSON.stringify(userInfo));
 };
 
-export const getPlayerGame = (gameID: string) => {
+export const getPlayerGame = (gameID: string | undefined) => {
+  if (!gameID) {
+    throw new Error("Missing gameID in getPlayerGame");
+  }
   const userInfo = getUserInfo();
   return userInfo.games[gameID];
 };
@@ -29,6 +34,22 @@ export const getPlayerGame = (gameID: string) => {
 export const updateUserNickName = (nickname: string) => {
   const userInfo = getUserInfo();
   userInfo.nickname = nickname;
+  updateUserInfo(userInfo);
+};
+
+export const updatePlayerGame = (
+  gameID: string | undefined,
+  updateGameInfo: any
+) => {
+  if (!gameID) {
+    throw new Error("Missing gameID in getPlayerGame");
+  }
+  const userInfo = getUserInfo();
+  const gameInfo = {
+    ...userInfo.games[gameID],
+    ...updateGameInfo,
+  };
+  userInfo.games[gameID] = gameInfo;
   updateUserInfo(userInfo);
 };
 

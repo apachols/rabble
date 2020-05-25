@@ -1,9 +1,16 @@
 // User Types
 
+type ServerPlayerMetadata = {
+  id: number; // WHY
+  name: string;
+};
+
 type UserGameInfo = {
   gameID: string;
   playerID: string;
   playerCredentials: string;
+  scoreList: ScoreList;
+  createdAt: string;
 };
 
 type UserInfo = {

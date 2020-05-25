@@ -10,7 +10,7 @@ const ScoreDisplay = (props: ScoreDisplayProps) => {
 
   const playerScore = ({ nickname, score }: ScoreData) =>
     nickname ? (
-      <span>
+      <span key={nickname}>
         <strong>{nickname}</strong>: {score}
       </span>
     ) : null;
