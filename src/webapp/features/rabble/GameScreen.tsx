@@ -10,6 +10,7 @@ import {
   updatePlayerGame,
 } from "../../app/localStorage";
 import ThemeSelector from "./components/ThemeSelector";
+import InviteLink from "./components/InviteLink";
 
 import ScoreDisplay from "./components/ScoreDisplay";
 
@@ -36,36 +37,10 @@ const GameScreen = (props: GameBoardProps) => {
     updatePlayerGame(gameID, { scoreList: useScoreList });
   }
 
-  const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
-
   return (
     <div className={styles.board}>
       <div className={styles.topButtonContainer}>
-        <input
-          readOnly
-          ref={inputRef}
-          className={styles.clipboardInput}
-          value={`${window.location.origin}/join/${gameID}`}
-        />
-        <button
-          onClick={(event) => {
-            const theInput = inputRef.current as HTMLInputElement;
-            if (navigator.userAgent.match(/ipad|iphone/i)) {
-              const range = document.createRange();
-              range.selectNodeContents(theInput);
-              const selection = window.getSelection();
-              selection?.removeAllRanges();
-              selection?.addRange(range);
-              theInput.setSelectionRange(0, 999999);
-            } else {
-              theInput.select();
-            }
-            document.execCommand("copy");
-            theInput.blur();
-          }}
-        >
-          <strong>Invite a friend! (Click to copy) </strong>
-        </button>
+        <InviteLink gameID={gameID} />
       </div>
 
       <ScoreDisplay scoreList={useScoreList} />
