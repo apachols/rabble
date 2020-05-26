@@ -19,7 +19,6 @@ import {
   allSquaresInWord,
 } from "./play";
 import { checkForInvalidWords, scoreForValidWords } from "./score";
-import { PlayerID } from "boardgame.io";
 
 const prefixed = (logPrefixFunction: any, original: any) =>
   function () {
@@ -228,6 +227,14 @@ const Rabble = (wordlist: WordList) => ({
         if (G.scoreList) {
           G.scoreList[currentPlayer].nickname = nickname;
         }
+      },
+      client: true,
+    },
+    reorderRackTiles: {
+      move: (G: Game, ctx: GameContext, rackTiles: Tile[]) => {
+        const { currentPlayer } = ctx;
+        const { currentPlay } = G.players[currentPlayer];
+        G.players[currentPlayer].tileRack = [...rackTiles];
       },
       client: true,
     },

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Buttons.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { shuffleRack, updateRackTiles } from "./rackSlice";
+import { shuffleTiles } from "../../../game/tileBag";
 import {
   clearPlayTiles,
   changeSquareSelection,
@@ -27,6 +28,7 @@ type ButtonsProps = {
   currentPlayTilesLaid: Tile[];
   currentPlay: any;
   setErrorMessage: (message: string) => void;
+  reorderRackTiles: (rackTiles: Tile[]) => void;
 };
 
 const Buttons = ({
@@ -41,6 +43,7 @@ const Buttons = ({
   currentPlayTilesLaid,
   currentPlay,
   setErrorMessage,
+  reorderRackTiles,
 }: ButtonsProps) => {
   const dispatch = useDispatch();
 
@@ -119,7 +122,10 @@ const Buttons = ({
       )}
       <button
         onClick={() => {
-          dispatch(shuffleRack());
+          shuffleTiles(tileRack);
+          reorderRackTiles(tileRack);
+          dispatch(clearPlayTiles());
+          dispatch(changeSquareSelection(null));
         }}
       >
         <ShuffleIcon />
@@ -129,11 +135,13 @@ const Buttons = ({
       {currentPlayerHasTurn && (
         <button
           onClick={() => {
-            dispatch(clearPlayTiles());
-            exchangeTiles(playTilesFromSquares(playSquares));
-            dispatch(changeSquareSelection(null));
-            setPlayed(true);
-            cleanUp();
+            if (playSquares.length > 0) {
+              dispatch(clearPlayTiles());
+              exchangeTiles(playTilesFromSquares(playSquares));
+              dispatch(changeSquareSelection(null));
+              setPlayed(true);
+              cleanUp();
+            }
           }}
         >
           <SwapIcon />

@@ -68,6 +68,7 @@ type GameBoardProps = {
     checkWord: (playSquares: Square[]) => void;
     cleanUp: () => void;
     setNickName: (nickname: string) => void;
+    reorderRackTiles: (rackTiles: Tile[]) => void;
   };
   events: {
     endTurn: any;

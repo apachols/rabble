@@ -21,7 +21,14 @@ const GameControls = (props: GameBoardProps) => {
     playerID,
     ctx: { currentPlayer, gameover },
     G: { players, gameBoard },
-    moves: { playWord, exchangeTiles, checkWord, cleanUp, setNickName },
+    moves: {
+      playWord,
+      exchangeTiles,
+      checkWord,
+      cleanUp,
+      setNickName,
+      reorderRackTiles,
+    },
     events: { endTurn },
   } = props;
 
@@ -61,13 +68,13 @@ const GameControls = (props: GameBoardProps) => {
       <h4>
         <div className={styles.invalidPlayError}>{errorMessage}</div>
         <TileRack
-          onTileClick={(tile) => {
+          onTileClick={(tile): boolean => {
             if (canAddOneMoreTile) {
               const copyRack = [...displayTileRack];
 
               if (tile.blank) {
                 setShowModal(true);
-                return;
+                return true;
               }
 
               pullPlayTilesFromRack([tile], copyRack);
@@ -79,9 +86,13 @@ const GameControls = (props: GameBoardProps) => {
               dispatch(updateRackTiles(copyRack));
 
               setErrorMessage("");
+
+              return true;
             }
+            return false;
           }}
-          tileRack={displayTileRack}
+          tilesInRack={displayTileRack}
+          playerTiles={tileRack}
         />
         <Buttons
           currentPlayIsValid={currentPlayIsValid}
@@ -92,6 +103,7 @@ const GameControls = (props: GameBoardProps) => {
           endTurn={endTurn}
           tileRack={tileRack}
           cleanUp={cleanUp}
+          reorderRackTiles={reorderRackTiles}
           currentPlayTilesLaid={currentPlayTilesLaid}
           currentPlay={currentPlay}
           setErrorMessage={setErrorMessage}
