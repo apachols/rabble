@@ -100,6 +100,7 @@ export const slice = createSlice({
         state.selectedLocation = null;
         state.direction = null;
         state.playableLocations = [];
+
         return;
       }
 
