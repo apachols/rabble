@@ -126,10 +126,8 @@ export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
   let exchangeLetters = exchange.map((t) => (t.blank ? " " : t.letter));
 
   for (let II = 0; II < exchange.length; II++) {
-    console.log("finding", exchangeLetters[II]);
     const pos = rackLetters.indexOf(exchangeLetters[II]);
     if (pos !== -1) {
-      console.log("found", pos);
       rackLetters.splice(pos, 1);
       const spliced = rack.splice(pos, 1);
       if (!spliced.length) {

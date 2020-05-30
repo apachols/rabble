@@ -11,7 +11,3 @@
 - Text message notifications on "it's your turn now"
 
 - Abstraction for API
-
-- Security errors for NPM packages
-
-- package.json dev dependencies

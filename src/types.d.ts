@@ -75,14 +75,16 @@ type GameBoardProps = {
   };
 };
 
+type CurrentPlayInfo = {
+  invalidReason: string;
+  tilesLaid: Tile[];
+  valid: boolean;
+};
+
 type PlayerInfo = {
   nickname: string;
   tileRack: Tile[];
-  currentPlay: {
-    invalidReason: string;
-    tilesLaid: Tile[];
-    valid: boolean;
-  };
+  currentPlay: CurrentPlayInfo;
 };
 
 type Turn = {

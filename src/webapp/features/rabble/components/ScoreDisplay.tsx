@@ -10,8 +10,8 @@ const ScoreDisplay = (props: ScoreDisplayProps) => {
 
   const playerScore = ({ nickname, score }: ScoreData) =>
     nickname ? (
-      <span className={styles.nameAndScoreContainerContainer}>
-        <div className={styles.nameAndScoreContainer} key={nickname}>
+      <span key={nickname} className={styles.nameAndScoreContainerContainer}>
+        <div className={styles.nameAndScoreContainer}>
           <div className={styles.nickname}>
             <strong>{nickname}</strong>
           </div>

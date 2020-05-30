@@ -26,7 +26,7 @@ type ButtonsProps = {
   endTurn: () => {};
   cleanUp: () => void;
   currentPlayTilesLaid: Tile[];
-  currentPlay: any;
+  currentPlay: CurrentPlayInfo;
   setErrorMessage: (message: string) => void;
   reorderRackTiles: (rackTiles: Tile[]) => void;
 };
@@ -36,7 +36,6 @@ const Buttons = ({
   currentPlayerHasTurn,
   exchangeTiles,
   playWord,
-  checkWord,
   endTurn,
   cleanUp,
   tileRack,
@@ -47,28 +46,31 @@ const Buttons = ({
 }: ButtonsProps) => {
   const dispatch = useDispatch();
 
-  const [played, setPlayed] = useState(false);
-
   const playSquares = useSelector(selectPlaySquares);
+  const [submitPlay, setSubmitPlay] = useState(false);
+  const [played, setPlayed] = useState(false);
 
   // If the current play is marked valid, run playWord
   useEffect(() => {
-    if (currentPlayIsValid && playSquares.length > 0) {
+    if (submitPlay && currentPlayIsValid && playSquares.length > 0) {
+      console.log("HOOK RUNNING", "playWord");
       playWord(playSquares);
       dispatch(clearPlayTiles());
       dispatch(changeSquareSelection(null));
       setPlayed(true);
-      cleanUp();
+      setSubmitPlay(false);
     }
-  }, [currentPlayIsValid, playSquares, dispatch, playWord, cleanUp]);
+  }, [submitPlay, currentPlayIsValid, playSquares, dispatch, playWord]);
 
   // If the user has played but the word is invalid, clear tiles
   useEffect(() => {
-    if (!currentPlayIsValid && currentPlayTilesLaid?.length) {
+    if (submitPlay && !currentPlayIsValid && currentPlayTilesLaid?.length) {
+      console.log("HOOK RUNNING", "clearPlayTiles");
       dispatch(clearPlayTiles());
       dispatch(changeSquareSelection(null));
       setErrorMessage(currentPlay.invalidReason);
       cleanUp();
+      setSubmitPlay(false);
     }
   }, [
     currentPlayIsValid,
@@ -84,6 +86,7 @@ const Buttons = ({
   // If we try to do this on the server, we get "ERROR: invalid stateID"
   useEffect(() => {
     if (played) {
+      console.log("HOOK RUNNING", "endTurn");
       setTimeout(() => {
         endTurn();
         setPlayed(false);
@@ -113,7 +116,7 @@ const Buttons = ({
         <button
           className={styles.play}
           onClick={() => {
-            checkWord(playSquares);
+            setSubmitPlay(true);
           }}
         >
           <PlayIcon />
