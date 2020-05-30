@@ -96,6 +96,7 @@ type Turn = {
 type Game = {
   gameBoard: Square[];
   tileBag: Tile[];
+  remainingTileCount: number;
   turns: Turn[];
   players: {
     [key: string]: PlayerInfo;

@@ -14,10 +14,19 @@
   border-spacing: 0px;
 }
 .turnTable th {
-  padding: 10px 15px;
+  padding: 10px 10px;
   border: 1px solid black;
+  font-size: small;
 }
 .turnTable td {
-  padding: 10px 15px;
+  padding: 10px 10px;
   border: 1px solid black;
+}
+.playerAndRemainingTilesHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.remainingTileCount {
+  font-size: x-small;
+  line-height: 20px;
 }

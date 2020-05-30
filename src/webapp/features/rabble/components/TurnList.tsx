@@ -4,27 +4,30 @@ import Turn from "./Turn";
 
 type TurnListProps = {
   turns: Turn[];
+  remainingTileCount: number;
 };
 
-const TurnList = (props: TurnListProps) => {
-  const { turns } = props;
-
-  return (
-    <div>
-      <table className={styles.turnTable}>
-        <tbody>
-          <tr>
-            <th>Player</th>
-            <th>Word</th>
-            <th>Score</th>
-          </tr>
-          {turns.map((t) => {
-            return <Turn key={t.turnID} turn={t} />;
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+const TurnList = ({ turns, remainingTileCount }: TurnListProps) => (
+  <div>
+    <table className={styles.turnTable}>
+      <tbody>
+        <tr>
+          <th>#</th>
+          <th className={styles.playerAndRemainingTilesHeader}>
+            <span>Player</span>
+            <span className={styles.remainingTileCount}>
+              {remainingTileCount}
+            </span>
+          </th>
+          <th>Word</th>
+          <th>Score</th>
+        </tr>
+        {turns.reverse().map((t) => {
+          return <Turn key={t.turnID} turn={t} />;
+        })}
+      </tbody>
+    </table>
+  </div>
+);
 
 export default TurnList;

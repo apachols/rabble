@@ -60,6 +60,7 @@ const Rabble = (wordlist: WordList) => ({
     };
     return {
       tileBag,
+      remainingTileCount: 100,
       gameBoard,
       turns: [],
       scoreList: {
@@ -171,6 +172,9 @@ const Rabble = (wordlist: WordList) => ({
         // draw back to a full hand
         drawTiles(tileRack, tileBag);
 
+        console.log("TILES REMAINING", tileBag.length);
+        G.remainingTileCount = tileBag.length;
+
         // reset the "is the word you are trying to play valid" bit
         currentPlay.valid = false;
         currentPlay.tilesLaid = [];
@@ -233,7 +237,6 @@ const Rabble = (wordlist: WordList) => ({
     reorderRackTiles: {
       move: (G: Game, ctx: GameContext, rackTiles: Tile[]) => {
         const { currentPlayer } = ctx;
-        const { currentPlay } = G.players[currentPlayer];
         G.players[currentPlayer].tileRack = [...rackTiles];
       },
       client: true,
@@ -251,7 +254,7 @@ const Rabble = (wordlist: WordList) => ({
     checkWord: {
       move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
-        const { gameBoard, tileBag } = G;
+        const { gameBoard } = G;
         const { tileRack, currentPlay } = G.players[currentPlayer];
 
         logMetaData.pid = currentPlayer;
@@ -260,7 +263,6 @@ const Rabble = (wordlist: WordList) => ({
         const wordAsString = wordAsTiles.map((t) => t.letter).join("");
 
         console.log("CHECKWORD", wordAsString);
-        console.log("TILES REMAINING", tileBag.length);
 
         try {
           if (isFirstPlay(gameBoard)) {

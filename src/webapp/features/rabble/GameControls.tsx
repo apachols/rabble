@@ -43,7 +43,6 @@ const GameControls = (props: GameBoardProps) => {
   const { nickname } = getUserInfo();
   const serverNickname = players[playerID].nickname;
   useEffect(() => {
-    console.log("SETNICKNAME", nickname);
     if (currentPlayerHasTurn && nickname !== serverNickname) {
       setNickName(nickname);
     }

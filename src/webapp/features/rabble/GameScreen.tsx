@@ -12,13 +12,14 @@ import ScoreDisplay from "./components/ScoreDisplay";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
-    G: { turns, scoreList },
+    G: { turns, scoreList, remainingTileCount },
     ctx: { currentPlayer, gameover },
   } = props;
 
   const { gameID } = useParams();
 
   const localGameInfo = getPlayerGame(gameID || "");
+
   const localScoreList = localGameInfo.scoreList;
 
   const useScoreList = gameover?.scoreList || scoreList;
@@ -40,7 +41,7 @@ const GameScreen = (props: GameBoardProps) => {
 
       <GameControls nowPlaying={currentPlayer} {...props} />
 
-      <TurnList turns={useTurns} />
+      <TurnList remainingTileCount={remainingTileCount} turns={useTurns} />
 
       <div className={styles.themeSelectorContainer}>
         <ThemeSelector />

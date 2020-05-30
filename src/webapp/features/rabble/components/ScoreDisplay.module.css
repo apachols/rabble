@@ -1,7 +1,37 @@
 .scoreListContainer {
-  margin: 5px auto;
+  margin: 1px auto;
   display: flex;
   justify-content: space-between;
   width: 100%;
   font-size: smaller;
+}
+
+@media (max-width: 600px) {
+  .scoreListContainer {
+    font-size: x-small;
+  }
+}
+
+.nickname {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nameAndScoreContainer {
+  overflow: hidden;
+  display: inline-block;
+  max-width: 120px;
+}
+
+.nameAndScoreContainerContainer {
+  text-align: left;
+}
+
+.score {
+  display: inline-block;
+  max-width: 25px;
+  height: 15px;
+  vertical-align: top;
 }

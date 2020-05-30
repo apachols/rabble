@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Buttons.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { shuffleRack, updateRackTiles } from "./rackSlice";
+import { updateRackTiles } from "./rackSlice";
 import { shuffleTiles } from "../../../game/tileBag";
 import {
   clearPlayTiles,
