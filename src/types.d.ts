@@ -79,6 +79,7 @@ type CurrentPlayInfo = {
   invalidReason: string;
   tilesLaid: Tile[];
   valid: boolean;
+  played: boolean;
 };
 
 type PlayerInfo = {

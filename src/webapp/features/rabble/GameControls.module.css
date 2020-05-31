@@ -5,4 +5,5 @@
 .invalidPlayError {
   color: red;
   margin: 10px auto;
+  font-size: x-small;
 }

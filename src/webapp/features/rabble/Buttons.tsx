@@ -25,85 +25,38 @@ type ButtonsProps = {
   exchangeTiles: (playTiles: Tile[]) => void;
   endTurn: () => {};
   cleanUp: () => void;
-  currentPlayTilesLaid: Tile[];
   currentPlay: CurrentPlayInfo;
-  setErrorMessage: (message: string) => void;
   reorderRackTiles: (rackTiles: Tile[]) => void;
 };
 
 const Buttons = ({
-  currentPlayIsValid,
   currentPlayerHasTurn,
   exchangeTiles,
   playWord,
   endTurn,
   cleanUp,
   tileRack,
-  currentPlayTilesLaid,
   currentPlay,
-  setErrorMessage,
   reorderRackTiles,
 }: ButtonsProps) => {
   const dispatch = useDispatch();
 
   const playSquares = useSelector(selectPlaySquares);
-  const [submitPlay, setSubmitPlay] = useState(false);
-  const [played, setPlayed] = useState(false);
-
-  // If the current play is marked valid, run playWord
-  useEffect(() => {
-    if (submitPlay && currentPlayIsValid && playSquares.length > 0) {
-      console.log("HOOK RUNNING", "playWord");
-      playWord(playSquares);
-      dispatch(clearPlayTiles());
-      dispatch(changeSquareSelection(null));
-      setPlayed(true);
-      setSubmitPlay(false);
-    } else {
-      // console.log(`submitPlay ${submitPlay}`);
-      // console.log(`currentPlayIsValid ${currentPlayIsValid}`);
-      // console.log(`playSquares.length  ${playSquares.length}`);
-      setSubmitPlay(false);
-    }
-  }, [submitPlay, currentPlayIsValid, playSquares, dispatch, playWord]);
-
-  // If the user has played but the word is invalid, clear tiles
-  useEffect(() => {
-    if (submitPlay && !currentPlayIsValid && currentPlayTilesLaid?.length) {
-      console.log("HOOK RUNNING", "clearPlayTiles");
-      dispatch(clearPlayTiles());
-      dispatch(changeSquareSelection(null));
-      setErrorMessage(currentPlay.invalidReason);
-      cleanUp();
-      setSubmitPlay(false);
-    }
-  }, [
-    currentPlayIsValid,
-    currentPlayTilesLaid,
-    currentPlay.invalidReason,
-    cleanUp,
-    dispatch,
-    setErrorMessage,
-    submitPlay,
-  ]);
-
   // end turn when played is true
   // TODO - timing issue, otherwise endTurn comes too soon after playWord
   // If we try to do this on the server, we get "ERROR: invalid stateID"
   useEffect(() => {
-    if (played) {
+    if (currentPlay.played) {
       console.log("HOOK RUNNING", "endTurn");
+      cleanUp();
       setTimeout(() => {
         endTurn();
-        setPlayed(false);
       }, 500);
     }
-  }, [played, endTurn]);
+  }, [currentPlay.played, endTurn]);
 
   return (
     <div className={styles.buttons}>
-      <div>{currentPlay.invalidReason}</div>
-
       {currentPlayerHasTurn && (
         <button onClick={() => endTurn()}>
           <FlagIcon />
@@ -115,7 +68,6 @@ const Buttons = ({
           dispatch(clearPlayTiles());
           dispatch(changeSquareSelection(null));
           dispatch(updateRackTiles(tileRack));
-          setSubmitPlay(false);
           cleanUp();
         }}
       >
@@ -126,7 +78,11 @@ const Buttons = ({
         <button
           className={styles.play}
           onClick={() => {
-            setSubmitPlay(true);
+            if (playSquares.length) {
+              playWord(playSquares);
+              dispatch(clearPlayTiles());
+              dispatch(changeSquareSelection(null));
+            }
           }}
         >
           <PlayIcon />
@@ -152,8 +108,8 @@ const Buttons = ({
               dispatch(clearPlayTiles());
               exchangeTiles(playTilesFromSquares(playSquares));
               dispatch(changeSquareSelection(null));
-              setPlayed(true);
               cleanUp();
+              endTurn();
             }
           }}
         >

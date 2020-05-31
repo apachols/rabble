@@ -196,8 +196,7 @@ export const canPlayOneMoreTile = (state: RootState) => {
   return nextLocation !== null;
 };
 
-export const selectPlaySquares = (state: RootState) =>
-  state.board.squares.filter((s) => s.playTile);
+export const selectPlaySquares = (state: RootState) => state.board.currentPlay;
 
 export const selectSelectedLocation = (state: RootState) =>
   state.board.selectedLocation;

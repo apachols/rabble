@@ -39,7 +39,6 @@ const GameControls = (props: GameBoardProps) => {
   const nowPlaying = currentPlayer;
   const currentPlayerHasTurn = nowPlaying === playerID;
   const currentPlayIsValid = currentPlay.valid;
-  const currentPlayTilesLaid = currentPlay.tilesLaid;
 
   // Let the server know the player's nickname
   const { nickname } = getUserInfo();
@@ -65,41 +64,32 @@ const GameControls = (props: GameBoardProps) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const [needToCheckWord, setNeedToCheckWord] = useState(false);
-
   const debouncedPlaySquares = useDebounce(playSquares, 1000);
-  // OOF, ok I think now there's a state interaction where the updateBoard that comes back from
-  // the checkWord is wiping out the callback for debouncedPlaySquares?  Yuck
   useEffect(() => {
-    console.log(`needToCheckWord ${needToCheckWord}`);
-    if (
-      needToCheckWord &&
-      debouncedPlaySquares.length > 0 &&
-      currentPlayerHasTurn
-    ) {
+    if (debouncedPlaySquares.length > 0 && currentPlayerHasTurn) {
       console.log(
         "HOOK RUNNING",
         "checkWord",
         debouncedPlaySquares.map((sq: Square) => sq?.playTile?.letter)
       );
       checkWord(debouncedPlaySquares);
-      setNeedToCheckWord(false);
     }
-  }, [
-    needToCheckWord,
-    setNeedToCheckWord,
-    checkWord,
-    debouncedPlaySquares,
-    currentPlayerHasTurn,
-  ]);
+  }, [checkWord, debouncedPlaySquares, currentPlayerHasTurn]);
+
+  const invalidReasonDisplay = (invalidReason: string) => {
+    if (invalidReason) {
+      return <span>{invalidReason}</span>;
+    }
+    return <span>&nbsp;</span>;
+  };
 
   return (
     <div className={styles.controls}>
       <Board gameBoard={gameBoard} />
       <h4>
-        <div className={styles.invalidPlayError}>{errorMessage}</div>
+        <div className={styles.invalidPlayError}>
+          {invalidReasonDisplay(currentPlay.invalidReason)}
+        </div>
         <TileRack
           onTileClick={(tile): boolean => {
             if (canAddOneMoreTile) {
@@ -118,10 +108,6 @@ const GameControls = (props: GameBoardProps) => {
               // The rack is now everything that hasn't been played
               dispatch(updateRackTiles(copyRack));
 
-              setErrorMessage("");
-
-              setNeedToCheckWord(true);
-
               return true;
             }
             return false;
@@ -139,9 +125,7 @@ const GameControls = (props: GameBoardProps) => {
           tileRack={tileRack}
           cleanUp={cleanUp}
           reorderRackTiles={reorderRackTiles}
-          currentPlayTilesLaid={currentPlayTilesLaid}
           currentPlay={currentPlay}
-          setErrorMessage={setErrorMessage}
         />
       </h4>
 
@@ -181,7 +165,6 @@ const GameControls = (props: GameBoardProps) => {
 
             // Close the modal
             setShowModal(false);
-            setNeedToCheckWord(true);
           }}
         />
       </Modal>
