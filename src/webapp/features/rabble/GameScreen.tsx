@@ -12,7 +12,7 @@ import ScoreDisplay from "./components/ScoreDisplay";
 
 const GameScreen = (props: GameBoardProps) => {
   const {
-    G: { turns, scoreList, remainingTileCount },
+    G: { turnsReverse, scoreList, remainingTileCount },
     ctx: { currentPlayer, gameover },
   } = props;
 
@@ -24,7 +24,7 @@ const GameScreen = (props: GameBoardProps) => {
 
   const useScoreList = gameover?.scoreList || scoreList;
 
-  const useTurns = gameover?.finalTurns || turns;
+  const useTurns = gameover?.finalTurns || turnsReverse || [];
 
   // TODO - replace this with server side game history for players
   if (JSON.stringify(localScoreList) !== JSON.stringify(useScoreList)) {

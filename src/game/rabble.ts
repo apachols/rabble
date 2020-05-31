@@ -3,7 +3,6 @@ import {
   createTileBag,
   shuffleTiles,
   drawTiles,
-  checkForPlayTilesInRack,
   pullPlayTilesFromRack,
   exchangeTiles,
 } from "./tileBag";
@@ -27,9 +26,7 @@ import { checkForInvalidWords, scoreForValidWords } from "./score";
 const playIsInvalid = (
   playSquares: Square[],
   board: Square[],
-  wordlist: WordList,
-  tileRack: Tile[],
-  wordAsTiles: Tile[]
+  wordlist: WordList
 ) => {
   const currentPlay: CurrentPlayInfo = {
     invalidReason: "",
@@ -53,11 +50,6 @@ const playIsInvalid = (
   }
   if (playDirection(playSquares, board) === null) {
     currentPlay.invalidReason = "Play must be in a single row or column";
-    currentPlay.valid = false;
-    return currentPlay;
-  }
-  if (!checkForPlayTilesInRack(wordAsTiles, tileRack)) {
-    currentPlay.invalidReason = "Mismatch between play and hand";
     currentPlay.valid = false;
     return currentPlay;
   }
@@ -114,7 +106,9 @@ const Rabble = (wordlist: WordList) => ({
       tileBag,
       remainingTileCount: 100,
       gameBoard,
+      // TODO eliminate turns once all games are ready
       turns: [],
+      turnsReverse: [],
       scoreList: {
         "0": {
           nickname: "",
@@ -124,11 +118,6 @@ const Rabble = (wordlist: WordList) => ({
           nickname: "",
           score: 0,
         },
-      },
-      // TODO remove old scores that's missing nickname
-      scores: {
-        "0": 0,
-        "1": 0,
       },
       players: {
         "0": makePlayer(),
@@ -172,13 +161,7 @@ const Rabble = (wordlist: WordList) => ({
 
           const wordAsTiles = playTilesFromSquares(playSquares);
           try {
-            const result = playIsInvalid(
-              playSquares,
-              boardCopy,
-              wordlist,
-              tileRack,
-              wordAsTiles
-            );
+            const result = playIsInvalid(playSquares, boardCopy, wordlist);
             if (result) {
               currentPlay.invalidReason = result.invalidReason;
               currentPlay.valid = result.valid;
@@ -197,8 +180,6 @@ const Rabble = (wordlist: WordList) => ({
           pullPlayTilesFromRack(wordAsTiles, tileRack);
 
           const score = scoreForValidWords(playSquares, G.gameBoard);
-          // TODO - remove old scores list that's missing nickname
-          G.scores[currentPlayer] += score;
           if (!G.scoreList) {
             G.scoreList = {
               "0": {
@@ -225,6 +206,7 @@ const Rabble = (wordlist: WordList) => ({
             score,
           };
           G.turns.push(thisTurn);
+          G.turnsReverse = [...G.turns].reverse();
         } catch (err) {
           console.error(`Error in playWord ${err} \n${err.stack}`);
           return INVALID_MOVE;
@@ -283,6 +265,7 @@ const Rabble = (wordlist: WordList) => ({
           score: 0,
         };
         G.turns.push(thisTurn);
+        G.turnsReverse = [...G.turns].reverse();
       },
       client: false,
     },
@@ -317,7 +300,7 @@ const Rabble = (wordlist: WordList) => ({
     checkWord: {
       move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
         const { currentPlayer } = ctx;
-        const { tileRack, currentPlay } = G.players[currentPlayer];
+        const { currentPlay } = G.players[currentPlayer];
 
         logMetaData.pid = currentPlayer;
 
@@ -328,13 +311,7 @@ const Rabble = (wordlist: WordList) => ({
         const boardCopy = G.gameBoard.map((square) => ({ ...square }));
         copyPlaySquaresToBoard(playSquares, boardCopy);
         try {
-          const result = playIsInvalid(
-            playSquares,
-            boardCopy,
-            wordlist,
-            tileRack,
-            wordAsTiles
-          );
+          const result = playIsInvalid(playSquares, boardCopy, wordlist);
           if (result) {
             currentPlay.invalidReason = result.invalidReason;
             currentPlay.valid = result.valid;
@@ -404,6 +381,8 @@ const Rabble = (wordlist: WordList) => ({
       // Victory!
       console.log(`Score Player0 ${finalScoreList["0"].score}`);
       console.log(`Score Player1 ${finalScoreList["1"].score}`);
+
+      finalTurns.reverse();
 
       if (finalScoreList["0"].score > finalScoreList["1"].score) {
         return {

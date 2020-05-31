@@ -26,7 +26,6 @@ const Board = ({ gameBoard }: BoardProps) => {
   const playableLocations = useSelector(selectPlayableLocations);
 
   useEffect(() => {
-    console.log("HOOK RUNNING", "updateBoard", +new Date());
     dispatch(updateBoard(gameBoard));
   }, [dispatch, gameBoard]);
 

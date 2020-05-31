@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./Buttons.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { updateRackTiles } from "./rackSlice";
@@ -17,7 +17,6 @@ import { ReactComponent as FlagIcon } from "./svg/flag-outline.svg";
 import { ReactComponent as PlayIcon } from "./svg/play-circle-outline.svg";
 
 type ButtonsProps = {
-  currentPlayIsValid: boolean;
   currentPlayerHasTurn: boolean;
   tileRack: Tile[];
   playWord: (playSquares: Square[]) => void;
@@ -53,7 +52,7 @@ const Buttons = ({
         endTurn();
       }, 500);
     }
-  }, [currentPlay.played, endTurn]);
+  }, [currentPlay.played, endTurn, cleanUp]);
 
   return (
     <div className={styles.buttons}>

@@ -7,6 +7,7 @@ import { canPlayOneMoreTile } from "./boardSlice";
 import Modal from "./components/Modal";
 import ChooseBlank from "./components/ChooseBlank";
 import TileRack from "./components/TileRack";
+import GameOver from "./components/GameOver";
 
 import Board from "./board/Board";
 import Buttons from "./Buttons";
@@ -38,7 +39,6 @@ const GameControls = (props: GameBoardProps) => {
   const { tileRack, currentPlay } = players[playerID];
   const nowPlaying = currentPlayer;
   const currentPlayerHasTurn = nowPlaying === playerID;
-  const currentPlayIsValid = currentPlay.valid;
 
   // Let the server know the player's nickname
   const { nickname } = getUserInfo();
@@ -116,7 +116,6 @@ const GameControls = (props: GameBoardProps) => {
           playerTiles={tileRack}
         />
         <Buttons
-          currentPlayIsValid={currentPlayIsValid}
           currentPlayerHasTurn={currentPlayerHasTurn}
           exchangeTiles={exchangeTiles}
           playWord={playWord}
@@ -129,20 +128,7 @@ const GameControls = (props: GameBoardProps) => {
         />
       </h4>
 
-      {gameover && (
-        <h2>
-          {gameover?.draw ? (
-            "You Tied! Weird!"
-          ) : (
-            <>
-              <div style={{ color: "red", display: "inline-block" }}>
-                {gameover?.winner}
-              </div>{" "}
-              wins!
-            </>
-          )}
-        </h2>
-      )}
+      {gameover && <GameOver gameover={gameover} />}
 
       <Modal showModal={showModal}>
         <ChooseBlank
