@@ -59,6 +59,16 @@ export const slice = createSlice({
   reducers: {
     updateBoard: (state, action: PayloadAction<Square[]>) => {
       state.squares = [...action.payload];
+      if (state.currentPlay?.length) {
+        state.currentPlay.forEach((square) => {
+          if (state.squares[square.location].tile) {
+            throw new Error(
+              "Logic Error - updateBoard found tile where playtile should go"
+            );
+          }
+          state.squares[square.location].playTile = square.playTile;
+        });
+      }
     },
     addPlayTile: (state, action: PayloadAction<Tile>) => {
       const tile = action.payload;

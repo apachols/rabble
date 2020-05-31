@@ -59,6 +59,11 @@ const Buttons = ({
       dispatch(changeSquareSelection(null));
       setPlayed(true);
       setSubmitPlay(false);
+    } else {
+      // console.log(`submitPlay ${submitPlay}`);
+      // console.log(`currentPlayIsValid ${currentPlayIsValid}`);
+      // console.log(`playSquares.length  ${playSquares.length}`);
+      setSubmitPlay(false);
     }
   }, [submitPlay, currentPlayIsValid, playSquares, dispatch, playWord]);
 
@@ -79,6 +84,7 @@ const Buttons = ({
     cleanUp,
     dispatch,
     setErrorMessage,
+    submitPlay,
   ]);
 
   // end turn when played is true
@@ -96,6 +102,8 @@ const Buttons = ({
 
   return (
     <div className={styles.buttons}>
+      <div>{currentPlay.invalidReason}</div>
+
       {currentPlayerHasTurn && (
         <button onClick={() => endTurn()}>
           <FlagIcon />
@@ -107,6 +115,8 @@ const Buttons = ({
           dispatch(clearPlayTiles());
           dispatch(changeSquareSelection(null));
           dispatch(updateRackTiles(tileRack));
+          setSubmitPlay(false);
+          cleanUp();
         }}
       >
         <UndoIcon />

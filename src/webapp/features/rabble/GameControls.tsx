@@ -56,15 +56,10 @@ const GameControls = (props: GameBoardProps) => {
   const dispatch = useDispatch();
   const displayTileRack = useSelector(selectTileRack);
   useEffect(() => {
-    // Yeah, but: this is too heavy.
-    // Do we need to maintain both the user's rack tiles and their playTiles on the server?
-    // Currently that would mean we can't move tiles during opponents turn.
-    // Instead, we really just need to sync the rack tiles from the server when they change.
-    // Let's try declining to sync when playSquares are out
     if (!playSquares.length) {
       dispatch(updateRackTiles(tileRack));
     }
-  }, [dispatch, tileRack]);
+  }, [dispatch, tileRack, playSquares.length]);
 
   const canAddOneMoreTile = useSelector(canPlayOneMoreTile);
 
@@ -72,21 +67,33 @@ const GameControls = (props: GameBoardProps) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [needToCheckWord, setNeedToCheckWord] = useState(false);
+
   const debouncedPlaySquares = useDebounce(playSquares, 1000);
+  // OOF, ok I think now there's a state interaction where the updateBoard that comes back from
+  // the checkWord is wiping out the callback for debouncedPlaySquares?  Yuck
   useEffect(() => {
-    // Ok the problem is the letters are disappearing off the board
-    // This is because checkword is a move, and it mutates some state on the server
-    // This sends an update to the client, with an updated board
-    // The updated board doesn't have the playtiles on it, and so they disappear.
-
-    // √ So clearly, to check a word we need to not mutate the board for everyone
-
-    // 2. And to render a board for a player, we need to take playsquares from what they've played
-    if (debouncedPlaySquares.length > 0 && currentPlayerHasTurn) {
-      console.log("HOOK RUNNING", "checkWord");
+    console.log(`needToCheckWord ${needToCheckWord}`);
+    if (
+      needToCheckWord &&
+      debouncedPlaySquares.length > 0 &&
+      currentPlayerHasTurn
+    ) {
+      console.log(
+        "HOOK RUNNING",
+        "checkWord",
+        debouncedPlaySquares.map((sq: Square) => sq?.playTile?.letter)
+      );
       checkWord(debouncedPlaySquares);
+      setNeedToCheckWord(false);
     }
-  }, [checkWord, debouncedPlaySquares.length]);
+  }, [
+    needToCheckWord,
+    setNeedToCheckWord,
+    checkWord,
+    debouncedPlaySquares,
+    currentPlayerHasTurn,
+  ]);
 
   return (
     <div className={styles.controls}>
@@ -112,6 +119,8 @@ const GameControls = (props: GameBoardProps) => {
               dispatch(updateRackTiles(copyRack));
 
               setErrorMessage("");
+
+              setNeedToCheckWord(true);
 
               return true;
             }
@@ -172,6 +181,7 @@ const GameControls = (props: GameBoardProps) => {
 
             // Close the modal
             setShowModal(false);
+            setNeedToCheckWord(true);
           }}
         />
       </Modal>
