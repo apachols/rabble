@@ -80,6 +80,7 @@ type CurrentPlayInfo = {
   tilesLaid: Tile[];
   valid: boolean;
   played: boolean;
+  score: number;
 };
 
 type PlayerInfo = {

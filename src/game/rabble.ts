@@ -23,17 +23,23 @@ import {
 } from "./play";
 import { checkForInvalidWords, scoreForValidWords } from "./score";
 
+const currentPlayInfo = (
+  override: Partial<CurrentPlayInfo>
+): CurrentPlayInfo => ({
+  invalidReason: "",
+  valid: false,
+  tilesLaid: [],
+  played: false,
+  score: 0,
+  ...override,
+});
+
 const playIsInvalid = (
   playSquares: Square[],
   board: Square[],
   wordlist: WordList
 ) => {
-  const currentPlay: CurrentPlayInfo = {
-    invalidReason: "",
-    valid: false,
-    tilesLaid: [],
-    played: false,
-  };
+  const currentPlay = currentPlayInfo({});
   if (isFirstPlay(board)) {
     if (!hasCenterSquare(playSquares)) {
       currentPlay.invalidReason =
@@ -93,12 +99,7 @@ const Rabble = (wordlist: WordList) => ({
       drawTiles(tileRack, tileBag);
       return {
         nickname: "Player",
-        currentPlay: {
-          invalidReason: "",
-          tilesLaid: [],
-          valid: false,
-          played: false,
-        },
+        currentPlay: currentPlayInfo({}),
         tileRack,
       };
     };
@@ -218,11 +219,9 @@ const Rabble = (wordlist: WordList) => ({
         console.log("TILES REMAINING", tileBag.length);
         G.remainingTileCount = tileBag.length;
 
-        // reset the "is the word you are trying to play valid" bit
-        currentPlay.played = true;
-        currentPlay.valid = false;
-        currentPlay.tilesLaid = [];
-        currentPlay.invalidReason = "";
+        G.players[currentPlayer].currentPlay = currentPlayInfo({
+          played: true,
+        });
       },
       client: false,
     },
@@ -289,11 +288,7 @@ const Rabble = (wordlist: WordList) => ({
     cleanUp: {
       move: (G: Game, ctx: GameContext) => {
         const { currentPlayer } = ctx;
-        const { currentPlay } = G.players[currentPlayer];
-        currentPlay.played = false;
-        currentPlay.tilesLaid = [];
-        currentPlay.valid = false;
-        currentPlay.invalidReason = "";
+        G.players[currentPlayer].currentPlay = currentPlayInfo({});
       },
       client: true,
     },
@@ -318,6 +313,8 @@ const Rabble = (wordlist: WordList) => ({
             console.log("CHECKWORD_INVALID_PLAY", currentPlay.invalidReason);
             return;
           }
+          // Play is not invalid, set currentPlay data and return
+          currentPlay.score = scoreForValidWords(playSquares, boardCopy);
           currentPlay.invalidReason = "";
           currentPlay.valid = true;
         } catch (err) {

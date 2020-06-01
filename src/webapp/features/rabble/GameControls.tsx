@@ -83,12 +83,24 @@ const GameControls = (props: GameBoardProps) => {
     return <span>&nbsp;</span>;
   };
 
+  const currentPlayScoreDisplay = (score: number, play: Square[]) => {
+    if (score && play.length) {
+      return <span>Score: {score}</span>;
+    }
+    return <span>&nbsp;</span>;
+  };
+
   return (
     <div className={styles.controls}>
       <Board gameBoard={gameBoard} />
-      <h4>
-        <div className={styles.invalidPlayError}>
-          {invalidReasonDisplay(currentPlay.invalidReason)}
+      <div>
+        <div className={styles.currentPlayInfoContainer}>
+          <div className={styles.invalidPlayError}>
+            {invalidReasonDisplay(currentPlay.invalidReason)}
+          </div>
+          <div className={styles.currentPlayScore}>
+            {currentPlayScoreDisplay(currentPlay.score, debouncedPlaySquares)}
+          </div>
         </div>
         <TileRack
           onTileClick={(tile): boolean => {
@@ -126,7 +138,7 @@ const GameControls = (props: GameBoardProps) => {
           reorderRackTiles={reorderRackTiles}
           currentPlay={currentPlay}
         />
-      </h4>
+      </div>
 
       {gameover && <GameOver gameover={gameover} />}
 
