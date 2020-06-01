@@ -75,14 +75,18 @@ type GameBoardProps = {
   };
 };
 
+type CurrentPlayInfo = {
+  invalidReason: string;
+  tilesLaid: Tile[];
+  valid: boolean;
+  played: boolean;
+  score: number;
+};
+
 type PlayerInfo = {
   nickname: string;
   tileRack: Tile[];
-  currentPlay: {
-    invalidReason: string;
-    tilesLaid: Tile[];
-    valid: boolean;
-  };
+  currentPlay: CurrentPlayInfo;
 };
 
 type Turn = {
@@ -98,11 +102,9 @@ type Game = {
   tileBag: Tile[];
   remainingTileCount: number;
   turns: Turn[];
+  turnsReverse: Turn[];
   players: {
     [key: string]: PlayerInfo;
-  };
-  scores: {
-    [key: string]: number;
   };
   scoreList: ScoreList;
 };
@@ -116,21 +118,23 @@ type ScoreData = {
   score: number;
 };
 
+type GameOver = {
+  scoreList: ScoreList;
+  winner?: string;
+  draw?: boolean;
+  finalScores: {
+    [key: string]: number;
+  };
+  finalTurns: Turn[];
+};
+
 type GameContext = {
   events: {
     endTurn: any;
   };
   turn: number;
   currentPlayer: string;
-  gameover?: {
-    scoreList: ScoreList;
-    winner?: string;
-    draw?: boolean;
-    finalScores: {
-      [key: string]: number;
-    };
-    finalTurns: Turn[];
-  };
+  gameover?: GameOver;
 };
 
 type GameConfig = {

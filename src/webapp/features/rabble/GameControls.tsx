@@ -7,6 +7,7 @@ import { canPlayOneMoreTile } from "./boardSlice";
 import Modal from "./components/Modal";
 import ChooseBlank from "./components/ChooseBlank";
 import TileRack from "./components/TileRack";
+import GameOver from "./components/GameOver";
 
 import Board from "./board/Board";
 import Buttons from "./Buttons";
@@ -14,7 +15,9 @@ import Buttons from "./Buttons";
 import { pullPlayTilesFromRack } from "../../../game/tileBag";
 import { getUserInfo } from "../../app/localStorage";
 
-import { addPlayTile } from "./boardSlice";
+import { addPlayTile, selectPlaySquares } from "./boardSlice";
+
+import useDebounce from "../../hooks/useDebounce";
 
 const GameControls = (props: GameBoardProps) => {
   const {
@@ -36,8 +39,6 @@ const GameControls = (props: GameBoardProps) => {
   const { tileRack, currentPlay } = players[playerID];
   const nowPlaying = currentPlayer;
   const currentPlayerHasTurn = nowPlaying === playerID;
-  const currentPlayIsValid = currentPlay.valid;
-  const currentPlayTilesLaid = currentPlay.tilesLaid;
 
   // Let the server know the player's nickname
   const { nickname } = getUserInfo();
@@ -48,24 +49,59 @@ const GameControls = (props: GameBoardProps) => {
     }
   }, [nickname, serverNickname, setNickName, currentPlayerHasTurn]);
 
+  const playSquares = useSelector(selectPlaySquares);
+
   // Update the rack tiles in the local reducer with the rack tiles from the server
   const dispatch = useDispatch();
   const displayTileRack = useSelector(selectTileRack);
   useEffect(() => {
-    dispatch(updateRackTiles(tileRack));
-  }, [dispatch, tileRack]);
+    if (!playSquares.length) {
+      dispatch(updateRackTiles(tileRack));
+    }
+  }, [dispatch, tileRack, playSquares.length]);
 
   const canAddOneMoreTile = useSelector(canPlayOneMoreTile);
 
   const [showModal, setShowModal] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const debouncedPlaySquares = useDebounce(playSquares, 1000);
+  useEffect(() => {
+    if (debouncedPlaySquares.length > 0 && currentPlayerHasTurn) {
+      console.log(
+        "HOOK RUNNING",
+        "checkWord",
+        debouncedPlaySquares.map((sq: Square) => sq?.playTile?.letter)
+      );
+      checkWord(debouncedPlaySquares);
+    }
+  }, [checkWord, debouncedPlaySquares, currentPlayerHasTurn]);
+
+  const invalidReasonDisplay = (invalidReason: string) => {
+    if (invalidReason) {
+      return <span>{invalidReason}</span>;
+    }
+    return <span>&nbsp;</span>;
+  };
+
+  const currentPlayScoreDisplay = (score: number, play: Square[]) => {
+    if (score && play.length) {
+      return <span>Score: {score}</span>;
+    }
+    return <span>&nbsp;</span>;
+  };
 
   return (
     <div className={styles.controls}>
       <Board gameBoard={gameBoard} />
-      <h4>
-        <div className={styles.invalidPlayError}>{errorMessage}</div>
+      <div>
+        <div className={styles.currentPlayInfoContainer}>
+          <div className={styles.invalidPlayError}>
+            {invalidReasonDisplay(currentPlay.invalidReason)}
+          </div>
+          <div className={styles.currentPlayScore}>
+            {currentPlayScoreDisplay(currentPlay.score, debouncedPlaySquares)}
+          </div>
+        </div>
         <TileRack
           onTileClick={(tile): boolean => {
             if (canAddOneMoreTile) {
@@ -84,8 +120,6 @@ const GameControls = (props: GameBoardProps) => {
               // The rack is now everything that hasn't been played
               dispatch(updateRackTiles(copyRack));
 
-              setErrorMessage("");
-
               return true;
             }
             return false;
@@ -94,7 +128,6 @@ const GameControls = (props: GameBoardProps) => {
           playerTiles={tileRack}
         />
         <Buttons
-          currentPlayIsValid={currentPlayIsValid}
           currentPlayerHasTurn={currentPlayerHasTurn}
           exchangeTiles={exchangeTiles}
           playWord={playWord}
@@ -103,26 +136,11 @@ const GameControls = (props: GameBoardProps) => {
           tileRack={tileRack}
           cleanUp={cleanUp}
           reorderRackTiles={reorderRackTiles}
-          currentPlayTilesLaid={currentPlayTilesLaid}
           currentPlay={currentPlay}
-          setErrorMessage={setErrorMessage}
         />
-      </h4>
+      </div>
 
-      {gameover && (
-        <h2>
-          {gameover?.draw ? (
-            "You Tied! Weird!"
-          ) : (
-            <>
-              <div style={{ color: "red", display: "inline-block" }}>
-                {gameover?.winner}
-              </div>{" "}
-              wins!
-            </>
-          )}
-        </h2>
-      )}
+      {gameover && <GameOver gameover={gameover} />}
 
       <Modal showModal={showModal}>
         <ChooseBlank

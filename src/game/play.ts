@@ -140,6 +140,7 @@ export const playDirection = (
   const column = columnForLocation(location);
   // For length 1, we need to look at the board - are we next to tiles?
   if (playSquares.length === 1) {
+    // TODO - checkword for 1 length play on first turn will return invalid direction, since no adjacency...
     const { location } = playSquares[0];
     if (locationHasTileAdjacentForDirection(location, HORIZONTAL, gameBoard)) {
       return HORIZONTAL;

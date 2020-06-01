@@ -19,13 +19,13 @@ window.addEventListener("error", function (event) {
     return false;
   }
   event.error.hasBeenCaught = true;
-  const { message, stack } = event.error;
+  const { message } = event.error;
   axios({
     method: "post",
     headers: {
       "content-type": "application/json",
     },
     url: `${API_ROOT}/client-logs`,
-    data: { message, stack },
+    data: { message },
   });
 });

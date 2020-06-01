@@ -23,23 +23,25 @@ const TileRack = ({ tilesInRack, playerTiles, onTileClick }: TileRackProps) => {
   );
 
   return (
-    <div className={styles.tileRack}>
-      {renderTiles.map((tileOrNull, idx) => (
-        <div key={idx} className={styles.tileContainer}>
-          {tileOrNull ? (
-            <Tile
-              onClick={(ev) => {
-                // if the click put the tile on the board
-                if (onTileClick(ev)) {
-                  // save which position the tile was in, and show a blank space there
-                  setClickedTiles([...clickedTiles, idx]);
-                }
-              }}
-              tile={tileOrNull}
-            />
-          ) : null}
-        </div>
-      ))}
+    <div className={styles.tileRackContainer}>
+      <div className={styles.tileRack}>
+        {renderTiles.map((tileOrNull, idx) => (
+          <div key={idx} className={styles.tileContainer}>
+            {tileOrNull ? (
+              <Tile
+                onClick={(ev) => {
+                  // if the click put the tile on the board
+                  if (onTileClick(ev)) {
+                    // save which position the tile was in, and show a blank space there
+                    setClickedTiles([...clickedTiles, idx]);
+                  }
+                }}
+                tile={tileOrNull}
+              />
+            ) : null}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

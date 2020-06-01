@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./Buttons.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { updateRackTiles } from "./rackSlice";
@@ -17,7 +17,6 @@ import { ReactComponent as FlagIcon } from "./svg/flag-outline.svg";
 import { ReactComponent as PlayIcon } from "./svg/play-circle-outline.svg";
 
 type ButtonsProps = {
-  currentPlayIsValid: boolean;
   currentPlayerHasTurn: boolean;
   tileRack: Tile[];
   playWord: (playSquares: Square[]) => void;
@@ -25,71 +24,35 @@ type ButtonsProps = {
   exchangeTiles: (playTiles: Tile[]) => void;
   endTurn: () => {};
   cleanUp: () => void;
-  currentPlayTilesLaid: Tile[];
-  currentPlay: any;
-  setErrorMessage: (message: string) => void;
+  currentPlay: CurrentPlayInfo;
   reorderRackTiles: (rackTiles: Tile[]) => void;
 };
 
 const Buttons = ({
-  currentPlayIsValid,
   currentPlayerHasTurn,
   exchangeTiles,
   playWord,
-  checkWord,
   endTurn,
   cleanUp,
   tileRack,
-  currentPlayTilesLaid,
   currentPlay,
-  setErrorMessage,
   reorderRackTiles,
 }: ButtonsProps) => {
   const dispatch = useDispatch();
 
-  const [played, setPlayed] = useState(false);
-
   const playSquares = useSelector(selectPlaySquares);
-
-  // If the current play is marked valid, run playWord
-  useEffect(() => {
-    if (currentPlayIsValid && playSquares.length > 0) {
-      playWord(playSquares);
-      dispatch(clearPlayTiles());
-      dispatch(changeSquareSelection(null));
-      setPlayed(true);
-      cleanUp();
-    }
-  }, [currentPlayIsValid, playSquares, dispatch, playWord, cleanUp]);
-
-  // If the user has played but the word is invalid, clear tiles
-  useEffect(() => {
-    if (!currentPlayIsValid && currentPlayTilesLaid?.length) {
-      dispatch(clearPlayTiles());
-      dispatch(changeSquareSelection(null));
-      setErrorMessage(currentPlay.invalidReason);
-      cleanUp();
-    }
-  }, [
-    currentPlayIsValid,
-    currentPlayTilesLaid,
-    currentPlay.invalidReason,
-    cleanUp,
-    dispatch,
-    setErrorMessage,
-  ]);
-
   // end turn when played is true
   // TODO - timing issue, otherwise endTurn comes too soon after playWord
   // If we try to do this on the server, we get "ERROR: invalid stateID"
   useEffect(() => {
-    if (played) {
+    if (currentPlay.played) {
+      console.log("HOOK RUNNING", "endTurn");
+      cleanUp();
       setTimeout(() => {
         endTurn();
-        setPlayed(false);
       }, 500);
     }
-  }, [played, endTurn]);
+  }, [currentPlay.played, endTurn, cleanUp]);
 
   return (
     <div className={styles.buttons}>
@@ -104,6 +67,7 @@ const Buttons = ({
           dispatch(clearPlayTiles());
           dispatch(changeSquareSelection(null));
           dispatch(updateRackTiles(tileRack));
+          cleanUp();
         }}
       >
         <UndoIcon />
@@ -113,7 +77,11 @@ const Buttons = ({
         <button
           className={styles.play}
           onClick={() => {
-            checkWord(playSquares);
+            if (playSquares.length) {
+              playWord(playSquares);
+              dispatch(clearPlayTiles());
+              dispatch(changeSquareSelection(null));
+            }
           }}
         >
           <PlayIcon />
@@ -139,8 +107,8 @@ const Buttons = ({
               dispatch(clearPlayTiles());
               exchangeTiles(playTilesFromSquares(playSquares));
               dispatch(changeSquareSelection(null));
-              setPlayed(true);
               cleanUp();
+              endTurn();
             }
           }}
         >

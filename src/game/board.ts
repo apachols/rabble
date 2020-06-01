@@ -122,7 +122,7 @@ export const getDistance = (
   if (!direction || source === null || destination === null) {
     return null;
   }
-  if (source < 0 || source > 224 || destination < 0 || destination > 224 ) {
+  if (source < 0 || source > 224 || destination < 0 || destination > 224) {
     return null;
   }
   if (direction === VERTICAL) {
@@ -170,3 +170,11 @@ export const hasCenterSquare = (playSquares: Square[]) =>
 export const rowForLocation = (location: number) => Math.floor(location / 15);
 export const columnForLocation = (location: number) => location % 15;
 export const anyTile = (square: Square) => square.tile || square.playTile;
+
+export const consolePrintBoard = (board: Square[]) => {
+  for (let ii = 0; ii < 15; ii++) {
+    const startIndex = ii * 15;
+    const row = board.slice(startIndex, startIndex + 15);
+    console.log(row.map((sq) => anyTile(sq)?.letter || "_").join(""));
+  }
+};
