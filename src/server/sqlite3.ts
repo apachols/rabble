@@ -7,6 +7,8 @@ import { Op } from "sequelize";
 
 interface Sqlite3Opts {
   filename?: string;
+  logging: boolean;
+  debug: boolean;
 }
 
 export enum DBTable {
@@ -24,20 +26,32 @@ export const tables = [
 ] as const;
 
 export class Sqlite3Store extends Async {
+  debug: boolean;
+  logging: boolean;
   db: Sequelize;
   metadata = Metadata;
   state = StateModel;
   initialState = InitialState;
   log = Log;
 
-  constructor({ filename }: Sqlite3Opts = {}) {
+  constructor(
+    { filename, logging, debug }: Sqlite3Opts = { logging: false, debug: false }
+  ) {
     super();
+    this.debug = debug;
+    this.logging = logging;
     this.db = db(filename);
     this.db.addModels([Metadata, StateModel, InitialState, Log]);
   }
 
+  debugLog(ifDebug: () => void): void {
+    if (this.debug) {
+      ifDebug();
+    }
+  }
+
   async connect(): Promise<void> {
-    // required by boardgame.io
+    this.debugLog(() => console.log("connect to DB"));
     await Promise.all([
       Metadata.sync(),
       StateModel.sync(),
@@ -50,6 +64,7 @@ export class Sqlite3Store extends Async {
     gameID: string,
     opts: StorageAPI.CreateGameOpts
   ): Promise<void> {
+    this.debugLog(() => console.log("create gameID", gameID));
     await Promise.all([
       Metadata.create({
         docID: gameID,
@@ -75,7 +90,7 @@ export class Sqlite3Store extends Async {
     state: State,
     deltalog?: LogEntry[]
   ): Promise<void> {
-    console.log("setState", gameID, state._stateID);
+    this.debugLog(() => console.log("setState", gameID, state._stateID));
     const prevState = await StateModel.findOne({ where: { docID: gameID } });
     if (!prevState || prevState.getDocument()._stateID < state._stateID) {
       await StateModel.upsert({
@@ -84,14 +99,15 @@ export class Sqlite3Store extends Async {
       });
       // Also, maybe we can change logs here to write separate records?
       // Only if we change fetch to get them the right way
-      if (deltalog && deltalog.length > 0) {
+      if (this.logging && deltalog && deltalog.length > 0) {
+        const newLog = [...deltalog];
         const prevLog = await Log.findOne({ where: { docID: gameID } });
         if (prevLog) {
-          const prevDoc = prevLog.getDocument();
-          const newLog = [...prevDoc.log, ...deltalog];
-          prevLog.docString = JSON.stringify({ ...prevDoc, log: newLog });
-          await prevLog.save();
+          const { log } = prevLog.getDocument();
+          newLog.push(...log);
         }
+        const newDoc = { log: newLog };
+        Log.upsert({ docID: gameID, docString: JSON.stringify(newDoc) });
       }
     }
   }
@@ -100,6 +116,7 @@ export class Sqlite3Store extends Async {
     gameID: string,
     metadata: Server.GameMetadata
   ): Promise<void> {
+    this.debugLog(() => console.log("set metadata for gameID", gameID));
     const update = {
       docString: JSON.stringify(metadata),
     };
@@ -111,20 +128,17 @@ export class Sqlite3Store extends Async {
     gameID: string,
     opts: O
   ): Promise<StorageAPI.FetchResult<O>> {
-    console.log("fetch", gameID);
+    this.debugLog(() => console.log("fetch", gameID));
     const result = {} as StorageAPI.FetchFields;
-
-    const requests: Promise<void>[] = [];
     // For each fetch field included in the options object,
     // prepare a promise to pull and return its data
+    const requests: Promise<void>[] = [];
     for (const table of tables) {
       if (!opts[table]) continue;
-
       const model = this[table];
       const where = { docID: gameID };
       const promise = model.findOne({ where }).then((instance) => {
         if (table === DBTable.Log) {
-          // Handle log storage format to return array
           result[table] = instance?.getDocument()?.log;
         } else {
           result[table] = instance?.getDocument();
@@ -137,6 +151,7 @@ export class Sqlite3Store extends Async {
   }
 
   async wipe(gameID: string): Promise<void> {
+    this.debugLog(() => console.log("Wipe DB for gameID", gameID));
     const where = { where: { docID: gameID } };
     await Promise.all([
       Metadata.destroy(where),
@@ -147,7 +162,17 @@ export class Sqlite3Store extends Async {
   }
 
   async listGames(opts?: StorageAPI.ListGamesOpts): Promise<string[]> {
-    console.log("LIST GAMES FOR", opts?.gameName);
+    this.debugLog(() => console.log("LIST GAMES FOR", opts?.gameName));
+    const getDocIdsForDocs = (docs: Metadata[]) => {
+      const ids: string[] = [];
+      for (let doc of docs) {
+        const id = doc?.getDataValue("docID");
+        if (id) {
+          ids.push(id);
+        }
+      }
+      return ids;
+    };
     if (opts?.gameName) {
       // TODO - remove this hack.
       // Either gameName is a field on Metadata, or... we can't really do sqlite.
@@ -158,9 +183,9 @@ export class Sqlite3Store extends Async {
           },
         },
       });
-      return docs.map((d) => d.id);
+      return getDocIdsForDocs(docs);
     }
     const docs = await Metadata.findAll();
-    return docs.map((d) => d.id);
+    return getDocIdsForDocs(docs);
   }
 }

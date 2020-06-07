@@ -3,52 +3,68 @@ import type { LogEntry } from "boardgame.io";
 
 @Table({ freezeTableName: true })
 export class Metadata extends Model<Metadata> {
-  @Column({ primaryKey: true })
+  @Column({ primaryKey: true, type: DataType.STRING })
   docID?: string;
 
   @Column(DataType.TEXT)
   docString?: string;
 
   getDocument() {
-    return this.docString ? JSON.parse(this.docString) : {};
+    const docString = this.getDataValue("docString") as string;
+    if (docString) {
+      return JSON.parse(docString);
+    }
+    return {};
   }
 }
 
 @Table({ freezeTableName: true })
 export class State extends Model<State> {
-  @Column({ primaryKey: true })
+  @Column({ primaryKey: true, type: DataType.STRING })
   docID?: string;
 
   @Column(DataType.TEXT)
   docString?: string;
 
   getDocument() {
-    return this.docString ? JSON.parse(this.docString) : {};
+    const docString = this.getDataValue("docString") as string;
+    if (docString) {
+      return JSON.parse(docString);
+    }
+    return {};
   }
 }
 
 @Table({ freezeTableName: true })
 export class InitialState extends Model<InitialState> {
-  @Column({ primaryKey: true })
+  @Column({ primaryKey: true, type: DataType.STRING })
   docID?: string;
 
   @Column(DataType.TEXT)
   docString?: string;
 
   getDocument() {
-    return this.docString ? JSON.parse(this.docString) : {};
+    const docString = this.getDataValue("docString") as string;
+    if (docString) {
+      return JSON.parse(docString);
+    }
+    return {};
   }
 }
 
 @Table({ freezeTableName: true })
 export class Log extends Model<Log> {
-  @Column({ primaryKey: true })
+  @Column({ primaryKey: true, type: DataType.STRING })
   docID?: string;
 
   @Column(DataType.TEXT)
   docString?: string;
 
   getDocument(): { log: LogEntry[] } {
-    return this.docString ? JSON.parse(this.docString) : {};
+    const docString = this.getDataValue("docString") as string;
+    if (docString) {
+      return JSON.parse(docString);
+    }
+    return { log: [] };
   }
 }

@@ -31,6 +31,8 @@ loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
 
     db: new Sqlite3Store({
       filename: `${process.env.FLATFILE_PATH}/rabble.db`,
+      logging: false,
+      debug: true,
     }),
   });
 
