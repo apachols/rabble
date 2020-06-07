@@ -75,13 +75,15 @@ export class Sqlite3Store extends Async {
     state: State,
     deltalog?: LogEntry[]
   ): Promise<void> {
+    console.log("setState", gameID, state._stateID);
     const prevState = await StateModel.findOne({ where: { docID: gameID } });
     if (!prevState || prevState.getDocument()._stateID < state._stateID) {
-      await StateModel.create({
+      await StateModel.upsert({
         docID: gameID,
         docString: JSON.stringify(state),
       });
       // Also, maybe we can change logs here to write separate records?
+      // Only if we change fetch to get them the right way
       if (deltalog && deltalog.length > 0) {
         const prevLog = await Log.findOne({ where: { docID: gameID } });
         if (prevLog) {
@@ -109,6 +111,7 @@ export class Sqlite3Store extends Async {
     gameID: string,
     opts: O
   ): Promise<StorageAPI.FetchResult<O>> {
+    console.log("fetch", gameID);
     const result = {} as StorageAPI.FetchFields;
 
     const requests: Promise<void>[] = [];
@@ -144,6 +147,7 @@ export class Sqlite3Store extends Async {
   }
 
   async listGames(opts?: StorageAPI.ListGamesOpts): Promise<string[]> {
+    console.log("LIST GAMES FOR", opts?.gameName);
     if (opts?.gameName) {
       // TODO - remove this hack.
       // Either gameName is a field on Metadata, or... we can't really do sqlite.

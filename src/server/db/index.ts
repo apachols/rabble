@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize-typescript";
 
 const db = (filename?: string): Sequelize =>
   new Sequelize({
+    logging: false,
     database: "rabble",
     dialect: "sqlite",
     username: "username",
