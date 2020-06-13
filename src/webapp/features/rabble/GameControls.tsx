@@ -62,7 +62,7 @@ const GameControls = (props: GameBoardProps) => {
 
   const canAddOneMoreTile = useSelector(canPlayOneMoreTile);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showBlankModal, setShowBlankModal] = useState(false);
 
   const debouncedPlaySquares = useDebounce(playSquares, 1000);
   useEffect(() => {
@@ -75,6 +75,47 @@ const GameControls = (props: GameBoardProps) => {
       checkWord(debouncedPlaySquares);
     }
   }, [checkWord, debouncedPlaySquares, currentPlayerHasTurn]);
+
+  const chooseTileForBlank = (selectedTile: Tile) => {
+    // Find a blank tile in the player's rack
+    const blankTile = displayTileRack.find((t) => t.blank);
+    if (!blankTile) {
+      throw new Error("ChooseBlank could not find a blank tile");
+    }
+
+    // Remove blank tile from player rack
+    const copyRack = [...displayTileRack];
+    pullPlayTilesFromRack([blankTile], copyRack);
+    dispatch(updateRackTiles(copyRack));
+
+    // Add blank tile to the board with a new selected letter
+    dispatch(addPlayTile({ ...blankTile, letter: selectedTile.letter }));
+
+    // Close the modal
+    setShowBlankModal(false);
+  };
+
+  const tryToPlayTile = (tile: Tile): boolean => {
+    if (canAddOneMoreTile) {
+      const copyRack = [...displayTileRack];
+
+      if (tile.blank) {
+        setShowBlankModal(true);
+        return true;
+      }
+
+      pullPlayTilesFromRack([tile], copyRack);
+
+      // Put the tiles on the board
+      dispatch(addPlayTile(tile));
+
+      // The rack is now everything that hasn't been played
+      dispatch(updateRackTiles(copyRack));
+
+      return true;
+    }
+    return false;
+  };
 
   const invalidReasonDisplay = (invalidReason: string) => {
     if (invalidReason) {
@@ -103,35 +144,15 @@ const GameControls = (props: GameBoardProps) => {
           </div>
         </div>
         <TileRack
-          onTileClick={(tile): boolean => {
-            if (canAddOneMoreTile) {
-              const copyRack = [...displayTileRack];
-
-              if (tile.blank) {
-                setShowModal(true);
-                return true;
-              }
-
-              pullPlayTilesFromRack([tile], copyRack);
-
-              // Put the tiles on the board
-              dispatch(addPlayTile(tile));
-
-              // The rack is now everything that hasn't been played
-              dispatch(updateRackTiles(copyRack));
-
-              return true;
-            }
-            return false;
-          }}
+          onTileClick={tryToPlayTile}
           tilesInRack={displayTileRack}
           playerTiles={tileRack}
         />
         <Buttons
           currentPlayerHasTurn={currentPlayerHasTurn}
-          exchangeTiles={exchangeTiles}
           playWord={playWord}
           checkWord={checkWord}
+          exchangeTiles={exchangeTiles}
           endTurn={endTurn}
           tileRack={tileRack}
           cleanUp={cleanUp}
@@ -142,29 +163,8 @@ const GameControls = (props: GameBoardProps) => {
 
       {gameover && <GameOver gameover={gameover} />}
 
-      <Modal showModal={showModal}>
-        <ChooseBlank
-          selectTile={(selectedTile: Tile) => {
-            // Find a blank tile in the player's rack
-            const blankTile = displayTileRack.find((t) => t.blank);
-            if (!blankTile) {
-              throw new Error("ChooseBlank could not find a blank tile");
-            }
-
-            // Remove blank tile from player rack
-            const copyRack = [...displayTileRack];
-            pullPlayTilesFromRack([blankTile], copyRack);
-            dispatch(updateRackTiles(copyRack));
-
-            // Add blank tile to the board with a new selected letter
-            dispatch(
-              addPlayTile({ ...blankTile, letter: selectedTile.letter })
-            );
-
-            // Close the modal
-            setShowModal(false);
-          }}
-        />
+      <Modal showModal={showBlankModal}>
+        <ChooseBlank selectTile={chooseTileForBlank} />
       </Modal>
     </div>
   );

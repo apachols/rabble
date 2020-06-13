@@ -5,7 +5,7 @@ const themes = {
     bg: "#3d3d29",
   },
   light: {
-    bg: "#FFE08122",
+    bg: "floralwhite",
     selection: "#FF957F",
     "selection-light": "#FF957F44",
     "selection-lighter": "#FF957F22",

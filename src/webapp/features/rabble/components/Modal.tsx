@@ -11,9 +11,11 @@ const Modal = (props: Props) => {
   const showModalStyle = { display: props.showModal ? undefined : "none" };
   const toggle = props.toggle;
   return (
-    <div className={styles.Modal} style={showModalStyle}>
-      {toggle && <button onClick={(ev) => toggle()}>X</button>}
-      {props.children}
+    <div className={styles.overlay} style={showModalStyle}>
+      <div className={styles.Modal} style={showModalStyle}>
+        {toggle && <button onClick={(ev) => toggle()}>X</button>}
+        {props.children}
+      </div>
     </div>
   );
 };

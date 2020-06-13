@@ -22,8 +22,8 @@ const TurnList = ({ turns, remainingTileCount }: TurnListProps) => (
           <th>Word</th>
           <th>Score</th>
         </tr>
-        {turns.map((t) => {
-          return <Turn key={t.turnID} turn={t} />;
+        {turns.map((t, idx) => {
+          return <Turn key={`${t.turnID}-${idx}`} turn={t} />;
         })}
       </tbody>
     </table>

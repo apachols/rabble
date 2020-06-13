@@ -248,6 +248,11 @@ const Rabble = (wordlist: WordList) => ({
           return INVALID_MOVE;
         }
 
+        console.log(
+          "EXCHANGE TILES",
+          exchange.map((t) => t.letter)
+        );
+
         logMetaData.pid = currentPlayer;
         try {
           exchangeTiles(tileBag, tileRack, exchange);
@@ -265,6 +270,9 @@ const Rabble = (wordlist: WordList) => ({
         };
         G.turns.push(thisTurn);
         G.turnsReverse = [...G.turns].reverse();
+        G.players[currentPlayer].currentPlay = currentPlayInfo({
+          played: true,
+        });
       },
       client: false,
     },

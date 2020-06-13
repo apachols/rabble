@@ -1,0 +1,56 @@
+.swapTilesModal {
+  height: auto;
+  padding: 5px;
+  margin: 10px auto;
+}
+
+.swapTilesHeader {
+  margin-bottom: 10px;
+}
+
+.topRow {
+  display: flex;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+@media (max-width: 400px) {
+  .topRow {
+    max-width: 360px;
+  }
+}
+
+.topRow > button {
+  padding: 0px;
+  width: 45px;
+  height: 45px;
+  font-size: x-small;
+}
+
+.topRow > button > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.swapRack {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lato", sans-serif;
+  margin-bottom: 10px;
+}
+
+.swapTileContainer {
+  height: 25px;
+  width: 25px;
+  padding: 1px;
+  display: inline-block;
+  position: relative;
+}
+
+.rackContainer {
+  margin: 0 auto;
+}
