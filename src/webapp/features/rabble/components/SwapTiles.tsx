@@ -62,6 +62,9 @@ const SwapTiles = ({
 
   return (
     <div className={styles.swapTilesModal}>
+      <div className={styles.swapTilesHeader}>
+        <strong>Swap some letters?</strong>
+      </div>
       <div className={styles.topRow}>
         <button onClick={cancelSwap}>
           <UndoIcon /> NOPE

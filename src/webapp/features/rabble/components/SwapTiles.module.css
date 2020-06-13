@@ -4,10 +4,22 @@
   margin: 10px auto;
 }
 
+.swapTilesHeader {
+  margin-bottom: 10px;
+}
+
 .topRow {
   display: flex;
   width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
   justify-content: space-between;
+}
+
+@media (max-width: 400px) {
+  .topRow {
+    max-width: 360px;
+  }
 }
 
 .topRow > button {
