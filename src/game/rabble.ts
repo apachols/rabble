@@ -265,6 +265,9 @@ const Rabble = (wordlist: WordList) => ({
         };
         G.turns.push(thisTurn);
         G.turnsReverse = [...G.turns].reverse();
+        G.players[currentPlayer].currentPlay = currentPlayInfo({
+          played: true,
+        });
       },
       client: false,
     },

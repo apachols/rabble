@@ -1,0 +1,36 @@
+.swapTiles {
+  height: auto;
+  max-width: 400px;
+  width: 60vw;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swapRack {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lato", sans-serif;
+}
+
+.swapContainer {
+  height: 50px;
+  width: 50px;
+  padding: 1px;
+  display: inline-block;
+  position: relative;
+}
+
+button > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.topButtons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

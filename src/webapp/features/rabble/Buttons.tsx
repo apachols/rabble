@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Buttons.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { updateRackTiles } from "./rackSlice";
@@ -8,7 +8,9 @@ import {
   changeSquareSelection,
   selectPlaySquares,
 } from "./boardSlice";
-import { playTilesFromSquares } from "../../../game/play";
+
+import SwapTiles from "./components/SwapTiles";
+import Modal from "./components/Modal";
 
 import { ReactComponent as ShuffleIcon } from "./svg/shuffle-outline.svg";
 import { ReactComponent as UndoIcon } from "./svg/arrow-undo-outline.svg";
@@ -21,24 +23,26 @@ type ButtonsProps = {
   tileRack: Tile[];
   playWord: (playSquares: Square[]) => void;
   checkWord: (playSquares: Square[]) => void;
-  exchangeTiles: (playTiles: Tile[]) => void;
   endTurn: () => {};
   cleanUp: () => void;
+  exchangeTiles: (tiles: Tile[]) => void;
   currentPlay: CurrentPlayInfo;
   reorderRackTiles: (rackTiles: Tile[]) => void;
 };
 
 const Buttons = ({
   currentPlayerHasTurn,
-  exchangeTiles,
   playWord,
   endTurn,
   cleanUp,
+  exchangeTiles,
   tileRack,
   currentPlay,
   reorderRackTiles,
 }: ButtonsProps) => {
   const dispatch = useDispatch();
+
+  const [showSwapModal, setShowSwapModal] = useState(false);
 
   const playSquares = useSelector(selectPlaySquares);
   // end turn when played is true
@@ -103,19 +107,24 @@ const Buttons = ({
       {currentPlayerHasTurn && (
         <button
           onClick={() => {
-            if (playSquares.length > 0) {
-              dispatch(clearPlayTiles());
-              exchangeTiles(playTilesFromSquares(playSquares));
-              dispatch(changeSquareSelection(null));
-              cleanUp();
-              endTurn();
-            }
+            dispatch(clearPlayTiles());
+            dispatch(changeSquareSelection(null));
+            setShowSwapModal(true);
           }}
         >
           <SwapIcon />
           SWAP
         </button>
       )}
+      <Modal showModal={showSwapModal}>
+        <SwapTiles
+          setShowModal={setShowSwapModal}
+          tileRack={tileRack}
+          swapSelectedTiles={(tiles) => {
+            exchangeTiles(tiles);
+          }}
+        />
+      </Modal>
     </div>
   );
 };
