@@ -1,4 +1,6 @@
-import { Server, FlatFile } from "boardgame.io/server";
+import { Server } from "boardgame.io/server";
+
+import { Sqlite3Store } from "./sqlite3";
 
 import Rabble from "../game/rabble";
 
@@ -27,9 +29,10 @@ loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
   const server = Server({
     games: [Rabble(wordlist)],
 
-    db: new FlatFile({
-      dir: process.env.FLATFILE_PATH || "",
+    db: new Sqlite3Store({
+      filename: `${process.env.FLATFILE_PATH}/rabble.db`,
       logging: false,
+      debug: true,
     }),
   });
 
