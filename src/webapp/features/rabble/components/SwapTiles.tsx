@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SwapTiles.module.css";
 import Tile from "./Tile";
 import TileRack from "./TileRack";
@@ -8,22 +8,37 @@ import { ReactComponent as UndoIcon } from "../svg/arrow-undo-outline.svg";
 import { ReactComponent as SwapIcon } from "../svg/swap-horizontal-outline.svg";
 
 type SwapTilesProps = {
+  showModal: boolean;
+  playerTiles: Tile[];
   setShowModal: (show: boolean) => void;
-  tileRack: Tile[];
   swapSelectedTiles: (tiles: Tile[]) => void;
 };
 
 const SwapTiles = ({
-  tileRack,
+  showModal,
+  playerTiles,
   setShowModal,
   swapSelectedTiles,
 }: SwapTilesProps) => {
   const [tilesToSwap, setTilesToSwap] = useState([] as Tile[]);
-  const [tilesInRack, setTilesInRack] = useState(tileRack);
+  const [tilesInRack, setTilesInRack] = useState(playerTiles);
+
+  // the modal stays rendered when it's not shown
+  // reset the rack tiles when showModal changes to prevent a stale rack
+  useEffect(() => {
+    if (showModal) {
+      setTilesInRack(playerTiles);
+    }
+  }, [showModal, playerTiles]);
 
   const sendTileToSwap = (tile: Tile) => {
     const copyRack = [...tilesInRack];
-    pullPlayTilesFromRack([tile], copyRack);
+    try {
+      pullPlayTilesFromRack([tile], copyRack);
+    } catch (err) {
+      console.log(err.message);
+      debugger;
+    }
     setTilesInRack(copyRack);
     setTilesToSwap([...tilesToSwap, tile]);
     return true;
@@ -31,7 +46,7 @@ const SwapTiles = ({
 
   const cleanup = () => {
     setTilesToSwap([]);
-    setTilesInRack(tileRack);
+    setTilesInRack(playerTiles);
   };
 
   const cancelSwap = () => {
@@ -72,7 +87,7 @@ const SwapTiles = ({
       <TileRack
         onTileClick={sendTileToSwap}
         tilesInRack={tilesInRack}
-        playerTiles={tileRack}
+        playerTiles={playerTiles}
       />
     </div>
   );

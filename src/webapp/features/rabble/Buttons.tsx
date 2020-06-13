@@ -118,8 +118,9 @@ const Buttons = ({
       )}
       <Modal showModal={showSwapModal}>
         <SwapTiles
+          showModal={showSwapModal}
           setShowModal={setShowSwapModal}
-          tileRack={tileRack}
+          playerTiles={tileRack}
           swapSelectedTiles={(tiles) => {
             exchangeTiles(tiles);
           }}

@@ -248,6 +248,11 @@ const Rabble = (wordlist: WordList) => ({
           return INVALID_MOVE;
         }
 
+        console.log(
+          "EXCHANGE TILES",
+          exchange.map((t) => t.letter)
+        );
+
         logMetaData.pid = currentPlayer;
         try {
           exchangeTiles(tileBag, tileRack, exchange);
