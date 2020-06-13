@@ -8,10 +8,10 @@
 - Tap rack tiles to play horizontally or vertically instead of keyboard ✅
 - Dictionary check happens after tiles are laid, then allows you to play ✅
 
-- Show score during play ✔ (...on the board!)
+- Exchange tiles pops a modal, tap tiles to select which to exchange ✅
+- Blank chooser modal V2 needs a nicer UX ✅
 
-- Exchange tiles pops a modal, tap tiles to select which to exchange
-- Blank chooser modal V2 needs a nicer UX
+- Show score during play ✔ (...on the board!)
 
 - Drag rack tiles to reorder them
 - Drag rack tiles to place them on the board
