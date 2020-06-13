@@ -16,7 +16,7 @@ export const tilesFromString = (word: string): Tile[] => {
 };
 
 export const tileBagConfig: TileBagConfig = {
-  " ": { letter: " ", value: 0, blank: true, frequency: 2 },
+  " ": { letter: " ", value: 0, blank: true, frequency: 100 },
   A: { letter: "A", value: 1, blank: false, frequency: 9 },
   B: { letter: "B", value: 3, blank: false, frequency: 2 },
   C: { letter: "C", value: 3, blank: false, frequency: 2 },

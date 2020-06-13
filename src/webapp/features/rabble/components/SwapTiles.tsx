@@ -61,34 +61,35 @@ const SwapTiles = ({
   };
 
   return (
-    <div className={styles.swapTiles}>
-      <div className={styles.topButtons}>
+    <div className={styles.swapTilesModal}>
+      <div className={styles.topRow}>
         <button onClick={cancelSwap}>
-          <UndoIcon />
-          CANCEL
+          <UndoIcon /> NOPE
         </button>
+        <div className={styles.swapRack}>
+          {tilesToSwap.map((tile, idx) => (
+            <div key={idx} className={styles.swapTileContainer}>
+              <Tile
+                onClick={(ev) => {
+                  console.log("swap tile click", idx);
+                }}
+                tile={tile}
+                context="board"
+              />
+            </div>
+          ))}
+        </div>
         <button disabled={tilesToSwap.length === 0} onClick={swapTiles}>
-          <SwapIcon />
-          SWAP
+          <SwapIcon /> SWAP
         </button>
       </div>
-      <div className={styles.swapRack}>
-        {tilesToSwap.map((tile, idx) => (
-          <div key={idx} className={styles.swapContainer}>
-            <Tile
-              onClick={(ev) => {
-                console.log("swap tile click", idx);
-              }}
-              tile={tile}
-            />
-          </div>
-        ))}
+      <div className={styles.rackContainer}>
+        <TileRack
+          onTileClick={sendTileToSwap}
+          tilesInRack={tilesInRack}
+          playerTiles={playerTiles}
+        />
       </div>
-      <TileRack
-        onTileClick={sendTileToSwap}
-        tilesInRack={tilesInRack}
-        playerTiles={playerTiles}
-      />
     </div>
   );
 };

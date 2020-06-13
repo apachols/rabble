@@ -1,6 +1,6 @@
 ## TODO
 
-- Exchange modal
+- Modals should either disable the board, or disappear when board clicked
 
 - SQLify the sqlite adapter (e.g. logs as separate records)
 - sqlite3 models also can provide some more sugar to make managing documents easier

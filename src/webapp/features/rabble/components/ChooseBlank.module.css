@@ -1,7 +1,13 @@
-.chooseBlank {
+.chooseBlankModal {
+  padding: 30px;
+}
+
+.chooseBlankHeader {
+  margin-bottom: 10px;
+}
+
+.tilesContainer {
   height: auto;
-  max-width: 400px;
-  width: 60vw;
   display: flex;
   flex-wrap: wrap;
   margin-left: auto;
