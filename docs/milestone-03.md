@@ -27,8 +27,8 @@
 
 - Better logging ✅
 
-- debug / recover "unexpected state error"
-
 - Better state abstraction (and name) for "word you are about to play" ✅
+
+- debug / recover "unexpected state error"
 
 - Tests for Rabble game file

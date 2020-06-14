@@ -61,7 +61,17 @@ const Buttons = ({
   return (
     <div className={styles.buttons}>
       {currentPlayerHasTurn && (
-        <button className={styles.pass} onClick={() => endTurn()}>
+        <button
+          className={styles.pass}
+          onClick={() => {
+            const confirmed = window.confirm(
+              "Are you sure you want to Pass your turn?"
+            );
+            if (confirmed) {
+              endTurn();
+            }
+          }}
+        >
           <FlagIcon />
           PASS
         </button>
