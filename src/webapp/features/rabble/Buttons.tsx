@@ -61,11 +61,34 @@ const Buttons = ({
   return (
     <div className={styles.buttons}>
       {currentPlayerHasTurn && (
-        <button onClick={() => endTurn()}>
+        <button className={styles.pass} onClick={() => endTurn()}>
           <FlagIcon />
           PASS
         </button>
       )}
+      {currentPlayerHasTurn && (
+        <button
+          onClick={() => {
+            dispatch(clearPlayTiles());
+            dispatch(changeSquareSelection(null));
+            setShowSwapModal(true);
+          }}
+        >
+          <SwapIcon />
+          SWAP
+        </button>
+      )}
+      <button
+        onClick={() => {
+          shuffleTiles(tileRack);
+          reorderRackTiles(tileRack);
+          dispatch(clearPlayTiles());
+          dispatch(changeSquareSelection(null));
+        }}
+      >
+        <ShuffleIcon />
+        SHUFFLE
+      </button>
       <button
         onClick={() => {
           dispatch(clearPlayTiles());
@@ -92,30 +115,7 @@ const Buttons = ({
           PLAY
         </button>
       )}
-      <button
-        onClick={() => {
-          shuffleTiles(tileRack);
-          reorderRackTiles(tileRack);
-          dispatch(clearPlayTiles());
-          dispatch(changeSquareSelection(null));
-        }}
-      >
-        <ShuffleIcon />
-        SHUFFLE
-      </button>
 
-      {currentPlayerHasTurn && (
-        <button
-          onClick={() => {
-            dispatch(clearPlayTiles());
-            dispatch(changeSquareSelection(null));
-            setShowSwapModal(true);
-          }}
-        >
-          <SwapIcon />
-          SWAP
-        </button>
-      )}
       <Modal showModal={showSwapModal}>
         <SwapTiles
           showModal={showSwapModal}

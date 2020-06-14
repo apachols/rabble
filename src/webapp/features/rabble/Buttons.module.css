@@ -12,9 +12,20 @@
   align-items: center;
   margin-left: 2px;
   margin-right: 2px;
+  padding: 2px;
 }
 
 .buttons > button > svg {
   width: 24px;
   height: 24px;
+}
+
+.play {
+  color: green;
+  box-shadow: 1px 1px 3px -1px dimgray;
+  font-weight: bold;
+}
+.pass {
+  color: crimson;
+  font-weight: bold;
 }
