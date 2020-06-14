@@ -1,6 +1,8 @@
 .App {
   margin: 4px;
   text-align: center;
+  /* Disables IOS double tap zoom... */
+  touch-action: manipulation;
 }
 
 .Nav {
