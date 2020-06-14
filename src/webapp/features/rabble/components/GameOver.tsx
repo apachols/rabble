@@ -1,10 +1,10 @@
 import React from "react";
 
-type TileProps = {
+type GameOverProps = {
   gameover: GameOver;
 };
 
-const GameOver = ({ gameover }: TileProps) => (
+const GameOver = ({ gameover }: GameOverProps) => (
   <h2>
     {gameover?.draw ? (
       "You Tied! Weird!"

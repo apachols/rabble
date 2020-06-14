@@ -1,20 +1,3 @@
 .controls {
   text-align: center;
 }
-
-.invalidPlayError {
-  color: red;
-  margin: 10px auto;
-  font-size: x-small;
-}
-
-.currentPlayInfoContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.currentPlayScore {
-  color: red;
-  margin: 10px auto;
-  font-size: x-small;
-}

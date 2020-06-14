@@ -1,0 +1,18 @@
+.invalidPlayError {
+  color: red;
+  font-weight: bold;
+  margin: 10px auto;
+  font-size: x-small;
+}
+
+.currentPlayInfoContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.currentPlayScore {
+  color: green;
+  font-weight: bold;
+  margin: 10px auto;
+  font-size: x-small;
+}

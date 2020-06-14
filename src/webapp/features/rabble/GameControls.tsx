@@ -8,6 +8,7 @@ import Modal from "./components/Modal";
 import ChooseBlank from "./components/ChooseBlank";
 import TileRack from "./components/TileRack";
 import GameOver from "./components/GameOver";
+import CurrentPlayInfo from "./components/CurrentPlayInfo";
 
 import Board from "./board/Board";
 import Buttons from "./Buttons";
@@ -117,32 +118,15 @@ const GameControls = (props: GameBoardProps) => {
     return false;
   };
 
-  const invalidReasonDisplay = (invalidReason: string) => {
-    if (invalidReason) {
-      return <span>{invalidReason}</span>;
-    }
-    return <span>&nbsp;</span>;
-  };
-
-  const currentPlayScoreDisplay = (score: number, play: Square[]) => {
-    if (score && play.length) {
-      return <span>Score: {score}</span>;
-    }
-    return <span>&nbsp;</span>;
-  };
-
   return (
     <div className={styles.controls}>
       <Board gameBoard={gameBoard} />
       <div>
-        <div className={styles.currentPlayInfoContainer}>
-          <div className={styles.invalidPlayError}>
-            {invalidReasonDisplay(currentPlay.invalidReason)}
-          </div>
-          <div className={styles.currentPlayScore}>
-            {currentPlayScoreDisplay(currentPlay.score, debouncedPlaySquares)}
-          </div>
-        </div>
+        <CurrentPlayInfo
+          invalidReason={currentPlay.invalidReason}
+          score={currentPlay.score}
+          play={debouncedPlaySquares}
+        />
         <TileRack
           onTileClick={tryToPlayTile}
           tilesInRack={displayTileRack}
