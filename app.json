@@ -1,0 +1,17 @@
+{
+  "name": "Rabble",
+  "displayName": "Rabble",
+  "expo": {
+    "name": "Rabble",
+    "slug": "Rabble",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
