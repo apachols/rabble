@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
 const postToCreateGame = async () => {
+  console.log('posting to create game:', API_ROOT);
   const res = await axios({
     method: "post",
     headers: {
