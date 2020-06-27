@@ -14,8 +14,8 @@
 - Show score during play ✔ (...on the board!)
 
 - Drag rack tiles to reorder them
-- Drag rack tiles to place them on the board
-- Drag placed tiles on the board to re-place them
+
+- Swipe to determine play direction
 
 #### Lobby
 

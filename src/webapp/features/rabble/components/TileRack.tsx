@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TileRack.module.css";
 import Tile from "./Tile";
+import { useDrag } from "react-dnd";
 
 type TileRackProps = {
   tilesInRack: Tile[];
   playerTiles: Tile[];
   onTileClick: (tile: Tile) => boolean;
+};
+
+interface DraggableTileProps {
+  tile: Tile | null;
+  onClick: (tile: Tile) => void;
+}
+
+const DraggableTile = (props: DraggableTileProps) => {
+  const { tile, onClick } = props;
+  if (!tile) {
+    return null;
+  }
+  return <Tile onClick={onClick} tile={tile} />;
 };
 
 const TileRack = ({ tilesInRack, playerTiles, onTileClick }: TileRackProps) => {
@@ -22,23 +36,20 @@ const TileRack = ({ tilesInRack, playerTiles, onTileClick }: TileRackProps) => {
     clickedTiles.includes(idx) ? null : t
   );
 
+  const handleClick = (idx: number) => (tile: Tile) => {
+    // if the click put the tile on the board
+    if (onTileClick(tile)) {
+      // save which position the tile was in, and show a blank space there
+      setClickedTiles([...clickedTiles, idx]);
+    }
+  };
+
   return (
     <div className={styles.tileRackContainer}>
       <div className={styles.tileRack}>
         {renderTiles.map((tileOrNull, idx) => (
           <div key={idx} className={styles.tileContainer}>
-            {tileOrNull ? (
-              <Tile
-                onClick={(ev) => {
-                  // if the click put the tile on the board
-                  if (onTileClick(ev)) {
-                    // save which position the tile was in, and show a blank space there
-                    setClickedTiles([...clickedTiles, idx]);
-                  }
-                }}
-                tile={tileOrNull}
-              />
-            ) : null}
+            <DraggableTile tile={tileOrNull} onClick={handleClick(idx)} />
           </div>
         ))}
       </div>
