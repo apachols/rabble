@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TileRack.module.css";
 import Tile from "./Tile";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
 type TileRackProps = {
   tilesInRack: Tile[];
@@ -16,10 +16,41 @@ interface DraggableTileProps {
 
 const DraggableTile = (props: DraggableTileProps) => {
   const { tile, onClick } = props;
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: "TILE", tile },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: "TILE",
+    drop: (arg1) => console.log("DROP A TILE", arg1),
+    collect: (mon) => ({
+      isOver: !!mon.isOver(),
+      canDrop: !!mon.canDrop(),
+    }),
+  });
   if (!tile) {
     return null;
   }
-  return <Tile onClick={onClick} tile={tile} />;
+  if (isDragging) {
+    console.log("Dragging a tile!!");
+  }
+  return (
+    <>
+      <div
+        style={{
+          color: isOver ? "red" : "black",
+        }}
+        ref={drop}
+      >
+        <div ref={drag}>
+          <Tile onClick={onClick} tile={tile} />
+        </div>
+      </div>
+    </>
+  );
 };
 
 const TileRack = ({ tilesInRack, playerTiles, onTileClick }: TileRackProps) => {
