@@ -68,7 +68,7 @@
     "native:android": "react-native run-android",
     "native:ios": "react-native run-ios",
     "native:web": "expo start --web",
-    "native:start": "react-native start"
+    "native:start": "cross-env REACT_APP_API_ROOT=http://192.168.0.5 react-native start"
   },
   "eslintConfig": {
     "extends": "react-app"
