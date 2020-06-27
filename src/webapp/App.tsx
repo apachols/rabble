@@ -7,6 +7,7 @@ import Home from "./features/home";
 import Theme from "./features/rabble/components/Theme";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -14,10 +15,21 @@ function Game() {
   return <Rabble />;
 }
 
+const isTouch = navigator.maxTouchPoints || navigator.msMaxTouchPoints;
+
+const dndDesktopProps = {
+  backend: HTML5Backend,
+};
+
+const dndTouchProps = {
+  backend: TouchBackend,
+  options: { enableHoverOutsideTarget: true, enableMouseEvents: true },
+};
+
 export default function App() {
   return (
     <Theme>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider {...(isTouch ? dndTouchProps : dndDesktopProps)}>
         <Router>
           <div className="App">
             <nav>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TileRack.module.css";
 import Tile from "./Tile";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, DragPreviewImage } from "react-dnd";
+import blank from "./blank.png";
 
 type TileRackProps = {
   tilesInRack: Tile[];
@@ -16,7 +17,7 @@ interface DraggableTileProps {
 
 const DraggableTile = (props: DraggableTileProps) => {
   const { tile, onClick } = props;
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     item: { type: "TILE", tile },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -37,6 +38,7 @@ const DraggableTile = (props: DraggableTileProps) => {
   if (isDragging) {
     console.log("Dragging a tile!!");
   }
+
   return (
     <>
       <div
@@ -46,6 +48,7 @@ const DraggableTile = (props: DraggableTileProps) => {
         ref={drop}
       >
         <div ref={drag}>
+          {/* <DragPreviewImage connect={preview} src={blank} /> */}
           <Tile
             isDropping={isOver}
             isDragging={isDragging}
