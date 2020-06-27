@@ -3,11 +3,7 @@ import { createUserGame } from "../../app/asyncStorage";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
-interface History {
-  push(url: string): void
-};
-
-export const postToCreateGame = async (history:History) => {
+export const postToCreateGame = async (history:any) => {
   console.log('posting to create:');
   // const res = await axios({
   //   method: "post",

@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { NativeRouter as Router, Switch, Route, Link } from 'react-router-native';
-import Create from './native/features/Create';
-import Join from './native/features/Join';
+import Create from './src/webapp/features/create/create.native';
+import Join from './src/webapp/features/join/join.native';
 import AppHeader from './native/components/AppHeader';
-//import Theme from './webapp/features/rabble/components/Theme';
 import { Button, ThemeProvider } from 'react-native-elements';
 
 export default function App() {
@@ -18,9 +17,7 @@ export default function App() {
               <Text>GAMEGAME</Text>
             </Route>
             <Route path="/create" component={Create} />
-            <Route path="/join/:gameID">
-              <Join />
-            </Route>
+            <Route path="/join/:gameID" component={Join} />
             <Route path="/">
               <View>
                 <Text>Welcome to Rabble</Text>
