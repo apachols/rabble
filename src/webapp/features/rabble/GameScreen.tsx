@@ -39,7 +39,7 @@ const GameScreen = (props: GameBoardProps) => {
 
       <ScoreDisplay scoreList={useScoreList} />
 
-      <GameControls nowPlaying={currentPlayer} {...props} />
+      <GameControls {...props} />
 
       <TurnList remainingTileCount={remainingTileCount} turns={useTurns} />
 

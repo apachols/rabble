@@ -46,7 +46,12 @@ const DraggableTile = (props: DraggableTileProps) => {
         ref={drop}
       >
         <div ref={drag}>
-          <Tile onClick={onClick} tile={tile} />
+          <Tile
+            isDropping={isOver}
+            isDragging={isDragging}
+            onClick={onClick}
+            tile={tile}
+          />
         </div>
       </div>
     </>
