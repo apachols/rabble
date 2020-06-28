@@ -131,6 +131,9 @@ const GameControls = (props: GameBoardProps) => {
           onTileClick={tryToPlayTile}
           tilesInRack={displayTileRack}
           playerTiles={tileRack}
+          onTileDrop={(dragTile, dropTile) => {
+            console.log("dragged", dragTile, "dropped", dropTile);
+          }}
         />
         <Buttons
           currentPlayerHasTurn={currentPlayerHasTurn}
