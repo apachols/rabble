@@ -4,8 +4,7 @@ import {
   joinUserGame,
 } from "../../app/asyncStorage";
 
-const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
-// const API_ROOT = 'http://192.168.0.5:8000';
+const API_ROOT = `${process.env.REACT_APP_API_ROOT || ""}`;
 
 export const redirectToGameView = (history: any, gameID: string | undefined) => {
   history.push(`/game/${gameID}`);

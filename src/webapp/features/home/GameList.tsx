@@ -14,7 +14,8 @@ const TurnList = (props: GameListProps) => {
     <div>
       <h5>Recent games</h5>
       <ul className={styles.gameList}>
-        {games.map((g) => {
+        {games.sort((a, b) => b.createdAt > a.createdAt ? 1 : -1)
+          .map((g) => {
           return <RecentGame key={g.gameID} game={g} />;
         })}
       </ul>

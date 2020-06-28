@@ -10,7 +10,7 @@ const fixtureGameInfo: UserGameInfo = {
   playerID: "",
   playerCredentials: "",
   scoreList: {},
-  createdAt: new Date().toLocaleDateString("en-US"),
+  createdAt: new Date().toLocaleDateString("en-US")
 };
 
 export const getUserInfo = async (): Promise<UserInfo> => {

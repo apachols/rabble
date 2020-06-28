@@ -43,7 +43,8 @@
     "@types/sequelize": "^4.28.9",
     "@types/sqlite3": "^3.1.6",
     "@types/validator": "^13.0.0",
-    "cross-env": "^7.0.2",
+    "babel-plugin-inline-dotenv": "^1.5.0",
+    "env": "^7.0.2",
     "expo": "~37.0.3",
     "expo-updates": "~0.2.0",
     "react-native": "~0.61.5",
@@ -56,10 +57,10 @@
     "react-router-native": "^5.2.0"
   },
   "scripts": {
-    "phone": "cross-env REACT_APP_API_ROOT=http://192.168.1.5:8000 REACT_APP_SOCKET_ROOT=http://192.168.1.5:8000 react-scripts start",
-    "dev": "cross-env REACT_APP_API_ROOT=http://localhost:8000 REACT_APP_SOCKET_ROOT=http://localhost:8000 react-scripts start",
-    "repl": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node --files --project ./tsconfig.json",
-    "server": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node --files --project ./tsconfig.json ./src/server/index.ts",
+    "phone": "env REACT_APP_API_ROOT=http://192.168.1.5:8000 REACT_APP_SOCKET_ROOT=http://192.168.1.5:8000 react-scripts start",
+    "dev": "env REACT_APP_API_ROOT=http://localhost:8000 REACT_APP_SOCKET_ROOT=http://localhost:8000 react-scripts start",
+    "repl": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node --files --project ./tsconfig.json",
+    "server": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node --files --project ./tsconfig.json ./src/server/index.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -68,7 +69,7 @@
     "native:android": "react-native run-android",
     "native:ios": "react-native run-ios",
     "native:web": "expo start --web",
-    "native:start": "cross-env REACT_APP_API_ROOT=http://192.168.0.5 react-native start"
+    "native:start": "react-native start"
   },
   "eslintConfig": {
     "extends": "react-app"

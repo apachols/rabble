@@ -3,8 +3,10 @@ import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { NativeRouter as Router, Switch, Route, Link } from 'react-router-native';
 import Create from './src/webapp/features/create/create.native';
 import Join from './src/webapp/features/join/join.native';
+import Game from './src/webapp/features/rabble/game.native';
+import Home from './src/webapp/features/home/home.native';
 import AppHeader from './native/components/AppHeader';
-import { Button, ThemeProvider } from 'react-native-elements';
+import { ThemeProvider } from 'react-native-elements';
 
 export default function App() {
   return (
@@ -13,19 +15,11 @@ export default function App() {
         <AppHeader />
         <ScrollView contentContainerStyle={styles.container}>
           <Switch>
-            <Route path="/game/:gameID">
-              <Text>GAMEGAME</Text>
-            </Route>
+            <Route path="/game/:gameID" component={Game} />
             <Route path="/create" component={Create} />
             <Route path="/join/:gameID" component={Join} />
-            <Route path="/">
-              <View>
-                <Text>Welcome to Rabble</Text>
-                <Link to="/"><Text>Home</Text></Link>
-                <Link to="/create"><Text>CREATE</Text></Link>
-                {/* <Button title="Create"><Link to="/create"></Link></Button> */}
+            <Route path="/" component={Home}>
 
-              </View>
             </Route>
           </Switch>
         </ScrollView>

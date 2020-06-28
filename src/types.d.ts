@@ -13,11 +13,13 @@ type UserGameInfo = {
   createdAt: string;
 };
 
+type Games = {
+  [key: string]: UserGameInfo
+};
+
 type UserInfo = {
   nickname: string;
-  games: {
-    [key: string]: UserGameInfo;
-  };
+  games: Games
 };
 
 // Rabble Types
