@@ -182,3 +182,7 @@ declare module "boardgame.io/server" {
     constructor(config: FlatFileConfig);
   }
 }
+
+declare module "react-dnd-preview" {
+  export function usePreview(): Any;
+}

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TileRack.module.css";
 import Tile from "./Tile";
-import { useDrag, useDrop, DragPreviewImage } from "react-dnd";
-import blank from "./blank.png";
+import { useDrag, useDrop } from "react-dnd";
+import blankDrag from "./blankDrag.png";
+import { usePreview } from "react-dnd-preview";
 
 type TileRackProps = {
   tilesInRack: Tile[];
@@ -15,18 +16,31 @@ interface DraggableTileProps {
   onClick: (tile: Tile) => void;
 }
 
+const TouchDragPreview = () => {
+  const isTouch = navigator.maxTouchPoints || navigator.msMaxTouchPoints;
+  const { display, style } = usePreview();
+  if (!isTouch || !display) {
+    return null;
+  }
+  return (
+    <div style={{ ...style }}>
+      <img src={blankDrag} alt={"drag"} />
+    </div>
+  );
+};
+
 const DraggableTile = (props: DraggableTileProps) => {
   const { tile, onClick } = props;
-  const [{ isDragging }, drag, preview] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     item: { type: "TILE", tile },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
 
-  const [{ isOver, canDrop }, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: "TILE",
-    drop: (arg1) => console.log("DROP A TILE", arg1),
+    drop: (item) => console.log("DROP A TILE", item),
     collect: (mon) => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
@@ -48,7 +62,7 @@ const DraggableTile = (props: DraggableTileProps) => {
         ref={drop}
       >
         <div ref={drag}>
-          {/* <DragPreviewImage connect={preview} src={blank} /> */}
+          <TouchDragPreview />
           <Tile
             isDropping={isOver}
             isDragging={isDragging}

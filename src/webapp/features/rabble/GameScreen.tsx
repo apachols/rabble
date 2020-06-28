@@ -13,7 +13,7 @@ import ScoreDisplay from "./components/ScoreDisplay";
 const GameScreen = (props: GameBoardProps) => {
   const {
     G: { turnsReverse, scoreList, remainingTileCount },
-    ctx: { currentPlayer, gameover },
+    ctx: { gameover },
   } = props;
 
   const { gameID } = useParams();
