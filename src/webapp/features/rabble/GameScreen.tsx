@@ -13,7 +13,7 @@ import ScoreDisplay from "./components/ScoreDisplay";
 const GameScreen = (props: GameBoardProps) => {
   const {
     G: { turnsReverse, scoreList, remainingTileCount },
-    ctx: { currentPlayer, gameover },
+    ctx: { gameover },
   } = props;
 
   const { gameID } = useParams();
@@ -39,7 +39,7 @@ const GameScreen = (props: GameBoardProps) => {
 
       <ScoreDisplay scoreList={useScoreList} />
 
-      <GameControls nowPlaying={currentPlayer} {...props} />
+      <GameControls {...props} />
 
       <TurnList remainingTileCount={remainingTileCount} turns={useTurns} />
 
