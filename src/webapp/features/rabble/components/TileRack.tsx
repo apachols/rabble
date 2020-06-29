@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TileRack.module.css";
 import DraggableTile from "./DraggableTile";
+import Tile from "./Tile";
 
 type TileRackProps = {
   tilesInRack: Tile[];
   playerTiles: Tile[];
   onTileClick: (tile: Tile) => boolean;
-  onTileDrop: (dragged: Tile, dropped: Tile) => void;
+  onTileDrop?: (positionFrom: number, positionTo: number) => void;
 };
 
 const TileRack = ({
@@ -23,10 +24,12 @@ const TileRack = ({
     }
   }, [playerTiles, tilesInRack]);
 
-  // Insert blank spaces in the rack for already clicked tiles
-  const renderTiles = playerTiles.map((t, idx) =>
-    clickedTiles.includes(idx) ? null : t
-  );
+  const tilesToRender =
+    playerTiles.length === tilesInRack.length
+      ? // show the rack tiles if no tiles have been played (allows reordering during opponent's turn)
+        tilesInRack
+      : // Insert blank spaces in the rack for already clicked tiles
+        playerTiles.map((t, idx) => (clickedTiles.includes(idx) ? null : t));
 
   const handleClick = (idx: number) => (tile: Tile) => {
     // if the click put the tile on the board
@@ -36,18 +39,26 @@ const TileRack = ({
     }
   };
 
+  const renderTile = (tile: Tile, position: number) => {
+    if (!onTileDrop) {
+      return <Tile tile={tile} onClick={handleClick(position)} />;
+    }
+    return (
+      <DraggableTile
+        tile={tile}
+        tileRackPosition={position}
+        onClick={handleClick(position)}
+        onTileDrop={onTileDrop}
+      />
+    );
+  };
+
   return (
     <div className={styles.tileRackContainer}>
       <div className={styles.tileRack}>
-        {renderTiles.map((tileOrNull, idx) => (
+        {tilesToRender.map((tileOrNull, idx) => (
           <div key={idx} className={styles.tileContainer}>
-            {tileOrNull && (
-              <DraggableTile
-                tile={tileOrNull}
-                onClick={handleClick(idx)}
-                onTileDrop={onTileDrop}
-              />
-            )}
+            {tileOrNull && renderTile(tileOrNull, idx)}
           </div>
         ))}
       </div>

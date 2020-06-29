@@ -6,13 +6,14 @@ import { usePreview } from "react-dnd-preview";
 
 interface DraggableTileProps {
   tile: Tile;
+  tileRackPosition: number;
   onClick: (tile: Tile) => void;
-  onTileDrop: (dragged: Tile, dropped: Tile) => void;
+  onTileDrop: (positionFrom: number, positionTo: number) => void;
 }
 
-interface DropTargetItem {
+interface DraggedItem {
   type: string;
-  tile: Tile;
+  position: number;
 }
 
 const TouchDragPreview = () => {
@@ -29,9 +30,9 @@ const TouchDragPreview = () => {
 };
 
 const DraggableTile = (props: DraggableTileProps) => {
-  const { tile, onClick, onTileDrop } = props;
+  const { tile, onClick, onTileDrop, tileRackPosition } = props;
   const [{ isDragging }, drag] = useDrag({
-    item: { type: "TILE", tile },
+    item: { type: "TILE", position: tileRackPosition },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -40,31 +41,28 @@ const DraggableTile = (props: DraggableTileProps) => {
   const [{ isOver }, drop] = useDrop({
     accept: "TILE",
     drop: (item: unknown) => {
-      const dropTile = (item as DropTargetItem).tile;
-      onTileDrop(tile, dropTile);
+      if (onTileDrop) {
+        const draggedTilePosition = (item as DraggedItem).position;
+        onTileDrop(draggedTilePosition, tileRackPosition);
+      }
     },
     collect: (mon) => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
     }),
   });
-  if (!tile) {
-    return null;
-  }
   return (
-    <>
-      <div ref={drop}>
-        <div ref={drag}>
-          <TouchDragPreview />
-          <Tile
-            isDropping={isOver}
-            isDragging={isDragging}
-            onClick={onClick}
-            tile={tile}
-          />
-        </div>
+    <div ref={drop}>
+      <div ref={drag}>
+        <TouchDragPreview />
+        <Tile
+          isDropping={isOver}
+          isDragging={isDragging}
+          onClick={onClick}
+          tile={tile}
+        />
       </div>
-    </>
+    </div>
   );
 };
 

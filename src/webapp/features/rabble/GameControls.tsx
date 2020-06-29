@@ -118,6 +118,17 @@ const GameControls = (props: GameBoardProps) => {
     return false;
   };
 
+  const reorderTilesOnTileDrop = (positionFrom: number, positionTo: number) => {
+    const copyRack = [...displayTileRack];
+    const pulled = copyRack.splice(positionFrom, 1);
+    copyRack.splice(positionTo, 0, pulled[0]);
+    if (currentPlayerHasTurn) {
+      reorderRackTiles(copyRack);
+    } else {
+      dispatch(updateRackTiles(copyRack));
+    }
+  };
+
   return (
     <div className={styles.controls}>
       <Board gameBoard={gameBoard} />
@@ -131,9 +142,7 @@ const GameControls = (props: GameBoardProps) => {
           onTileClick={tryToPlayTile}
           tilesInRack={displayTileRack}
           playerTiles={tileRack}
-          onTileDrop={(dragTile, dropTile) => {
-            console.log("dragged", dragTile, "dropped", dropTile);
-          }}
+          onTileDrop={reorderTilesOnTileDrop}
         />
         <Buttons
           currentPlayerHasTurn={currentPlayerHasTurn}

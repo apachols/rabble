@@ -91,7 +91,6 @@ const SwapTiles = ({
           onTileClick={sendTileToSwap}
           tilesInRack={tilesInRack}
           playerTiles={playerTiles}
-          onTileDrop={() => console.log("Swap Drop")}
         />
       </div>
     </div>
