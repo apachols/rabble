@@ -129,6 +129,10 @@ const GameControls = (props: GameBoardProps) => {
     }
   };
 
+  const onTileDropOnlyIfNoLettersPlayed = {
+    onTileDrop: playSquares.length ? undefined : reorderTilesOnTileDrop,
+  };
+
   return (
     <div className={styles.controls}>
       <Board gameBoard={gameBoard} />
@@ -142,7 +146,7 @@ const GameControls = (props: GameBoardProps) => {
           onTileClick={tryToPlayTile}
           tilesInRack={displayTileRack}
           playerTiles={tileRack}
-          onTileDrop={reorderTilesOnTileDrop}
+          {...onTileDropOnlyIfNoLettersPlayed}
         />
         <Buttons
           currentPlayerHasTurn={currentPlayerHasTurn}

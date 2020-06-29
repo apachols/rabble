@@ -13,3 +13,13 @@
   display: inline-block;
   position: relative;
 }
+
+/* react-dnd adds a couple extra that need height */
+.tileContainer > div {
+  height: 50px;
+  width: 50px;
+}
+.tileContainer > div > div {
+  height: 50px;
+  width: 50px;
+}
