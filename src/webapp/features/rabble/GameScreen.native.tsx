@@ -1,40 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./GameScreen.module.css";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-native";
 
 import TurnList from "./components/TurnList";
-import GameControls from "./GameControls";
-import { getPlayerGame, updatePlayerGame } from "../../app/localStorage";
-import ThemeSelector from "./components/ThemeSelector";
+import GameControls from "./GameControls.native";
+import { getPlayerGame, updatePlayerGame } from "../../app/asyncStorage";
 import InviteLink from "./components/InviteLink";
 
 import ScoreDisplay from "./components/ScoreDisplay";
 
-import { Text } from 'react-native';
+import { Text, ActivityIndicator, ScrollView } from 'react-native';
 
 const GameScreen = (props: GameBoardProps) => {
+  console.log('GamesScreen props:');
+  console.log(props);
   // const {
   //   G: { turnsReverse, scoreList, remainingTileCount },
   //   ctx: { currentPlayer, gameover },
   // } = props;
+  
 
-  // const { gameID } = useParams();
+  const [localGameInfo, setLocalGameInfo] = useState<UserGameInfo>();
+  const { gameID } = useParams();
 
-  // const localGameInfo = getPlayerGame(gameID || "");
+  const checkGameInfo = async () => {
+    const game = await getPlayerGame(gameID || "");
+    setLocalGameInfo(game);
+  }
 
-  // const localScoreList = localGameInfo.scoreList;
+  useEffect(() => {
+    if (!localGameInfo) {
+      checkGameInfo();
+    }
+  });
 
-  // const useScoreList = gameover?.scoreList || scoreList;
+  if (!props.G || !props.ctx) {
+    return <ActivityIndicator />;
+  }
 
-  // const useTurns = gameover?.finalTurns || turnsReverse || [];
+  if (!localGameInfo) {
+    return <ActivityIndicator />;
+  }
 
-  // // TODO - replace this with server side game history for players
-  // if (JSON.stringify(localScoreList) !== JSON.stringify(useScoreList)) {
-  //   updatePlayerGame(gameID, { scoreList: useScoreList });
-  // }
+  const {
+    G: { turnsReverse, scoreList, remainingTileCount },
+    ctx: { currentPlayer, gameover },
+  } = props;
+
+  console.log('game info:', localGameInfo);
+
+  const localScoreList = localGameInfo.scoreList;
+  const useScoreList = gameover?.scoreList || scoreList;
+  const useTurns = gameover?.finalTurns || turnsReverse || [];
+
+  // TODO - replace this with server side game history for players
+  if (JSON.stringify(localScoreList) !== JSON.stringify(useScoreList)) {
+    updatePlayerGame(gameID, { scoreList: useScoreList });
+  }
 
   return (
-    <Text>GAME SCREEN GOES HERE</Text>
+    <ScrollView>
+      <Text>GAME SCREEN GOES HERE</Text>
+      <GameControls {...props} />
+    </ScrollView>
+    
     // <div className={styles.board}>
     //   <div className={styles.topButtonContainer}>
     //     <InviteLink gameID={gameID} />

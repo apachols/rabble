@@ -12,6 +12,8 @@ import ScoreDisplay from "./components/ScoreDisplay";
 import Loader from "react-loader-spinner";
 
 const GameScreen = (props: GameBoardProps) => {
+  console.log('GameScreen props:');
+  console.log(props);
   const {
     G: { turnsReverse, scoreList, remainingTileCount },
     ctx: { currentPlayer, gameover },

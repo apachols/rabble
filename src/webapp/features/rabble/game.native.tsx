@@ -66,16 +66,20 @@ const RabbleGameView = () => {
       debug: false,
       game: Rabble({}),
       board: GameScreen,
-      multiplayer: socket
+      multiplayer: socket,
+      visibleAt: 0
     });
   };
   const Engine = getEngine();
+  console.log('my engine:');
+  console.log(Engine);
 
   return (
     <Engine
       playerID={playerID}
       gameID={gameID}
       credentials={playerCredentials}
+      visibleAt={0}
     />
   );
 };

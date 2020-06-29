@@ -8,8 +8,6 @@ type GameListProps = {
 
 const TurnList = (props: GameListProps) => {
   const { games } = props;
-  console.log(games);
-
   return (<View>
     {games
       .sort((a, b) => b.createdAt > a.createdAt ? 1 : -1)

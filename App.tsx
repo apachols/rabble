@@ -7,23 +7,28 @@ import Game from './src/webapp/features/rabble/game.native';
 import Home from './src/webapp/features/home/home.native';
 import AppHeader from './native/components/AppHeader';
 import { ThemeProvider } from 'react-native-elements';
+import { Provider } from "react-redux";
+import { store } from "./src/webapp/app/store";
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <AppHeader />
-        <ScrollView contentContainerStyle={styles.container}>
-          <Switch>
-            <Route path="/game/:gameID" component={Game} />
-            <Route path="/create" component={Create} />
-            <Route path="/join/:gameID" component={Join} />
-            <Route path="/" component={Home}>
+      <Provider store={store}>
+        <Router>
+          <AppHeader />
+          <ScrollView contentContainerStyle={styles.container}>
+            <Switch>
+              <Route path="/game/:gameID" component={Game} />
+              <Route path="/create" component={Create} />
+              <Route path="/join/:gameID" component={Join} />
+              <Route path="/" component={Home}>
 
-            </Route>
-          </Switch>
-        </ScrollView>
-      </Router>
+              </Route>
+            </Switch>
+          </ScrollView>
+        </Router>
+
+      </Provider>
     </ThemeProvider>
 
 
