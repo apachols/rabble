@@ -2,6 +2,8 @@
 
 ### Features
 
+- Hide text box for click to invite a friend button
+
 - Add stages to gameplay so that players can make shuffle moves outside of their turn
 
 - Drag & Drop for Tile Rack: https://react-dnd.github.io/react-dnd/docs/tutorial
@@ -12,8 +14,12 @@
 
 ### Tech
 
+- Typescript V4
+
 - SQLify the sqlite adapter (e.g. logs as separate records)
+
 - sqlite3 models also can provide some more sugar to make managing documents easier
+
 - Some sort of script that on deploy will take old games and archive them to separate DB
 
 - Unbork production stack traces somehow

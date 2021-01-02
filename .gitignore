@@ -132,3 +132,6 @@ yarn-error.log*
 
 # environment
 .env
+
+# vscode
+/.vscode
