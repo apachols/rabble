@@ -1,26 +1,52 @@
 ## Production
 
+### Setup
+
 ```
 # setup.sh
 npm install -g serve
 npm install -g pm2
 cat "env vars plz" > ./.env
+```
 
-# build.sh (run this locally, it dies hard on a digital ocean droplet...)
+### Build
+
+Since react-scripts 4, you'll need to build locally and scp the build to digital ocean :|
+
+```
+#!/bin/bash
+
+REACT_APP_API_ROOT=?? \
+REACT_APP_SOCKET_ROOT=?? \
 npm run build
-tar -zcvf ./build/build.tar.gz ./build
-scp ./build/build.tar.gz $USER@$DOMAIN:$WORKDIR/build.tar.gz
 
-# stop.sh
-pm2 stop all
+PROJDIR="??"
+ZIPNAME="??"
+BUILDDIR="??"
+TARFILE="??"
+TARGETPATH="??"
+$HOST="??"
 
-# deploy.sh
-rm -rf build/*
-tar -zxvf build.tar.gz
-rm build.tar.gz
+#
+cd $PROJDIR && tar -zcvf $TARFILE $BUILDDIR
 
-# start.sh
-pm2 start pm2.json
+#
+scp $TARFILE $HOST:$TARGETPATH$ZIPNAME
+
+#
+rm $TARFILE
+```
+
+### Deploy
+
+```
+#!/bin/bash
+
+WWW="??"
+
+rm -rf $WWW/build/*
+tar -zxvf $WWW/build.tar.gz
+rm $WWW/build.tar.gz
 ```
 
 ## Local Dev
