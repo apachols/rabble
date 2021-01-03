@@ -107,7 +107,7 @@ export class Sqlite3Store extends Async {
           newLog.push(...log);
         }
         const newDoc = { log: newLog };
-        Log.upsert({ docID: gameID, docString: JSON.stringify(newDoc) });
+        await Log.upsert({ docID: gameID, docString: JSON.stringify(newDoc) });
       }
     }
   }
