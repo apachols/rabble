@@ -68,10 +68,6 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-.env.test
-
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -130,5 +126,12 @@ yarn-error.log*
 /tmp
 /data
 
-# environment
+# dotenv environment variables file
 .env
+.env.test
+
+# vscode
+/.vscode
+
+# deployment wrangling
+/.deploy

@@ -38,7 +38,7 @@ const setCSSVariables = (theme: ThemeObject) => {
   }
 };
 
-export default (props: ThemeSelectorContextProps) => {
+const Theme = (props: ThemeSelectorContextProps) => {
   const [themeName, setThemeName] = useState("light");
   const toggleTheme = () => {
     themeName === "dark" ? setThemeName("light") : setThemeName("dark");
@@ -54,3 +54,5 @@ export default (props: ThemeSelectorContextProps) => {
     </ThemeSelectorContext.Provider>
   );
 };
+
+export default Theme;
