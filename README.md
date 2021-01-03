@@ -44,9 +44,11 @@ rm $TARFILE
 
 WWW="??"
 
+pm2 stop all
 rm -rf $WWW/build/*
 tar -zxvf $WWW/build.tar.gz
 rm $WWW/build.tar.gz
+pm2 start pm2.json
 ```
 
 ## Local Dev
