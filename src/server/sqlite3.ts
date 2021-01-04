@@ -114,7 +114,7 @@ export class Sqlite3Store extends Async {
 
   async setMetadata(
     gameID: string,
-    metadata: Server.GameMetadata
+    metadata: Server.MatchData
   ): Promise<void> {
     this.debugLog(() => console.log("set metadata for gameID", gameID));
     const update = {

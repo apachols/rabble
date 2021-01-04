@@ -19,16 +19,16 @@ const postToCreateGame = async () => {
     },
   });
 
-  const { gameID } = res.data;
+  const { matchID } = res.data;
 
-  if (gameID) {
-    createUserGame(gameID);
+  if (matchID) {
+    createUserGame(matchID);
   } else {
     throw new Error("Game ID not returned from server");
   }
 
   // TODO, react router recommends doing this with <Redirect> instead
-  window.location.href = `/join/${gameID}`;
+  window.location.href = `/join/${matchID}`;
 };
 
 const CreateGame = () => {

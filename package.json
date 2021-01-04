@@ -22,7 +22,7 @@
     "@types/sqlite3": "^3.1.6",
     "@types/validator": "^13.0.0",
     "axios": "^0.19.2",
-    "boardgame.io": "0.39.16",
+    "boardgame.io": "0.40.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "mathjs": "^6.6.2",
