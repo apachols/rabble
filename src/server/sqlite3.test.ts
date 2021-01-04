@@ -40,7 +40,7 @@ describe("connect", () => {
     describe("createGame", () => {
       // Short circuits typing - State / Meta factories would be better
       const initialState = ({ G: "G", ctx: "ctx" } as unknown) as State;
-      const metadata = { gameName: "A" } as Server.GameMetadata;
+      const metadata = { gameName: "A" } as Server.MatchData;
       beforeAll(async () => {
         await store.createGame(gameID, { initialState, metadata });
       });
@@ -65,7 +65,7 @@ describe("connect", () => {
       };
       // Short circuits typing - State / Meta factories would be better
       const initialState = ({ G: "G", ctx: "ctx" } as unknown) as State;
-      const metadata = { gameName: "A" } as Server.GameMetadata;
+      const metadata = { gameName: "A" } as Server.MatchData;
       beforeAll(async () => {
         await store.createGame(gameID, { initialState, metadata });
       });
@@ -145,7 +145,7 @@ describe("connect", () => {
     });
 
     describe("setMetadata", () => {
-      const metadata = { gameName: "A" } as Server.GameMetadata;
+      const metadata = { gameName: "A" } as Server.MatchData;
       beforeAll(async () => {});
       afterAll(async () => {});
       it("update silently fails if meta record does not exist...", async () => {
