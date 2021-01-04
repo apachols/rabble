@@ -1,12 +1,16 @@
 ## TODO
 
+### Bugs
+
+- Passing a turn should insert a turn into the turn list
+
+- Improve .env setup instructions in the README
+
 ### Features
 
 - Hide text box for click to invite a friend button
 
-- Add stages to gameplay so that players can make shuffle moves outside of their turn
-
-- Drag & Drop for Tile Rack: https://react-dnd.github.io/react-dnd/docs/tutorial
+- Eliminate exchange letters bug by adding Stages to gameplay
 
 - Add a favicon and remove create react app branding
 
@@ -24,6 +28,4 @@
 
 - Unbork production stack traces somehow
 
-- Add an integration test that checks all the turns plus the racks against the config
-
-- Add .env setup instructions to README
+- Add a production check that compares all the turns plus the racks against the letters in the config
