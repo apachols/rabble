@@ -9,8 +9,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 
-import RabbleLogo from "./features/rabble_logo/rabbleLogo";
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Game() {
@@ -34,7 +32,6 @@ export default function App() {
       <DndProvider {...(isTouch ? dndTouchProps : dndDesktopProps)}>
         <Router>
           <div className="App">
-            <RabbleLogo />
             <nav>
               <ul className="Nav">
                 <li>

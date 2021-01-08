@@ -1,7 +1,7 @@
 # primary concerns
 
-1. [ ] check for component-styling overlap (use BEM class convention for ease of use)
-2. [ ] styles to check
+1. [ ✅ ] check for component-styling overlap (use BEM class convention for ease of use)
+2. [ ✅ ] styles to check
    - cube
    - wall
    - front
@@ -10,9 +10,9 @@
    - right
    - top
    - bottom
-3. [ ] drop component into main welcome page as overlay
+3. [ ✅ ] drop component into main welcome page as overlay
 
-- [ ] actually fix the spacing of individual bricks mobile-first. should be wall and cube only, either set to rems or just give it a small-screen orientation with an alternate-flex direction.
+- [ ] actually fix the spacing of individual bricks mobile-first. should be wall and cube only, try flex-direction or grid-spacing exchange.
 
 ## secondary concerns
 

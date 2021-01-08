@@ -2,14 +2,7 @@ import React from 'react';
 import styles from './rabbleLogo.module.css';
 
 const RabbleLogo = () => {
-
-  // function timeoutFx() {
-  //   setTimeout(function() => {
-  //     let container = document.getElementsByClassName("rabbleLogo__container")[0];
-  //     container.classList.add("none");
-  //   }, 8000);
-  // }
-  // need a useEffect Hook here. much easier.
+  // need a useEffect Hook here. makes cleanup of intro component much easier.
 
     return (
       <>
