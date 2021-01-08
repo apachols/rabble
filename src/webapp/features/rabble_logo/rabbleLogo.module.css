@@ -33,6 +33,9 @@ body {
     rgba(17, 168, 140, 0.765),
     #000
   );
+  animation: containerFade forwards;
+  animation-duration: 2s;
+  animation-delay: 6s;
 }
 .flex {
   display: flex;
@@ -48,17 +51,22 @@ body {
   position: relative;
   width: 1px;
   height: 1px;
-  margin: 0 100px 0 15px;
+  margin: 0 15vh 0 2vh;
   transform-style: preserve-3d;
 }
 .wall {
-  width: 100px;
-  height: 100px;
+  /* width: 100px;
+  height: 100px; */
+  width: 14vh;
+  height: 14vh;
   position: absolute;
-  left: calc(-100px / 2);
-  top: calc(-100px / 2);
+  /* left: calc(-100px / 2);
+  top: calc(-100px / 2); */
+  left: calc(-14vh / 2);
+  top: calc(-14vh / 2);
   text-align: center;
-  line-height: 100px;
+  /* line-height: 100px; */
+  line-height: 14vh;
   border: solid 1px rgb(121, 77, 0);
   border-radius: 8px;
   display: grid;
@@ -69,30 +77,39 @@ body {
   margin-top: 12px;
   margin-left: 10px;
 }
+/* TODO: may not need this at all, check on mobile */
 .wall span sub {
   font-size: 18px;
-  margin-left: -9px;
+  /* margin-left: -0.1rem; */
 }
 .front {
-  transform: translateZ(calc(100px / 2));
+  /* transform: translateZ(calc(100px / 2)); */
+  transform: translateZ(calc(14vh / 2));
 }
 .back {
-  transform: translateZ(calc(-100px / 2)) rotateY(180deg);
+  /* transform: translateZ(calc(-100px / 2)) rotateY(180deg); */
+  transform: translateZ(calc(-14vh / 2)) rotateY(180deg);
 }
 .right {
-  transform: translateX(calc(100px / 2)) rotateY(90deg) rotateZ(180deg);
+  /* transform: translateX(calc(100px / 2)) rotateY(90deg) rotateZ(180deg); */
+  transform: translateX(calc(14vh / 2)) rotateY(90deg) rotateZ(180deg);
 }
 .left {
-  transform: translateX(calc(-100px / 2)) rotateY(-90deg);
+  /* transform: translateX(calc(-100px / 2)) rotateY(-90deg); */
+  transform: translateX(calc(-14vh / 2)) rotateY(-90deg);
 }
 .top {
-  transform: translateY(calc(-100px / 2)) rotateX(90deg) rotateZ(-90deg);
+  /* transform: translateY(calc(-100px / 2)) rotateX(90deg) rotateZ(-90deg); */
+  transform: translateY(calc(-14vh / 2)) rotateX(90deg) rotateZ(-90deg);
   backface-visibility: hidden;
 }
 .bottom {
-  transform: translateY(calc(100px / 2)) rotateX(-90deg);
+  /* transform: translateY(calc(100px / 2)) rotateX(-90deg); */
+  transform: translateY(calc(14vh / 2)) rotateX(-90deg);
 }
-
+h4 {
+  text-align: center;
+}
 /* animation */
 
 .flex:nth-of-type(1) .cube:nth-of-type(1) {
@@ -117,15 +134,26 @@ body {
   animation: lastTile 5s cubic-bezier(0.215, 0.61, 0.355, 1) 1s forwards;
 }
 
-@keyframes lastTile {
-  50% {
-    transform: rotateX(270deg) rotateY(270deg);
-  }
-  70% {
-    transform: rotateX(270deg) rotateY(270deg);
+.wall {
+  animation: color 3s linear forwards, cubeShrink 3s 6s;
+  backface-visibility: hidden;
+}
+
+@keyframes containerFade {
+  0% {
+    height: 100vh;
   }
   100% {
-    transform: rotateX(540deg) rotateY(450deg);
+    height: 10vh;
+    visibility: hidden;
+    z-index: 0;
+  }
+}
+@keyframes cubeShrink {
+  100% {
+    height: 8vh;
+    width: 8vh;
+    margin: 0 1vh 0 1vh;
   }
 }
 
@@ -133,11 +161,6 @@ body {
   100% {
     transform: rotateX(270deg) rotateY(270deg);
   }
-}
-
-.wall {
-  animation: color 3s linear forwards;
-  backface-visibility: hidden;
 }
 
 @keyframes color {
@@ -152,6 +175,14 @@ body {
   }
 }
 
-h4 {
-  text-align: center;
+@keyframes lastTile {
+  50% {
+    transform: rotateX(90deg) rotateY(-90deg);
+  }
+  70% {
+    transform: rotateX(180deg) rotateY(180deg);
+  }
+  100% {
+    transform: rotateX(270deg) rotateY(270deg);
+  }
 }

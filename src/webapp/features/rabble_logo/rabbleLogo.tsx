@@ -2,6 +2,15 @@ import React from 'react';
 import styles from './rabbleLogo.module.css';
 
 const RabbleLogo = () => {
+
+  // function timeoutFx() {
+  //   setTimeout(function() => {
+  //     let container = document.getElementsByClassName("rabbleLogo__container")[0];
+  //     container.classList.add("none");
+  //   }, 8000);
+  // }
+  // need a useEffect Hook here. much easier.
+
     return (
       <>
     <div className={styles.rabbleLogo__container}>
@@ -219,13 +228,13 @@ const RabbleLogo = () => {
 
           <div className={`${styles.wall} ${styles.right}`}>
             <span>
-              E
+              L
               <sub>1</sub>
             </span>
           </div>
           <div className={`${styles.wall} ${styles.top}`}>
             <span>
-              L
+              E
               <sub>1</sub>
             </span>
           </div>
