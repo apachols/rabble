@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <RabbleLogo />
+    <RabbleLogo />
     <div className={styles.content}>
       <h3>{greeting}</h3>
       {arrayOfGames && arrayOfGames.length ? (

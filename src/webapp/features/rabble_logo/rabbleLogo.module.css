@@ -1,23 +1,29 @@
-/* basic style */
-/* html,
-* {
-  box-sizing: border-box;
+@media only screen and (max-width: 550px) {
+  .flex {
+    flex-direction: column;
+  }
+  .flex .cube {
+    position: absolute;
+  }
+  .flex .cube:nth-of-type(1) {
+    top: 10vh;
+  }
+  .flex .cube:nth-of-type(2) {
+    top: 25vh;
+  }
+  .flex .cube:nth-of-type(3) {
+    top: 40vh;
+  }
+  .flex .cube:nth-of-type(4) {
+    top: 55vh;
+  }
+  .flex .cube:nth-of-type(5) {
+    top: 70vh;
+  }
+  .flex .cube:nth-of-type(6) {
+    top: 85vh;
+  }
 }
-html,
-body {
-  position: relative;
-  overflow: hidden;
-} */
-/* body {
-  display: grid;
-  place-content: center;
-  height: 100vh;
-  margin: 0;
-  background: radial-gradient(circle at center, rgb(17, 168, 141), #000);
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-} */
-/* extraneous old styling from previous example. maybe save some. */
 
 .rabbleLogo__container {
   position: absolute;
@@ -28,6 +34,7 @@ body {
   height: 100vh;
   display: grid;
   place-content: center;
+  overflow: hidden;
   background: radial-gradient(circle at center, rgba(39, 30, 3, 0.799), #000);
   animation: containerFade forwards;
   animation-duration: 2s;
@@ -51,17 +58,12 @@ body {
   transform-style: preserve-3d;
 }
 .wall {
-  /* width: 100px;
-  height: 100px; */
   width: 14vh;
   height: 14vh;
   position: absolute;
-  /* left: calc(-100px / 2);
-  top: calc(-100px / 2); */
   left: calc(-14vh / 2);
   top: calc(-14vh / 2);
   text-align: center;
-  /* line-height: 100px; */
   line-height: 14vh;
   border: solid 1px rgb(121, 77, 0);
   border-radius: 8px;
@@ -73,34 +75,27 @@ body {
   margin-top: 12px;
   margin-left: 10px;
 }
-/* TODO: may not need this at all, check on mobile */
+
 .wall span sub {
   font-size: 18px;
-  /* margin-left: -0.1rem; */
 }
 .front {
-  /* transform: translateZ(calc(100px / 2)); */
   transform: translateZ(calc(14vh / 2));
 }
 .back {
-  /* transform: translateZ(calc(-100px / 2)) rotateY(180deg); */
   transform: translateZ(calc(-14vh / 2)) rotateY(180deg);
 }
 .right {
-  /* transform: translateX(calc(100px / 2)) rotateY(90deg) rotateZ(180deg); */
   transform: translateX(calc(14vh / 2)) rotateY(90deg) rotateZ(180deg);
 }
 .left {
-  /* transform: translateX(calc(-100px / 2)) rotateY(-90deg); */
   transform: translateX(calc(-14vh / 2)) rotateY(-90deg);
 }
 .top {
-  /* transform: translateY(calc(-100px / 2)) rotateX(90deg) rotateZ(-90deg); */
   transform: translateY(calc(-14vh / 2)) rotateX(90deg) rotateZ(-90deg);
   backface-visibility: hidden;
 }
 .bottom {
-  /* transform: translateY(calc(100px / 2)) rotateX(-90deg); */
   transform: translateY(calc(14vh / 2)) rotateX(-90deg);
 }
 h4 {
@@ -127,11 +122,11 @@ h4 {
   animation: rotation 3s cubic-bezier(0.215, 0.61, 0.355, 1) 1.2s forwards;
 }
 .flex:nth-of-type(1) .cube:nth-of-type(6) {
-  animation: lastTile 5s cubic-bezier(0.215, 0.61, 0.355, 1) 1s forwards;
+  animation: lastTile 4s cubic-bezier(0.215, 0.61, 0.355, 1) 1s forwards;
 }
 
 .wall {
-  animation: containerFade 3s 6s forwards, cubeShrink 3s 6s forwards;
+  /* animation: containerFade 3s 6s forwards, cubeShrink 3s 6s forwards; */
   background-image: url("../rabble/components/blank.png");
   backface-visibility: hidden;
 }
@@ -173,7 +168,7 @@ h4 {
 } */
 
 @keyframes lastTile {
-  50% {
+  30% {
     transform: rotateX(90deg) rotateY(-90deg);
   }
   70% {
