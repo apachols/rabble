@@ -101,6 +101,9 @@
 h4 {
   text-align: center;
 }
+.none {
+  display: none;
+}
 /* animation */
 
 .flex:nth-of-type(1) .cube:nth-of-type(1) {

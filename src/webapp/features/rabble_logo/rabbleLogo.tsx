@@ -1,12 +1,24 @@
 import React from 'react';
+import { useEffect } from "react";
 import styles from './rabbleLogo.module.css';
 
 const RabbleLogo = () => {
   // need a useEffect Hook here. makes cleanup of intro component much easier.
+  useEffect(() => {
+    const disappear = setTimeout(() => {
+      let logoContainer = document.getElementById("disappear");
+      if (logoContainer) logoContainer.style.display = "none";
+
+      // thanks to the way react renames component classnames, I can't do this method.
+    }, 7000);
+    return () => {
+      clearTimeout(disappear);
+    }
+  }, [])
 
     return (
       <>
-    <div className={styles.rabbleLogo__container}>
+    <div className={styles.rabbleLogo__container} id={"disappear"}>
       <div className={styles.flex}>
         <div className={styles.cube}>
           <div className={`${styles.wall} ${styles.front}`}>
