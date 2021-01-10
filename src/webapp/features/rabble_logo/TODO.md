@@ -12,13 +12,21 @@
    - bottom
 3. [ ✅ ] drop component into main welcome page as overlay
 
-- [ ] actually fix the spacing of individual bricks mobile-first. should be wall and cube only, try flex-direction or grid-spacing exchange.
+- [ ✅ ] actually fix the spacing of individual bricks mobile-first. should be wall and cube only, try flex-direction or grid-spacing exchange.
 
 ## secondary concerns
 
-4. [ ] add a timing function for giving rabble logo container a display none. (maybe include an addclass internal script, maybe just add a primary animation with a delay.)
+4. [ ✅ ] add a timing function for giving rabble logo container a display none. (maybe include an addclass internal script, maybe just add a primary animation with a delay.)
+
 5. [ ] add click function for giving rabblelogocontainer a display-none if user is impatient.
 
 ## tertiary concerns.
 
-6. [ ] create a much simpler header logo of just the regular tiles, no animation
+6. nav -
+
+- [ ] style links as buttons
+- [ ] nav coloration
+- [ ] create a much simpler header logo of just the regular tiles, no animation
+- [ ] embed it directly in new nav component, can excise later if necessary into addtl component.
+
+7. [ ] Other stuff.... maybe speed up the animation? thoughts?
