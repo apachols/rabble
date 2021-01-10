@@ -3,13 +3,11 @@ import { useEffect } from "react";
 import styles from './rabbleLogo.module.css';
 
 const RabbleLogo = () => {
-  // need a useEffect Hook here. makes cleanup of intro component much easier.
+  // this just display:none's the container after a countdown to diminish the chance of weird interactions with it hiding in the z-index.
   useEffect(() => {
     const disappear = setTimeout(() => {
       let logoContainer = document.getElementById("disappear");
       if (logoContainer) logoContainer.style.display = "none";
-
-      // thanks to the way react renames component classnames, I can't do this method.
     }, 7000);
     return () => {
       clearTimeout(disappear);
