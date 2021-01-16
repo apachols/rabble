@@ -4,15 +4,15 @@ import styles from "./rabbleLogo.module.css";
 
 const RabbleLogo = () => {
   // this just display:none's the container after a countdown to diminish the chance of weird interactions with it hiding in the z-index.
-  useEffect(() => {
-    const disappear = setTimeout(() => {
-      let logoContainer = document.getElementById("disappear");
-      if (logoContainer) logoContainer.style.display = "none";
-    }, 7000);
-    return () => {
-      clearTimeout(disappear);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const disappear = setTimeout(() => {
+  //     let logoContainer = document.getElementById("disappear");
+  //     if (logoContainer) logoContainer.style.display = "none";
+  //   }, 7000);
+  //   return () => {
+  //     clearTimeout(disappear);
+  //   };
+  // }, []);
 
   return (
     <>

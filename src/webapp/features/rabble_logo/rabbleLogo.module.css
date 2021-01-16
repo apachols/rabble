@@ -1,27 +1,57 @@
 @media only screen and (max-width: 550px) {
-  .flex {
+  .rabbleLogo__container .flex {
     flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    margin: 0 0 0 0;
   }
   .flex .cube {
     position: absolute;
+    margin: 0;
   }
   .flex .cube:nth-of-type(1) {
     top: 10vh;
   }
   .flex .cube:nth-of-type(2) {
-    top: 25vh;
+    top: 22vh;
   }
   .flex .cube:nth-of-type(3) {
-    top: 40vh;
+    top: 34vh;
   }
   .flex .cube:nth-of-type(4) {
-    top: 55vh;
+    top: 46vh;
   }
   .flex .cube:nth-of-type(5) {
-    top: 70vh;
+    top: 58vh;
   }
   .flex .cube:nth-of-type(6) {
-    top: 85vh;
+    top: 70vh;
+  }
+
+  .flex .cube .wall {
+    width: 10vh;
+    height: 10vh;
+    left: calc(-10vh / 2);
+    top: calc(-10vh / 2);
+  }
+  .flex .cube .wall.front {
+    transform: translateZ(calc(10vh / 2));
+  }
+  .flex .cube .wall.back {
+    transform: translateZ(calc(-10vh / 2)) rotateY(180deg);
+  }
+  .flex .cube .wall.right {
+    transform: translateX(calc(10vh / 2)) rotateY(90deg) rotateZ(180deg);
+  }
+  .flex .cube .wall.left {
+    transform: translateX(calc(-10vh / 2)) rotateY(-90deg);
+  }
+  .flex .cube .wall.top {
+    transform: translateY(calc(-10vh / 2)) rotateX(90deg) rotateZ(-90deg);
+    backface-visibility: hidden;
+  }
+  .flex .cube .wall.bottom {
+    transform: translateY(calc(10vh / 2)) rotateX(-90deg);
   }
 }
 
@@ -37,16 +67,16 @@
   overflow: hidden;
   background: radial-gradient(circle at center, rgba(39, 30, 3, 0.799), #000);
   animation: containerFade forwards;
-  animation-duration: 2s;
+  animation-duration: 1.5s;
   animation-delay: 6s;
 }
 .flex {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 0 80px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto 0 14vh;
 }
 
 /* cube */
@@ -157,18 +187,6 @@ h4 {
     transform: rotateX(270deg) rotateY(270deg);
   }
 }
-
-/* @keyframes color {
-  0% {
-    background-image: url("../rabble/components/blank.png");
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    background-image: url("../rabble/components/blank.png");
-  }
-} */
 
 @keyframes lastTile {
   30% {
