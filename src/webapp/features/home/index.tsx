@@ -19,17 +19,17 @@ const Home = () => {
   }
 
   return (
-    <React.Fragment>
-    <RabbleLogo />
-    <div className={styles.content}>
-      <h3>{greeting}</h3>
-      {arrayOfGames && arrayOfGames.length ? (
-        <GameList games={arrayOfGames} />
-        ) : (
-          <Link to="/create">New Game</Link>
-          )}
-    </div>
-    </React.Fragment>
+    <>
+      <RabbleLogo />
+      <div className={styles.content}>
+        <h3>{greeting}</h3>
+        {arrayOfGames && arrayOfGames.length ? (
+          <GameList games={arrayOfGames} />
+          ) : (
+            <Link to="/create">New Game</Link>
+            )}
+      </div>
+    </>
   );
 };
 
