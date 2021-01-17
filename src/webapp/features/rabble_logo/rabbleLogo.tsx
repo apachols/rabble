@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./rabbleLogo.module.css";
 import { tileBagConfig } from "../../../game/tileBag";
 
@@ -50,11 +50,17 @@ const LogoCube = ({
 }
 
 const RabbleLogo = () => {
-  // this just display:none's the container after a countdown to diminish the chance of weird interactions with it hiding in the z-index.
+
+  const containerRef = useRef<HTMLInputElement>(null);
+
+  // this just display:none's the container after a countdown to diminish
+  // the chance of weird interactions with it hiding in the z-index.
   useEffect(() => {
     const disappear = setTimeout(() => {
-      let logoContainer = document.getElementById("disappear");
-      if (logoContainer) logoContainer.style.display = "none";
+      const containerStyle = containerRef?.current?.style;
+      if (containerStyle) {
+        containerStyle.display = "none";
+      }
     }, 7000);
     return () => {
       clearTimeout(disappear);
@@ -63,7 +69,7 @@ const RabbleLogo = () => {
 
   return (
     <>
-      <div className={styles.rabbleLogo__container} id={"disappear"}>
+      <div className={styles.rabbleLogo__container} ref={containerRef}>
         <div className={styles.flex}>
           <LogoCube front={"P"} back={"Q"} left={"F"} right={"N"} top={"R"} bottom={"W"}/>
           <LogoCube front={"A"} back={"V"} left={"G"} right={"A"} top={"A"} bottom={" "}/>
