@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./home.module.css";
 import { getUserInfo } from "../../app/localStorage";
-import GameList from "./GameList";
+import GameList from "./components/GameList/GameList";
 import { Link } from "react-router-dom";
 import RabbleLogo from "../rabble_logo/rabbleLogo";
 

@@ -1,0 +1,11 @@
+.gameList {
+  list-style: none;
+  text-align: center;
+  padding: 0px;
+}
+
+.RecentGameList {
+  background-color: tomato;
+  width: 50vw;
+  height: 50vh;
+}

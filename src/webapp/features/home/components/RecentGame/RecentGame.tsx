@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./RecentGame.module.css";
 
 type GameProps = {
   game: UserGameInfo;
@@ -27,8 +28,10 @@ const RecentGame = (props: GameProps) => {
   };
 
   return (
-    <li>
-      <Link to={`/game/${gameID}`}>{content()}</Link>
+    <li className="recentGame">
+      <Link to={`/game/${gameID}`}>
+          {content()}
+      </Link>
     </li>
   );
 };
