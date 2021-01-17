@@ -1,7 +1,5 @@
 import React from "react";
-// import { useEffect, useRef } from "react";
 import styles from "./rabbleLogo.module.css";
-// import { tileBagConfig } from "../../../game/tileBag";
 import LogoCubeWall from "./logoCubeWall";
 
 interface LogoCubeProps {
