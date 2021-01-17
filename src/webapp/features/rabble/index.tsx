@@ -56,7 +56,7 @@ const RabbleGameView = () => {
   return (
     <Engine
       playerID={playerID}
-      gameID={gameID}
+      matchID={gameID}
       credentials={playerCredentials}
       visibleAt={visibleAt}
     />
