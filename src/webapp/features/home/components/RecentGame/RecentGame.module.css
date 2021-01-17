@@ -1,9 +1,25 @@
-/*  begin experimental styling */
+a.recentGame {
+  list-style: none;
+  width: 95%;
+  height: 140px;
+  background-color: #7b5a51;
+  text-decoration: none;
+  padding: 10px;
 
-.recentGame {
-  width: 250px;
-  height: 200px;
-  background-color: turquoise;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  /* position: relative; */
 }
 
-/* end experimental styling */
+.recentGame li {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.createdAt {
+  position: relative;
+  bottom: 0;
+}

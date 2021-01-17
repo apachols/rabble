@@ -15,7 +15,7 @@ const Home = () => {
 
   let greeting = "Welcome to Rabble!";
   if (nickname) {
-    greeting = `Welcome, ${nickname}`;
+    greeting = `Welcome back, ${nickname}`;
   }
 
   return (

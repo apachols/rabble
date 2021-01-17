@@ -1,11 +1,23 @@
-.gameList {
+ul.gameList {
   list-style: none;
   text-align: center;
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* experimental styles */
 .RecentGameList {
   background-color: tomato;
-  width: 50vw;
-  height: 50vh;
+  min-width: 50vw;
+  min-height: 50vh;
+  padding: 5vh auto;
 }
+
+@media only screen and (max-width: 600px) {
+  .RecentGameList {
+    width: 98%;
+  }
+}
+/* end experimental styles */
