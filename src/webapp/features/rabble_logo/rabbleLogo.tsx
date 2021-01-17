@@ -1,53 +1,55 @@
 import React from "react";
 import { useEffect, useRef } from "react";
 import styles from "./rabbleLogo.module.css";
-import { tileBagConfig } from "../../../game/tileBag";
+// import { tileBagConfig } from "../../../game/tileBag";
+// import LogoCubeWall from "./logoCubeWall";
+import LogoCube from "./logoCube";
 
-interface LogoCubeWallProps {
-  whichFace: string
-  letter: string
-}
+// interface LogoCubeWallProps {
+//   whichFace: string
+//   letter: string
+// }
 
-const LogoCubeWall = ({whichFace, letter}: LogoCubeWallProps) => {
-  const tileConfig = tileBagConfig[letter];
-  return (
-    <div className={`${styles.wall} ${styles[whichFace]}`}>
-      {!tileConfig.blank && <span>
-        {letter}<sub>{tileConfig.value}</sub>
-      </span>}
-    </div>
-  )
-}
+// const LogoCubeWall = ({whichFace, letter}: LogoCubeWallProps) => {
+//   const tileConfig = tileBagConfig[letter];
+//   return (
+//     <div className={`${styles.wall} ${styles[whichFace]}`}>
+//       {!tileConfig.blank && <span>
+//         {letter}<sub>{tileConfig.value}</sub>
+//       </span>}
+//     </div>
+//   )
+// }
 
-interface LogoCubeProps {
-  front: string
-  back: string
-  left: string
-  right: string
-  top: string
-  bottom: string
-}
+// interface LogoCubeProps {
+//   front: string
+//   back: string
+//   left: string
+//   right: string
+//   top: string
+//   bottom: string
+// }
 
-const LogoCube = ({
-    front,
-    back,
-    left,
-    right,
-    top,
-    bottom
-  }: LogoCubeProps) => {
+// const LogoCube = ({
+//     front,
+//     back,
+//     left,
+//     right,
+//     top,
+//     bottom
+//   }: LogoCubeProps) => {
 
-  return (
-    <div className={styles.cube}>
-      <LogoCubeWall whichFace={"front"} letter={front}/>
-      <LogoCubeWall whichFace={"back"} letter={back}/>
-      <LogoCubeWall whichFace={"left"} letter={left}/>
-      <LogoCubeWall whichFace={"right"} letter={right}/>
-      <LogoCubeWall whichFace={"top"} letter={top}/>
-      <LogoCubeWall whichFace={"bottom"} letter={bottom}/>
-    </div>
-  )
-}
+//   return (
+//     <div className={styles.cube}>
+//       <LogoCubeWall whichFace={"front"} letter={front}/>
+//       <LogoCubeWall whichFace={"back"} letter={back}/>
+//       <LogoCubeWall whichFace={"left"} letter={left}/>
+//       <LogoCubeWall whichFace={"right"} letter={right}/>
+//       <LogoCubeWall whichFace={"top"} letter={top}/>
+//       <LogoCubeWall whichFace={"bottom"} letter={bottom}/>
+//     </div>
+//   )
+// }
 
 const RabbleLogo = () => {
 
@@ -61,7 +63,7 @@ const RabbleLogo = () => {
       if (containerStyle) {
         containerStyle.display = "none";
       }
-    }, 7000);
+    }, 6500);
     return () => {
       clearTimeout(disappear);
     };

@@ -68,7 +68,8 @@
   background: radial-gradient(circle at center, rgba(39, 30, 3, 0.799), #000);
   animation: containerFade forwards;
   animation-duration: 1.5s;
-  animation-delay: 6s;
+  animation-timing-function: ease-out;
+  animation-delay: 5s;
 }
 .flex {
   display: flex;
@@ -159,7 +160,6 @@ h4 {
 }
 
 .wall {
-  /* animation: containerFade 3s 6s forwards, cubeShrink 3s 6s forwards; */
   background-image: url("../rabble/components/blank.png");
   backface-visibility: hidden;
 }
