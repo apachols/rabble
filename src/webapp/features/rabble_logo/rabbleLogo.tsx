@@ -1,6 +1,53 @@
 import React from "react";
 import { useEffect } from "react";
 import styles from "./rabbleLogo.module.css";
+import { tileBagConfig } from "../../../game/tileBag";
+
+interface LogoCubeWallProps {
+  whichFace: string
+  letter: string
+}
+
+const LogoCubeWall = ({whichFace, letter}: LogoCubeWallProps) => {
+  const tileConfig = tileBagConfig[letter];
+  return (
+    <div className={`${styles.wall} ${styles[whichFace]}`}>
+      {!tileConfig.blank && <span>
+        {letter}<sub>{tileConfig.value}</sub>
+      </span>}
+    </div>
+  )
+}
+
+interface LogoCubeProps {
+  front: string
+  back: string
+  left: string
+  right: string
+  top: string
+  bottom: string
+}
+
+const LogoCube = ({
+    front,
+    back,
+    left,
+    right,
+    top,
+    bottom
+  }: LogoCubeProps) => {
+
+  return (
+    <div className={styles.cube}>
+      <LogoCubeWall whichFace={"front"} letter={front}/>
+      <LogoCubeWall whichFace={"back"} letter={back}/>
+      <LogoCubeWall whichFace={"left"} letter={left}/>
+      <LogoCubeWall whichFace={"right"} letter={right}/>
+      <LogoCubeWall whichFace={"top"} letter={top}/>
+      <LogoCubeWall whichFace={"bottom"} letter={bottom}/>
+    </div>
+  )
+}
 
 const RabbleLogo = () => {
   // this just display:none's the container after a countdown to diminish the chance of weird interactions with it hiding in the z-index.
@@ -18,201 +65,12 @@ const RabbleLogo = () => {
     <>
       <div className={styles.rabbleLogo__container} id={"disappear"}>
         <div className={styles.flex}>
-          <div className={styles.cube}>
-            <div className={`${styles.wall} ${styles.front}`}>
-              <span>
-                P<sub>3</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.back}`}>
-              <span>
-                Q<sub>10</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.left}`}>
-              <span>
-                F<sub>4</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.right}`}>
-              <span>
-                N<sub>1</sub>
-              </span>
-            </div>
-
-            <div className={`${styles.wall} ${styles.top}`}>
-              <span>
-                R<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.bottom}`}>
-              <span>
-                W<sub>4</sub>
-              </span>
-            </div>
-          </div>
-          <div className={styles.cube}>
-            <div className={`${styles.wall} ${styles.front}`}>
-              <span>
-                A<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.back}`}>
-              <span>
-                V<sub>4</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.left}`}>
-              <span>
-                G<sub>2</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.right}`}>
-              <span>
-                A<sub>1</sub>
-              </span>
-            </div>
-
-            <div className={`${styles.wall} ${styles.top}`}>
-              <span>
-                A<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.bottom}`}></div>
-          </div>
-          <div className={styles.cube}>
-            <div className={`${styles.wall} ${styles.front}`}>
-              <span>
-                C<sub>3</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.back}`}>
-              <span>
-                I<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.left}`}>
-              <span>
-                Z<sub>10</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.right}`}>
-              <span>
-                E<sub>1</sub>
-              </span>
-            </div>
-
-            <div className={`${styles.wall} ${styles.top}`}>
-              <span>
-                B<sub>3</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.bottom}`}>
-              <span>
-                O<sub>1</sub>
-              </span>
-            </div>
-          </div>
-          <div className={styles.cube}>
-            <div className={`${styles.wall} ${styles.front}`}>
-              <span>
-                H<sub>2</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.back}`}>
-              <span>
-                A<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.left}`}>
-              <span>
-                C<sub>3</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.right}`}>
-              <span>
-                O<sub>1</sub>
-              </span>
-            </div>
-
-            <div className={`${styles.wall} ${styles.top}`}>
-              <span>
-                B<sub>3</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.bottom}`}>
-              <span>
-                S<sub>1</sub>
-              </span>
-            </div>
-          </div>
-          <div className={styles.cube}>
-            <div className={`${styles.wall} ${styles.front}`}>
-              <span>
-                O<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.back}`}>
-              <span>
-                X<sub>10</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.left}`}>
-              <span>
-                D<sub>2</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.right}`}>
-              <span>
-                K<sub>5</sub>
-              </span>
-            </div>
-
-            <div className={`${styles.wall} ${styles.top}`}>
-              <span>
-                L<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.bottom}`}>
-              <span>
-                S<sub>1</sub>
-              </span>
-            </div>
-          </div>
-
-          <div className={styles.cube}>
-            <div className={`${styles.wall} ${styles.front}`}>
-              <span>
-                L<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.back}`}>
-              <span>
-                T<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.left}`}>
-              <span>
-                U<sub>1</sub>
-              </span>
-            </div>
-
-            <div className={`${styles.wall} ${styles.right}`}>
-              <span>
-                L<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.top}`}>
-              <span>
-                E<sub>1</sub>
-              </span>
-            </div>
-            <div className={`${styles.wall} ${styles.bottom}`}>
-              <span>
-                M<sub>3</sub>
-              </span>
-            </div>
-          </div>
+          <LogoCube front={"P"} back={"Q"} left={"F"} right={"N"} top={"R"} bottom={"W"}/>
+          <LogoCube front={"A"} back={"V"} left={"G"} right={"A"} top={"A"} bottom={" "}/>
+          <LogoCube front={"C"} back={"I"} left={"Z"} right={"E"} top={"B"} bottom={"O"}/>
+          <LogoCube front={"H"} back={"A"} left={"C"} right={"O"} top={"B"} bottom={"S"}/>
+          <LogoCube front={"O"} back={"X"} left={"D"} right={"K"} top={"L"} bottom={"S"}/>
+          <LogoCube front={"L"} back={"T"} left={"U"} right={"L"} top={"E"} bottom={"M"}/>
         </div>
       </div>
     </>
