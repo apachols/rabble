@@ -10,7 +10,7 @@ const RecentGameParticipant = ({ nickname, score }: GameParticipantProps) => {
   let adjustedNickname = "";
   if (!!nickname && nickname.length > 11) {
     adjustedNickname = nickname.substring(0, 10) + "...";
-  } else {
+  } else if (!!nickname) {
     adjustedNickname = nickname;
   }
 
