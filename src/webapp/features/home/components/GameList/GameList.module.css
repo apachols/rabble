@@ -9,7 +9,6 @@ ul.gameList {
 
 /* experimental styles */
 .RecentGameList {
-  background-color: tomato;
   min-width: 50vw;
   min-height: 50vh;
   padding: 5vh auto;
@@ -17,7 +16,7 @@ ul.gameList {
 
 @media only screen and (max-width: 600px) {
   .RecentGameList {
-    width: 98%;
+    width: 100%;
   }
 }
 /* end experimental styles */

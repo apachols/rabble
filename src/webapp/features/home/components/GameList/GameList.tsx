@@ -12,7 +12,7 @@ const TurnList = (props: GameListProps) => {
 
   return (
     <div className={styles.RecentGameList}>
-      <h5>Recent games</h5>
+      <h3>Recent games</h3>
       <ul className={styles.gameList}>
         {games.map((g) => {
           return <RecentGame key={g.gameID} game={g} />;
