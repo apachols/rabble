@@ -1,0 +1,14 @@
+.Nav {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Nav > li {
+  margin: 0 10px;
+}
+
+.Nav li a {
+  text-decoration: none;
+}

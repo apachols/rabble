@@ -5,11 +5,12 @@ import Create from "./features/create";
 import Join from "./features/join";
 import Home from "./features/home";
 import Theme from "./features/rabble/components/Theme";
+import Navbar from "./features/navbar/navbar";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function Game() {
   return <Rabble />;
@@ -32,16 +33,7 @@ export default function App() {
       <DndProvider {...(isTouch ? dndTouchProps : dndDesktopProps)}>
         <Router>
           <div className="App">
-            <nav>
-              <ul className="Nav">
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/create">Create</Link>
-                </li>
-              </ul>
-            </nav>
+            <Navbar />
             <Switch>
               <Route path="/game/:gameID">
                 <Game />
