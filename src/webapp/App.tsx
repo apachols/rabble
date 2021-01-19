@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
+import Navbar from "./features/navbar/navbar";
 import Rabble from "./features/rabble";
 import Create from "./features/create";
 import Join from "./features/join";
 import Home from "./features/home";
 import Theme from "./features/rabble/components/Theme";
-import Navbar from "./features/navbar/navbar";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
