@@ -10,6 +10,9 @@ const Navbar = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
+          <h3 className={styles.title}>Rabble</h3>
+        </li>
+        <li>
           <Link to="/create">Create</Link>
         </li>
       </ul>
