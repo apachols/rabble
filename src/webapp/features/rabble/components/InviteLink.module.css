@@ -1,6 +1,7 @@
 .clipboardInput {
   position: absolute;
   width: 25px;
+  height: 15px;
   border-color: transparent;
   caret-color: transparent;
   color: transparent;
