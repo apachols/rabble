@@ -3,7 +3,6 @@ import styles from "./home.module.css";
 import { getUserInfo } from "../../app/localStorage";
 import GameList from "./components/GameList/GameList";
 import { Link } from "react-router-dom";
-import RabbleLogo from "../rabble_logo/rabbleLogo";
 
 const Home = () => {
   const userInfo = getUserInfo();
@@ -26,7 +25,6 @@ const Home = () => {
 
   return (
     <>
-      <RabbleLogo />
       <div className={styles.content}>
         <h3>{greeting}</h3>
         {arrayOfGames && arrayOfGames.length ? (
