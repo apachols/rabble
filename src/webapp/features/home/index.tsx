@@ -11,7 +11,13 @@ const Home = () => {
   const nickname = userInfo.nickname;
   const gamesByID = userInfo.games;
 
-  const arrayOfGames = Object.keys(gamesByID).map(key => gamesByID[key]);
+  const arrayOfGames = Object.keys(gamesByID)
+    .map((key) => gamesByID[key])
+    .sort((a, b) => {
+      let left = Date.parse(a.createdAt);
+      let right = Date.parse(b.createdAt);
+      return left > right ? -1 : 1;
+    });
 
   let greeting = "Welcome to Rabble!";
   if (nickname) {
@@ -25,9 +31,9 @@ const Home = () => {
         <h3>{greeting}</h3>
         {arrayOfGames && arrayOfGames.length ? (
           <GameList games={arrayOfGames} />
-          ) : (
-            <Link to="/create">New Game</Link>
-            )}
+        ) : (
+          <Link to="/create">New Game</Link>
+        )}
       </div>
     </>
   );

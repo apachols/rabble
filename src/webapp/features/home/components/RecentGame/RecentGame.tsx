@@ -20,6 +20,7 @@ const RecentGame = (props: GameProps) => {
             <RecentGameParticipant
               nickname={scoreList[pid].nickname}
               score={scoreList[pid].score}
+              key={`${gameID}${pid}`}
             />
           ))}
       </li>
