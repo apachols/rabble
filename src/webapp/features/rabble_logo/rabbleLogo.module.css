@@ -11,18 +11,23 @@
   }
   .flex .cube:nth-of-type(1) {
     top: 10vh;
+    margin-left: -3vw;
   }
   .flex .cube:nth-of-type(2) {
     top: 22vh;
+    margin-left: 4vw;
   }
   .flex .cube:nth-of-type(3) {
     top: 34vh;
+    margin-left: -2vw;
   }
   .flex .cube:nth-of-type(4) {
     top: 46vh;
+    margin-left: 1vw;
   }
   .flex .cube:nth-of-type(5) {
     top: 58vh;
+    margin-left: -1vw;
   }
   .flex .cube:nth-of-type(6) {
     top: 70vh;
@@ -53,6 +58,11 @@
   .flex .cube .wall.bottom {
     transform: translateY(calc(10vh / 2)) rotateX(-90deg);
   }
+
+  .rabbleLogo__container button.skipBtn {
+    top: 74%;
+    left: 76%;
+  }
 }
 
 .rabbleLogo__container {
@@ -65,7 +75,7 @@
   display: grid;
   place-content: center;
   overflow: hidden;
-  background: radial-gradient(circle at center, rgba(39, 30, 3, 0.799), #000);
+  background: radial-gradient(circle at center, rgba(39, 30, 3, 0.902), #000);
   animation: containerFade forwards;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;
@@ -156,7 +166,7 @@ h4 {
   animation: rotation 3s cubic-bezier(0.215, 0.61, 0.355, 1) 1.2s forwards;
 }
 .flex:nth-of-type(1) .cube:nth-of-type(6) {
-  animation: lastTile 4s cubic-bezier(0.215, 0.61, 0.355, 1) 1s forwards;
+  animation: lastTile 3.5s cubic-bezier(0.215, 0.61, 0.355, 1) 1s forwards;
 }
 
 .wall {
@@ -165,13 +175,9 @@ h4 {
 }
 
 @keyframes containerFade {
-  99% {
-    opacity: 0;
-  }
   100% {
     opacity: 0;
     z-index: 0;
-    height: 0;
   }
 }
 @keyframes cubeShrink {
@@ -192,10 +198,25 @@ h4 {
   30% {
     transform: rotateX(90deg) rotateY(-90deg);
   }
-  70% {
+  85% {
     transform: rotateX(180deg) rotateY(180deg);
   }
   100% {
     transform: rotateX(270deg) rotateY(270deg);
   }
+}
+
+button.skipBtn {
+  position: absolute;
+  bottom: 7%;
+  right: 45%;
+  height: 75px;
+  width: 75px;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: transparent;
+  font-size: 23px;
+  color: rgb(135, 135, 135);
+  line-height: 0.1;
+  font-family: var(--font-swash);
 }

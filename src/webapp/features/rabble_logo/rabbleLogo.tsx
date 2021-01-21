@@ -7,8 +7,8 @@ const RabbleLogo = () => {
 
   const containerRef = useRef<HTMLInputElement>(null);
 
-  // this just display:none's the container after a countdown to diminish
-  // the chance of weird interactions with it hiding in the z-index.
+  // the following useEffect and onSkipBtn disp:none the animation container
+  // to reduce negative interaction likelihood.
   useEffect(() => {
     const disappear = setTimeout(() => {
       const containerStyle = containerRef?.current?.style;
@@ -21,6 +21,13 @@ const RabbleLogo = () => {
     };
   }, []);
 
+  const onSkipBtn = () => {
+    const skipStyle = containerRef?.current?.style;
+    if (skipStyle) {
+      skipStyle.display = "none";
+    }
+  } 
+
   return (
     <>
       <div className={styles.rabbleLogo__container} ref={containerRef}>
@@ -32,6 +39,7 @@ const RabbleLogo = () => {
           <LogoCube front={"O"} back={"X"} left={"D"} right={"K"} top={"L"} bottom={"S"}/>
           <LogoCube front={"L"} back={"T"} left={"U"} right={"L"} top={"E"} bottom={"M"}/>
         </div>
+        <button className={styles.skipBtn} onClick={onSkipBtn}>skip ></button>
       </div>
     </>
   );
