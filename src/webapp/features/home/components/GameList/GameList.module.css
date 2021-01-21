@@ -1,0 +1,22 @@
+ul.gameList {
+  list-style: none;
+  text-align: center;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* experimental styles */
+.RecentGameList {
+  min-width: 50vw;
+  min-height: 50vh;
+  padding: 5vh auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .RecentGameList {
+    width: 100%;
+  }
+}
+/* end experimental styles */

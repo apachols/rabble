@@ -1,0 +1,38 @@
+.participant {
+  width: 49%;
+  height: 97%;
+  border-radius: 25px;
+  border-top-right-radius: 10px;
+  border: 2px solid #fffaf0;
+  color: #fffaf0;
+}
+
+.participant:nth-of-type(even) {
+  background-color: #062666;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 25px;
+}
+
+.participant:nth-of-type(even) .score {
+  margin-left: 6rem;
+}
+.participant:nth-of-type(odd) {
+  background-color: #360036;
+}
+
+.nickname {
+  text-align: center;
+  font-size: 23px;
+  margin: 0.25em 0 0 -0.5em;
+  transform: skew(-3deg, -3deg);
+}
+
+.score {
+  position: relative;
+  text-align: right;
+  font-size: 28px;
+  line-height: 1.5rem;
+  color: #fffaf0c0;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  margin-left: 3rem;
+}

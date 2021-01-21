@@ -1,9 +1,5 @@
 .content {
   text-align: center;
-}
-
-.gameList {
-  list-style: none;
-  text-align: center;
-  padding: 0px;
+  display: grid;
+  place-items: center;
 }
