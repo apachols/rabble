@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 
 const themes = {
   dark: {
-    bg: "#3d3d29",
+    // bg: "#3d3d29",
+    // bg: "#23201c",
+    bg: "#2e353d",
   },
   light: {
     bg: "floralwhite",

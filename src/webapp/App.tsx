@@ -34,6 +34,7 @@ export default function App() {
       <DndProvider {...(isTouch ? dndTouchProps : dndDesktopProps)}>
         <Router>
           <div className="App">
+            <RabbleLogo />
             <Navbar />
             <Switch>
               <Route path="/game/:gameID">

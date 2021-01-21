@@ -18,6 +18,8 @@ import { ReactComponent as SwapIcon } from "./svg/swap-horizontal-outline.svg";
 import { ReactComponent as FlagIcon } from "./svg/flag-outline.svg";
 import { ReactComponent as PlayIcon } from "./svg/play-circle-outline.svg";
 
+import Button from "../rabble/components/Button/Button";
+
 type ButtonsProps = {
   currentPlayerHasTurn: boolean;
   tileRack: Tile[];
@@ -58,37 +60,94 @@ const Buttons = ({
     }
   }, [currentPlay.played, endTurn, cleanUp]);
 
+  // handlers for gameplay buttons
+  const handlePass = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to Pass your turn?"
+    );
+    if (confirmed) {
+      endTurn();
+    }
+  };
+
+  const handleSwap = () => {
+    dispatch(clearPlayTiles());
+    dispatch(changeSquareSelection(null));
+    setShowSwapModal(true);
+  };
+
+  const handleShuffle = () => {
+    shuffleTiles(tileRack);
+    reorderRackTiles(tileRack);
+    dispatch(clearPlayTiles());
+    dispatch(changeSquareSelection(null));
+  };
+
+  const handleUndo = () => {
+    dispatch(clearPlayTiles());
+    dispatch(changeSquareSelection(null));
+    dispatch(updateRackTiles(tileRack));
+    cleanUp();
+  };
+
+  const handlePlay = () => {
+    if (playSquares.length) {
+      playWord(playSquares);
+      dispatch(clearPlayTiles());
+      dispatch(changeSquareSelection(null));
+    }
+  };
+
   return (
     <div className={styles.buttons}>
       {currentPlayerHasTurn && (
-        <button
-          className={styles.pass}
-          onClick={() => {
-            const confirmed = window.confirm(
-              "Are you sure you want to Pass your turn?"
-            );
-            if (confirmed) {
-              endTurn();
-            }
-          }}
-        >
-          <FlagIcon />
-          PASS
-        </button>
+        <Button
+          btnclass="pass"
+          onClick={handlePass}
+          content="PASS"
+          children={<FlagIcon />}
+        />
+        // <button
+        //   className={styles.pass}
+        //   onClick={() => {
+        //     const confirmed = window.confirm(
+        //       "Are you sure you want to Pass your turn?"
+        //     );
+        //     if (confirmed) {
+        //       endTurn();
+        //     }
+        //   }}
+        // >
+        //   <FlagIcon />
+        //   PASS
+        // </button>
       )}
       {currentPlayerHasTurn && (
-        <button
-          onClick={() => {
-            dispatch(clearPlayTiles());
-            dispatch(changeSquareSelection(null));
-            setShowSwapModal(true);
-          }}
-        >
-          <SwapIcon />
-          SWAP
-        </button>
+        <Button
+          btnclass=""
+          onClick={handleSwap}
+          content="SWAP"
+          children={<SwapIcon />}
+        />
+        // <button
+        //   onClick={() => {
+        //     dispatch(clearPlayTiles());
+        //     dispatch(changeSquareSelection(null));
+        //     setShowSwapModal(true);
+        //   }}
+        // >
+        //   <SwapIcon />
+        //   SWAP
+        // </button>
       )}
-      <button
+
+      <Button
+        btnclass=""
+        onClick={handleShuffle}
+        content="SHUFFLE"
+        children={<ShuffleIcon />}
+      />
+      {/* <button
         onClick={() => {
           shuffleTiles(tileRack);
           reorderRackTiles(tileRack);
@@ -98,8 +157,14 @@ const Buttons = ({
       >
         <ShuffleIcon />
         SHUFFLE
-      </button>
-      <button
+      </button> */}
+      <Button
+        btnclass=""
+        onClick={handleUndo}
+        content="UNDO"
+        children={<UndoIcon />}
+      />
+      {/* <button
         onClick={() => {
           dispatch(clearPlayTiles());
           dispatch(changeSquareSelection(null));
@@ -109,21 +174,27 @@ const Buttons = ({
       >
         <UndoIcon />
         UNDO
-      </button>
+      </button> */}
       {currentPlayerHasTurn && (
-        <button
-          className={styles.play}
-          onClick={() => {
-            if (playSquares.length) {
-              playWord(playSquares);
-              dispatch(clearPlayTiles());
-              dispatch(changeSquareSelection(null));
-            }
-          }}
-        >
-          <PlayIcon />
-          PLAY
-        </button>
+        <Button
+          btnclass="play"
+          onClick={handlePlay}
+          content="PLAY"
+          children={<PlayIcon />}
+        />
+        // <button
+        //   className={styles.play}
+        //   onClick={() => {
+        //     if (playSquares.length) {
+        //       playWord(playSquares);
+        //       dispatch(clearPlayTiles());
+        //       dispatch(changeSquareSelection(null));
+        //     }
+        //   }}
+        // >
+        //   <PlayIcon />
+        //   PLAY
+        // </button>
       )}
 
       <Modal showModal={showSwapModal}>
