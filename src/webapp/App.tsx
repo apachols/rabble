@@ -5,6 +5,7 @@ import Create from "./features/create";
 import Join from "./features/join";
 import Home from "./features/home";
 import Theme from "./features/rabble/components/Theme";
+import RabbleLogo from "./features/rabble_logo/rabbleLogo";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
@@ -42,6 +43,7 @@ export default function App() {
                 </li>
               </ul>
             </nav>
+            <RabbleLogo />
             <Switch>
               <Route path="/game/:gameID">
                 <Game />
