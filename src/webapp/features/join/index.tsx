@@ -13,17 +13,6 @@ import Loader from "react-loader-spinner";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
-// TO TRY:
-// 1. pass the history object through the useEffect and posttojoin/redirectToGameView -> something in the chain of passing skipped a beat, seems like it bailed on the post.
-// 2. bring redirecttogameview into the component for access to history - worked in create, now for join
-//
-
-//TODO:WORK ZONE - removed redirecttogameview in favor of setting bool and using redirect component.
-// const redirectToGameView = (gameID: string | undefined) => {
-//   window.location.href = `/game/${gameID}`;
-// };
-//TODO:WORK ZONE
-
 const getGameInfo = async (gameID: string) => {
   const getResult = await axios({
     method: "get",
@@ -97,30 +86,22 @@ const postToJoinGame = async (gameID: string | undefined, nickname: string) => {
   joinUserGame(gameID, playerID, playerCredentials);
 
   //TODO:WORK ZONE
-  // redirectToGameView(gameID);
   return true;
   // TODO: no real error handling on this returning true
-  //TODO:WORK ZONE
 };
 
 const JoinGame = () => {
   const { gameID } = useParams();
   const [nickname, setNickname] = useState(getUserInfo().nickname);
   const [joinError, setJoinError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  //TODO:WORK ZONE
   const [joinSuccess, setJoinSuccess] = useState(false);
-  //TODO:WORK ZONE
+  const [loading, setLoading] = useState(false);
 
   const gameInfo = getPlayerGame(gameID);
 
   useEffect(() => {
     if (gameInfo?.playerID && gameInfo?.playerCredentials) {
-      //TODO:WORK ZONE
-      // redirectToGameView(gameID);
       setJoinSuccess(true);
-      //TODO:WORK ZONE
     }
   }, [gameInfo, gameID]);
 
@@ -128,11 +109,8 @@ const JoinGame = () => {
     if (loading) {
       (async function asyncWrapper() {
         try {
-          //TODO:WORK ZONE
-          // await postToJoinGame(gameID, nickname);
           const postSuccess = await postToJoinGame(gameID, nickname);
           if (postSuccess) setJoinSuccess(true);
-          //TODO:WORK ZONE
         } catch (err) {
           setJoinError(`Failed to join ${gameID}`);
           setLoading(false);
@@ -143,9 +121,7 @@ const JoinGame = () => {
 
   return (
     <div className={styles.form}>
-      {/* //TODO:WORK ZONE */}
       {joinSuccess && <Redirect to={`/game/${gameID}`} />}
-      {/* //TODO:WORK ZONE */}
       <h3>Join game {gameID}</h3>
       {joinError ? (
         <h4 style={{ color: "red" }}>{joinError}</h4>
