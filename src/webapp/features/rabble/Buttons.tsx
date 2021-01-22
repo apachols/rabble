@@ -107,33 +107,9 @@ const Buttons = ({
           content="PASS"
           children={<FlagIcon />}
         />
-        // <button
-        //   className={styles.pass}
-        //   onClick={() => {
-        //     const confirmed = window.confirm(
-        //       "Are you sure you want to Pass your turn?"
-        //     );
-        //     if (confirmed) {
-        //       endTurn();
-        //     }
-        //   }}
-        // >
-        //   <FlagIcon />
-        //   PASS
-        // </button>
       )}
       {currentPlayerHasTurn && (
         <Button onClick={handleSwap} content="SWAP" children={<SwapIcon />} />
-        // <button
-        //   onClick={() => {
-        //     dispatch(clearPlayTiles());
-        //     dispatch(changeSquareSelection(null));
-        //     setShowSwapModal(true);
-        //   }}
-        // >
-        //   <SwapIcon />
-        //   SWAP
-        // </button>
       )}
 
       <Button
@@ -141,29 +117,9 @@ const Buttons = ({
         content="SHUFFLE"
         children={<ShuffleIcon />}
       />
-      {/* <button
-        onClick={() => {
-          shuffleTiles(tileRack);
-          reorderRackTiles(tileRack);
-          dispatch(clearPlayTiles());
-          dispatch(changeSquareSelection(null));
-        }}
-      >
-        <ShuffleIcon />
-        SHUFFLE
-      </button> */}
+
       <Button onClick={handleUndo} content="UNDO" children={<UndoIcon />} />
-      {/* <button
-        onClick={() => {
-          dispatch(clearPlayTiles());
-          dispatch(changeSquareSelection(null));
-          dispatch(updateRackTiles(tileRack));
-          cleanUp();
-        }}
-      >
-        <UndoIcon />
-        UNDO
-      </button> */}
+
       {currentPlayerHasTurn && (
         <Button
           textColor="green"
@@ -171,19 +127,6 @@ const Buttons = ({
           content="PLAY"
           children={<PlayIcon />}
         />
-        // <button
-        //   className={styles.play}
-        //   onClick={() => {
-        //     if (playSquares.length) {
-        //       playWord(playSquares);
-        //       dispatch(clearPlayTiles());
-        //       dispatch(changeSquareSelection(null));
-        //     }
-        //   }}
-        // >
-        //   <PlayIcon />
-        //   PLAY
-        // </button>
       )}
 
       <Modal showModal={showSwapModal}>
