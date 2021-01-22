@@ -102,7 +102,7 @@ const Buttons = ({
     <div className={styles.buttons}>
       {currentPlayerHasTurn && (
         <Button
-          btnclass="pass"
+          textColor="red"
           onClick={handlePass}
           content="PASS"
           children={<FlagIcon />}
@@ -123,12 +123,7 @@ const Buttons = ({
         // </button>
       )}
       {currentPlayerHasTurn && (
-        <Button
-          btnclass=""
-          onClick={handleSwap}
-          content="SWAP"
-          children={<SwapIcon />}
-        />
+        <Button onClick={handleSwap} content="SWAP" children={<SwapIcon />} />
         // <button
         //   onClick={() => {
         //     dispatch(clearPlayTiles());
@@ -142,7 +137,6 @@ const Buttons = ({
       )}
 
       <Button
-        btnclass=""
         onClick={handleShuffle}
         content="SHUFFLE"
         children={<ShuffleIcon />}
@@ -158,12 +152,7 @@ const Buttons = ({
         <ShuffleIcon />
         SHUFFLE
       </button> */}
-      <Button
-        btnclass=""
-        onClick={handleUndo}
-        content="UNDO"
-        children={<UndoIcon />}
-      />
+      <Button onClick={handleUndo} content="UNDO" children={<UndoIcon />} />
       {/* <button
         onClick={() => {
           dispatch(clearPlayTiles());
@@ -177,7 +166,7 @@ const Buttons = ({
       </button> */}
       {currentPlayerHasTurn && (
         <Button
-          btnclass="play"
+          textColor="green"
           onClick={handlePlay}
           content="PLAY"
           children={<PlayIcon />}

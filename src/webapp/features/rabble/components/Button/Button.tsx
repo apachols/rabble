@@ -2,23 +2,22 @@ import React from "react";
 import styles from "./Button.module.css";
 
 interface ButtonProps {
-  btnclass: string;
+  textColor?: string;
   onClick: () => void;
   content: string;
-  children: JSX.Element;
+  children?: JSX.Element;
 }
 
-const Button = ({ onClick, content, children, btnclass }: ButtonProps) => {
+const Button = ({ onClick, content, children, textColor }: ButtonProps) => {
   return (
-    <>
-      <button
-        className={`${styles.Button} ${styles[btnclass]}`}
-        onClick={onClick}
-      >
-        {!!children && children}
-        {content}
-      </button>
-    </>
+    <button className={styles.Button} onClick={onClick}>
+      {!!children && children}
+      {!!textColor ? (
+        <span style={{ color: textColor }}>{content}</span>
+      ) : (
+        <span style={{ color: "inherit" }}>{content}</span>
+      )}
+    </button>
   );
 };
 

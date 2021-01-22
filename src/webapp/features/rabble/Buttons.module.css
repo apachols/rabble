@@ -8,6 +8,7 @@
 .buttons > button {
   width: 100%;
   display: flex;
+  font-weight: bold;
   flex-flow: column nowrap;
   align-items: center;
   margin-left: 2px;
