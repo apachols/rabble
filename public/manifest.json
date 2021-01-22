@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Rabble",
+  "name": "Rabble: It's definitely not Scrabble™️",
   "icons": [
     {
       "src": "rfavicon.ico",

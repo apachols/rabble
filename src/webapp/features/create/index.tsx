@@ -4,7 +4,14 @@ import axios from "axios";
 import { createUserGame } from "../../app/localStorage";
 import Loader from "react-loader-spinner";
 
+import { withRouter } from "react-router-dom";
+import { History } from "history";
+
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
+
+interface CreateGameProps {
+  history: History;
+}
 
 const postToCreateGame = async () => {
   const res = await axios({
@@ -27,11 +34,10 @@ const postToCreateGame = async () => {
     throw new Error("Game ID not returned from server");
   }
 
-  // TODO, react router recommends doing this with <Redirect> instead
-  window.location.href = `/join/${matchID}`;
+  return matchID;
 };
 
-const CreateGame = () => {
+const CreateGame = ({ history }: CreateGameProps) => {
   const [loading, setLoading] = useState(false);
   return (
     <div className={styles.form}>
@@ -42,7 +48,8 @@ const CreateGame = () => {
         <button
           onClick={() => {
             setLoading(true);
-            postToCreateGame();
+            const idtoPush = postToCreateGame();
+            history.push(`/join/${idtoPush}`);
           }}
         >
           create
@@ -52,4 +59,4 @@ const CreateGame = () => {
   );
 };
 
-export default CreateGame;
+export default withRouter(CreateGame);

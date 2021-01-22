@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./join.module.css";
-import { useParams } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
+import { History } from "history";
 import {
   getUserInfo,
   getPlayerGame,
@@ -12,9 +13,19 @@ import Loader from "react-loader-spinner";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
-const redirectToGameView = (gameID: string | undefined) => {
+// TO TRY:
+// 1. pass the history object through the useEffect and posttojoin/redirectToGameView
+// 2. bring redirecttogameview into the component for access to history
+//
+
+interface JoinGameProps {
+  history: History;
+}
+
+const redirectToGameView = (gameID: string | undefined, history: History) => {
   // TODO, react router recommends doing this with <Redirect> instead
-  window.location.href = `/game/${gameID}`;
+  // window.location.href = `/game/${gameID}`;
+  history.push(`/game/${gameID}`);
 };
 
 const getGameInfo = async (gameID: string) => {
@@ -62,7 +73,11 @@ const getExistingOrNewPlayerID = (gameInfo: any, nickname: string): string => {
   return playerID;
 };
 
-const postToJoinGame = async (gameID: string | undefined, nickname: string) => {
+const postToJoinGame = async (
+  gameID: string | undefined,
+  nickname: string,
+  history: History
+) => {
   if (!gameID) {
     throw new Error("Missing gameID in JoinGame");
   }
@@ -89,10 +104,10 @@ const postToJoinGame = async (gameID: string | undefined, nickname: string) => {
 
   joinUserGame(gameID, playerID, playerCredentials);
 
-  redirectToGameView(gameID);
+  redirectToGameView(gameID, history);
 };
 
-const JoinGame = () => {
+const JoinGame = ({ history }: JoinGameProps) => {
   const { gameID } = useParams();
   const [nickname, setNickname] = useState(getUserInfo().nickname);
   const [joinError, setJoinError] = useState("");
@@ -102,22 +117,22 @@ const JoinGame = () => {
 
   useEffect(() => {
     if (gameInfo?.playerID && gameInfo?.playerCredentials) {
-      redirectToGameView(gameID);
+      redirectToGameView(gameID, history);
     }
-  }, [gameInfo, gameID]);
+  }, [gameInfo, gameID, history]);
 
   useEffect(() => {
     if (loading) {
       (async function asyncWrapper() {
         try {
-          await postToJoinGame(gameID, nickname);
+          await postToJoinGame(gameID, nickname, history);
         } catch (err) {
           setJoinError(`Failed to join ${gameID}`);
           setLoading(false);
         }
       })();
     }
-  }, [loading, gameID, nickname]);
+  }, [loading, gameID, nickname, history]);
 
   return (
     <div className={styles.form}>
@@ -151,4 +166,4 @@ const JoinGame = () => {
   );
 };
 
-export default JoinGame;
+export default withRouter(JoinGame);
