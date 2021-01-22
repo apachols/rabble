@@ -13,7 +13,6 @@ const InviteLink = (props: InviteLinkProps) => {
 
   const [copied, setCopied] = useState(false);
 
-  // took event out of args, not needed here
   const handleInviteLink = () => {
     const theInput = inputRef.current as HTMLInputElement;
     if (navigator.userAgent.match(/ipad|iphone/i)) {
@@ -30,11 +29,9 @@ const InviteLink = (props: InviteLinkProps) => {
     theInput.blur();
 
     setCopied(true);
-    const copiedTimeout = setTimeout(() => {
+    setTimeout(() => {
       return setCopied(false);
-    }, 500);
-    return clearTimeout(copiedTimeout);
-    // TODO: ask adam:: this doesn't quite get it -> setting setCopied(false) at end of timeout doesn't rerender the button
+    }, 1000);
   };
 
   return (
@@ -54,10 +51,6 @@ const InviteLink = (props: InviteLinkProps) => {
             onClick={handleInviteLink}
           />
         )}
-        {/* <Button
-          content="Invite a friend! (Click to copy)"
-          onClick={handleInviteLink}
-        /> */}
       </div>
     </div>
   );

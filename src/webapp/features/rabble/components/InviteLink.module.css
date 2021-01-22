@@ -17,6 +17,7 @@
 .invBtnWrapper > button {
   height: 33px;
   font-size: 18px;
+  width: 300px;
   padding: 0px 15px;
   border-radius: 40px;
   color: #fffaf0d8;
