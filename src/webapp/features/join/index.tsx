@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./join.module.css";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
+
 import {
   getUserInfo,
   getPlayerGame,
@@ -11,11 +12,6 @@ import {
 import Loader from "react-loader-spinner";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
-
-const redirectToGameView = (gameID: string | undefined) => {
-  // TODO, react router recommends doing this with <Redirect> instead
-  window.location.href = `/game/${gameID}`;
-};
 
 const getGameInfo = async (gameID: string) => {
   const getResult = await axios({
@@ -89,20 +85,23 @@ const postToJoinGame = async (gameID: string | undefined, nickname: string) => {
 
   joinUserGame(gameID, playerID, playerCredentials);
 
-  redirectToGameView(gameID);
+  //TODO:WORK ZONE
+  return true;
+  // TODO: no real error handling on this returning true
 };
 
 const JoinGame = () => {
   const { gameID } = useParams();
   const [nickname, setNickname] = useState(getUserInfo().nickname);
   const [joinError, setJoinError] = useState("");
+  const [joinSuccess, setJoinSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const gameInfo = getPlayerGame(gameID);
 
   useEffect(() => {
     if (gameInfo?.playerID && gameInfo?.playerCredentials) {
-      redirectToGameView(gameID);
+      setJoinSuccess(true);
     }
   }, [gameInfo, gameID]);
 
@@ -110,7 +109,8 @@ const JoinGame = () => {
     if (loading) {
       (async function asyncWrapper() {
         try {
-          await postToJoinGame(gameID, nickname);
+          const postSuccess = await postToJoinGame(gameID, nickname);
+          if (postSuccess) setJoinSuccess(true);
         } catch (err) {
           setJoinError(`Failed to join ${gameID}`);
           setLoading(false);
@@ -121,6 +121,7 @@ const JoinGame = () => {
 
   return (
     <div className={styles.form}>
+      {joinSuccess && <Redirect to={`/game/${gameID}`} />}
       <h3>Join game {gameID}</h3>
       {joinError ? (
         <h4 style={{ color: "red" }}>{joinError}</h4>

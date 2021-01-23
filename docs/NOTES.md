@@ -8,7 +8,7 @@
 
 ### Features
 
-- Hide text box for click to invite a friend button
+- Hide text box for click to invite a friend button ✅
 
 - Eliminate exchange letters bug by adding Stages to gameplay
 

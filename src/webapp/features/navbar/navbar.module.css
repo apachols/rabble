@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap");
+
+.Nav {
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  height: 70px;
+  background: #380d20;
+  background: linear-gradient(180deg, #380d20 80%, rgba(0, 0, 0, 0) 100%);
+}
+
+.Nav > li {
+  margin: 4px 7px 5px 7px;
+}
+
+.Nav li a {
+  text-decoration: none;
+  color: #fffaf0;
+  font-family: var(--font-swash);
+  font-size: 24px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 3px solid #fffaf0;
+  transform: skew(0, 6deg);
+}
+
+h3.title {
+  font-family: var(--font-swash);
+  color: #b7a843;
+  font-size: 40px;
+  margin: -9px 0 10px 0;
+  padding: 0;
+  letter-spacing: 1px;
+  text-shadow: 1px 2px 1px black, -1px 1px 1px black;
+}

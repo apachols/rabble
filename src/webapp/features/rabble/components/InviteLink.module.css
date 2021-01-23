@@ -1,6 +1,9 @@
 .clipboardInput {
   position: absolute;
+  left: 50%;
+  top: 13%;
   width: 25px;
+  height: 15px;
   border-color: transparent;
   caret-color: transparent;
   color: transparent;
@@ -9,4 +12,15 @@
   font-size: 16px;
   display: block;
   text-align: center;
+}
+
+.invBtnWrapper > button {
+  height: 33px;
+  font-size: 18px;
+  width: 300px;
+  padding: 0px 15px;
+  border-radius: 40px;
+  color: #fffaf0d8;
+  text-transform: none;
+  font-weight: bold;
 }

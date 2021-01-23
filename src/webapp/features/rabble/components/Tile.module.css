@@ -6,6 +6,7 @@
   overflow-y: hidden;
   user-select: none;
   font-family: "Lato", sans-serif;
+  transform: scale(1.03);
 }
 
 .tileImage {

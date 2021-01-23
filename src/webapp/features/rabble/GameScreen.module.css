@@ -18,6 +18,7 @@
   max-width: 600px;
   text-align: center;
   margin: 0 auto;
+  padding: 4px;
 }
 
 .clipboardInput {
@@ -46,7 +47,7 @@
 .topButtonContainer {
   display: flex;
   justify-content: center;
-  padding-bottom: 8px;
+  padding: 5px;
 }
 
 .themeSelectorContainer {

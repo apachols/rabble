@@ -8,7 +8,7 @@
 }
 
 .participant:nth-of-type(even) {
-  background-color: #062666;
+  background-color: #474671;
   border-top-left-radius: 10px;
   border-top-right-radius: 25px;
 }
@@ -17,7 +17,7 @@
   margin-left: 6rem;
 }
 .participant:nth-of-type(odd) {
-  background-color: #360036;
+  background-color: #390e20;
 }
 
 .nickname {

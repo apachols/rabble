@@ -1,17 +1,5 @@
 .App {
-  margin: 4px;
   text-align: center;
   /* Disables IOS double tap zoom... */
   touch-action: manipulation;
-}
-
-.Nav {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.Nav > li {
-  margin: 0 10px;
 }
