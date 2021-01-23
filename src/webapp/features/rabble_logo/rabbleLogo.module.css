@@ -220,3 +220,8 @@ button.skipBtn {
   line-height: 0.1;
   font-family: var(--font-swash);
 }
+
+button.skipBtn:active {
+  border: none;
+  outline: none;
+}

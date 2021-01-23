@@ -24,16 +24,14 @@ const Home = () => {
   }
 
   return (
-    <>
-      <div className={styles.content}>
-        <h3>{greeting}</h3>
-        {arrayOfGames && arrayOfGames.length ? (
-          <GameList games={arrayOfGames} />
-        ) : (
-          <Link to="/create">New Game</Link>
-        )}
-      </div>
-    </>
+    <div className={styles.content}>
+      <h3>{greeting}</h3>
+      {arrayOfGames && arrayOfGames.length ? (
+        <GameList games={arrayOfGames} />
+      ) : (
+        <Link to="/create">New Game</Link>
+      )}
+    </div>
   );
 };
 
