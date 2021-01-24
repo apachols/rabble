@@ -3,6 +3,7 @@ import styles from "./GameList.module.css";
 import RecentGame from "../RecentGame/RecentGame";
 import { clearRecentGames } from "../../../../app/localStorage";
 import Button from "../../../rabble/components/Button/Button";
+import { Link } from "react-router-dom";
 
 type GameListProps = {
   games: UserGameInfo[];
@@ -21,15 +22,29 @@ const TurnList = (props: GameListProps) => {
     <div className={styles.RecentGameList}>
       <h3 className={styles.recentTitle}>Recent games</h3>
       <ul className={styles.gameList}>
-        {gamesListForView.map((g) => {
-          return <RecentGame key={g.gameID} game={g} />;
-        })}
+        {!!gamesListForView.length ? (
+          gamesListForView.map((g) => {
+            return <RecentGame key={g.gameID} game={g} />;
+          })
+        ) : (
+          <>
+            <h6 style={{ color: "gray", marginTop: "20px" }}>
+              --No recent games--
+            </h6>
+          </>
+        )}
       </ul>
-      <Button
-        onClick={handleClearRecentGames}
-        content={"clear recent games"}
-        textColor="#f0f6ff"
-      />
+      {!!gamesListForView.length ? (
+        <Button
+          onClick={handleClearRecentGames}
+          content={"clear recent games"}
+          textColor="#f0f6ff"
+        />
+      ) : (
+        <Link to="/create" className="">
+          <Button onClick={() => {}} content="New Game" textColor="#fffaf0" />
+        </Link>
+      )}
     </div>
   );
 };

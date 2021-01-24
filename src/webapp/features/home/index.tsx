@@ -3,6 +3,7 @@ import styles from "./home.module.css";
 import { getUserInfo } from "../../app/localStorage";
 import GameList from "./components/GameList/GameList";
 import { Link } from "react-router-dom";
+import Button from "../rabble/components/Button/Button";
 
 const Home = () => {
   const userInfo = getUserInfo();
@@ -20,16 +21,26 @@ const Home = () => {
 
   let greeting = "Welcome to Rabble!";
   if (nickname) {
-    greeting = `Welcome back, ${nickname}`;
+    greeting = `Welcome back,`;
   }
 
   return (
     <div className={styles.content}>
-      <h3>{greeting}</h3>
+      <div className={styles.greetingWrapper}>
+        <h2 className={styles.greeting}>{greeting}</h2>
+        <h4 className={styles.nickName}>
+          {nickname &&
+            (nickname.length > 15
+              ? nickname.substring(0, 15) + "..."
+              : nickname)}
+        </h4>
+      </div>
       {arrayOfGames && arrayOfGames.length ? (
         <GameList games={arrayOfGames} />
       ) : (
-        <Link to="/create">New Game</Link>
+        <Link to="/create">
+          <Button content="New Game" onClick={() => {}} textColor="#fffaf0" />
+        </Link>
       )}
     </div>
   );
