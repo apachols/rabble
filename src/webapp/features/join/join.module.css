@@ -1,18 +1,52 @@
 .form {
-  margin: 0 auto;
+  margin: 15vh auto;
   max-width: 400px;
+  position: relative;
 }
 
 label {
   display: block;
   font-size: smaller;
-}
-
-input {
-  display: inline-block;
+  padding-left: 20px;
+  line-height: 0.5;
 }
 
 .inputGroupContainer {
   text-align: left;
   display: inline-block;
+  width: 95%;
+  padding: 2px;
+  height: 65px;
+}
+
+input {
+  position: absolute;
+  bottom: 0;
+  display: inline-block;
+  height: 48px;
+  font-size: 23px;
+  padding-left: 20px;
+  width: 70%;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+input:focus {
+  background-color: darkgray;
+  caret-color: maroon;
+}
+
+.inputGroupContainer > button {
+  position: absolute;
+  font-weight: bold;
+  right: 10px;
+  bottom: 3px;
+  width: 25%;
+  margin: 4px 3px 0 -2px;
+  height: 45px;
+  text-transform: none;
+  font-size: 24px;
+  padding: 3px 0 0 0;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
 }

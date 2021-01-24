@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-// import React, { useRef } from "react";
 import styles from "./InviteLink.module.css";
 import Button from "./Button/Button";
 
@@ -14,24 +13,12 @@ const InviteLink = (props: InviteLinkProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleInviteLink = () => {
-    const theInput = inputRef.current as HTMLInputElement;
-    if (navigator.userAgent.match(/ipad|iphone/i)) {
-      const range = document.createRange();
-      range.selectNodeContents(theInput);
-      const selection = window.getSelection();
-      selection?.removeAllRanges();
-      selection?.addRange(range);
-      theInput.setSelectionRange(0, 999999);
-    } else {
-      theInput.select();
-    }
-    document.execCommand("copy");
-    theInput.blur();
-
+    navigator.clipboard.writeText(`${window.location.origin}/join/${gameID}`);
     setCopied(true);
+
     setTimeout(() => {
       return setCopied(false);
-    }, 1000);
+    }, 800);
   };
 
   return (

@@ -9,6 +9,11 @@
     0 0 1px hsla(255, 255%, 255%, 0.1), inset 0 1px 2px hsla(0, 0%, 0%, 0.2);
   transition: all 0.1s ease;
 }
+
+.Button:focus {
+  outline: none;
+}
+
 .Button,
 .Button:before,
 .Button:link:before,

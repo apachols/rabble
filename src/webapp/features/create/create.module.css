@@ -1,3 +1,13 @@
 .form {
   text-align: center;
+  margin-top: 15vh;
+}
+
+.form button {
+  border-radius: 25px;
+  padding: 5px 25px 5px 25px;
+  line-height: 1;
+  font-weight: bold;
+  height: 45px;
+  text-transform: none;
 }

@@ -7,11 +7,54 @@ ul.gameList {
   align-items: center;
 }
 
-/* experimental styles */
 .RecentGameList {
-  min-width: 50vw;
+  min-width: 60vw;
   min-height: 50vh;
   padding: 5vh auto;
+}
+
+.recentTitle {
+  line-height: 1;
+  margin: 0;
+  font-size: 26px;
+  font-family: var(--font-swash);
+}
+
+.RecentGameList > button,
+.RecentGameList > a > :nth-child(1) {
+  text-transform: none;
+  line-height: 1.2;
+  padding: 5px 20px;
+  height: 35px;
+  margin: 35px 0;
+  border-radius: 25px;
+  font-weight: bold;
+  /* This is just to see whether you likey. BTN-STYLE-OPTIONS */
+  /* gold */
+  /* background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(255, 244, 101, 1) 8%,
+    rgba(143, 82, 19, 1) 67%
+  ); */
+  /* wood */
+  /* background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(193, 127, 0, 1) 8%,
+    rgba(119, 56, 3, 1) 67%
+  ); */
+  /* woodblue */
+  /* background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(141, 175, 130, 1) 14%,
+    rgba(3, 86, 119, 1) 84%
+  ); */
+}
+
+.RecentGameList > button:hover {
+  border: 3px 3px 3px rgb(129, 47, 31);
 }
 
 @media only screen and (max-width: 600px) {
@@ -19,4 +62,3 @@ ul.gameList {
     width: 100%;
   }
 }
-/* end experimental styles */
