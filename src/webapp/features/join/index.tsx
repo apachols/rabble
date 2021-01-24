@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Button from "../rabble/components/Button/Button";
 import axios from "axios";
 import styles from "./join.module.css";
 import { useParams, Redirect } from "react-router-dom";
@@ -136,14 +137,15 @@ const JoinGame = () => {
                 name="nickname"
                 value={nickname}
                 onChange={(ev) => setNickname(ev.target.value)}
+                placeholder="TommyTuTone"
               />
-              <button
+              <Button
+                content="join"
                 onClick={() => {
                   setLoading(true);
                 }}
-              >
-                join
-              </button>
+                textColor="#fff5e2"
+              ></Button>
             </>
           )}
         </div>

@@ -5,6 +5,7 @@ import { createUserGame } from "../../app/localStorage";
 import Loader from "react-loader-spinner";
 
 import { withRouter, Redirect } from "react-router-dom";
+import Button from "../rabble/components/Button/Button";
 
 const API_ROOT = `${process.env?.REACT_APP_API_ROOT || ""}`;
 
@@ -36,21 +37,23 @@ const CreateGame = () => {
     setGameID(matchID);
   };
 
+  const handleCreateGame = () => {
+    setLoading(true);
+    postToCreateGame();
+  };
+
   return (
     <div className={styles.form}>
-      <h3>Create a new game</h3>
+      <h3>Would you like to start a new game?</h3>
       {!!gameID && <Redirect to={`/join/${gameID}`} />}
       {loading ? (
         <Loader type="Grid" color="#00BFFF" height={100} width={100} />
       ) : (
-        <button
-          onClick={() => {
-            setLoading(true);
-            postToCreateGame();
-          }}
-        >
-          create
-        </button>
+        <Button
+          onClick={handleCreateGame}
+          content="create"
+          textColor="#fffAf0"
+        />
       )}
     </div>
   );
