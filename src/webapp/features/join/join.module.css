@@ -8,6 +8,7 @@ label {
   display: block;
   font-size: smaller;
   padding-left: 20px;
+  line-height: 0.5;
 }
 
 .inputGroupContainer {
