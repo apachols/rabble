@@ -5,8 +5,8 @@ const themes = {
     bg: "#2e353d",
     "square-border": "rgba(188, 184, 174, 0.621)",
     "text-primary": "rgb(214, 209, 200)",
-    "table-color": "#DEBD91",
-    "table-bg": "rgba(173, 121, 53, 0.073)",
+    "table-color": "rgba(119, 80, 92, 0.84)",
+    "table-bg": "rgba(173, 53, 53, 0.073)",
   },
   light: {
     bg: "floralwhite",

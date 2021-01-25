@@ -4,6 +4,7 @@
   justify-content: space-between;
   width: 99%;
   font-size: smaller;
+  color: var(--text-primary);
 }
 
 @media (max-width: 600px) {

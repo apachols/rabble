@@ -30,7 +30,7 @@
 }
 
 .greeting {
-  margin-top: 5px;
+  margin-top: 50px;
   transform: rotateZ(-3deg);
   font-family: var(--font-swash);
   font-size: 4rem;
@@ -51,10 +51,12 @@
 
   .greeting {
     font-size: 3rem;
+    margin-top: 10px;
     left: 5%;
   }
   .nickName {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    margin-top: -1.7rem;
     top: 20%;
     left: 28%;
   }
