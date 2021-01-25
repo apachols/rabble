@@ -1,9 +1,10 @@
 .clipboardInput {
   position: absolute;
   left: 50%;
-  top: 13%;
-  width: 25px;
-  height: 15px;
+  top: 30%;
+  width: 1px;
+  height: 5px;
+  background-color: transparent;
   border-color: transparent;
   caret-color: transparent;
   color: transparent;
@@ -12,6 +13,15 @@
   font-size: 16px;
   display: block;
   text-align: center;
+}
+
+.clipboardInput::selection {
+  color: transparent;
+  background: transparent;
+}
+
+.copyInviteLink {
+  margin: 10px auto;
 }
 
 .invBtnWrapper > button {
