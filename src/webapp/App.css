@@ -2,4 +2,5 @@
   text-align: center;
   /* Disables IOS double tap zoom... */
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }

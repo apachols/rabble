@@ -1,5 +1,6 @@
 .tileRack {
   height: 50px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,20 +8,19 @@
 }
 
 .tileContainer {
-  height: 50px;
-  width: 50px;
-  padding: 1px;
-  margin: 2px;
+  height: 48px;
+  width: 48px;
+  margin: 1px;
   display: inline-block;
   position: relative;
 }
 
 /* react-dnd adds a couple extra that need height */
 .tileContainer > div {
-  height: 50px;
-  width: 50px;
+  height: 48px;
+  width: 48px;
 }
 .tileContainer > div > div {
-  height: 50px;
-  width: 50px;
+  height: 48px;
+  width: 48px;
 }

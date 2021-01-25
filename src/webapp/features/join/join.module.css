@@ -23,7 +23,7 @@
   position: absolute;
   z-index: -1;
   top: 10rem;
-  transform: scale(1.5);
+  transform: scale(1.5), rotateZ(-5deg);
   right: 3rem;
   opacity: 0.8;
 }
