@@ -34,7 +34,9 @@ const GameScreen = (props: GameBoardProps) => {
   return (
     <div className={styles.board}>
       <div className={styles.topButtonContainer}>
-        {scoreList[1] && !scoreList[1].nickname.length ? (
+        {Array.isArray(scoreList) &&
+        scoreList[1] &&
+        !scoreList[1].nickname.length ? (
           <InviteLink gameID={gameID} />
         ) : null}
       </div>
