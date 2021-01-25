@@ -29,8 +29,9 @@
 }
 
 .themeSelectorContainer {
-  margin-top: 50px;
-  margin-bottom: 2rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 10px;
   display: flex;
   justify-content: flex-end;
 }

@@ -3,6 +3,7 @@
   display: grid;
   place-items: center;
   min-height: 100vh;
+  color: var(--text-primary);
 }
 
 .content > a {
@@ -20,7 +21,7 @@
 }
 
 .greetingWrapper {
-  margin-top: 2vh;
+  margin-top: 1vh;
   max-width: 600px;
   width: 100%;
   height: 100%;
@@ -44,6 +45,7 @@
   .greetingWrapper {
     width: 95%;
     height: 70%;
+    margin-top: -20px;
     margin-bottom: -20px;
   }
 

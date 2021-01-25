@@ -8,7 +8,7 @@ ul.gameList {
 }
 
 .RecentGameList {
-  min-width: 60vw;
+  width: 650px;
   min-height: 50vh;
   padding: 5vh auto;
 }
@@ -29,6 +29,7 @@ ul.gameList {
   margin: 35px 0;
   border-radius: 25px;
   font-weight: bold;
+  /* TODO: 🚧 WORK ZONE  🚧 🚨 🚧 WORK ZONE 🚧 🚨 🚧 WORK ZONE 🚧 */
   /* This is just to see whether you likey. BTN-STYLE-OPTIONS */
   /* gold */
   /* background: linear-gradient(
@@ -51,6 +52,7 @@ ul.gameList {
     rgba(141, 175, 130, 1) 14%,
     rgba(3, 86, 119, 1) 84%
   ); */
+  /* TODO: 🚧 WORK ZONE  🚧 🚨 🚧 WORK ZONE 🚧 🚨 🚧 WORK ZONE 🚧 */
 }
 
 .RecentGameList > button:hover {

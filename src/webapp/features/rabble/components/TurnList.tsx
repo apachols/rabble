@@ -8,7 +8,7 @@ type TurnListProps = {
 };
 
 const TurnList = ({ turns, remainingTileCount }: TurnListProps) => (
-  <div>
+  <div className={styles.tableWrapper}>
     <table className={styles.turnTable}>
       <tbody>
         <tr>

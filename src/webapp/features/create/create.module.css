@@ -1,6 +1,15 @@
 .form {
   text-align: center;
   margin-top: 15vh;
+  padding: 5px;
+  color: var(--text-primary);
+  font-family: var(--font-swash);
+  font-size: 2.5rem;
+  /* TODO: 🚧 WORK ZONE  🚧 🚨 🚧 WORK ZONE 🚧 🚨 🚧 WORK ZONE 🚧 */
+  /* text-shadow: 1px 1px 0px rgb(144, 95, 16), 2px 2px 0px rgb(144, 95, 16),
+    3px 3px 0px rgb(144, 95, 16), 4px 4px 0px rgb(144, 95, 16), 5px 5px 0 black,
+    6px 6px 3px black; */
+  /* TODO: 🚧 WORK ZONE  🚧 🚨 🚧 WORK ZONE 🚧 🚨 🚧 WORK ZONE 🚧 */
 }
 
 .form button {
@@ -10,4 +19,5 @@
   font-weight: bold;
   height: 45px;
   text-transform: none;
+  font-size: 1.5rem;
 }
