@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 
 const themes = {
   dark: {
-    // bg: "#3d3d29",
-    // bg: "#23201c",
     bg: "#2e353d",
+    "square-border": "rgba(188, 184, 174, 0.621)",
+    "text-primary": "rgb(214, 209, 200)",
+    "table-color": "rgba(119, 80, 92, 0.84)",
+    "table-bg": "rgba(173, 53, 53, 0.073)",
   },
   light: {
     bg: "floralwhite",
@@ -18,6 +20,9 @@ const themes = {
     "square-tw": "#8D4E65",
     "square-border": "#FFFFFF",
     "selected-darkfont": "#444",
+    "text-primary": "black",
+    "table-color": "#3b3938",
+    "table-bg": "rgba(173, 160, 156, 0.382)",
   },
 };
 

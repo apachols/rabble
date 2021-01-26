@@ -21,37 +21,17 @@
   padding: 4px;
 }
 
-.clipboardInput {
-  position: absolute;
-  width: 25px;
-  border-color: transparent;
-  caret-color: transparent;
-  color: transparent;
-  z-index: -10;
-  outline: none;
-  font-size: 16px;
-  display: block;
-  text-align: center;
-  height: 1px;
-}
-
-.clipboardInput::selection {
-  color: transparent;
-  background: transparent;
-}
-
-.copyInviteLink {
-  margin: 10px auto;
-}
-
 .topButtonContainer {
+  position: relative;
   display: flex;
   justify-content: center;
   padding: 5px;
 }
 
 .themeSelectorContainer {
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 10px;
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 }

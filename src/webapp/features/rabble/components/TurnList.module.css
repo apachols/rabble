@@ -1,3 +1,9 @@
+.tableWrapper {
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: inset -5px -40px 40px #0f0205a4;
+}
+
 .turnList {
   list-style: none;
   text-align: left;
@@ -10,17 +16,23 @@
 
 .turnTable {
   width: 100%;
-  border: 1px solid black;
+  border: 4px solid var(--table-color);
+  border-radius: 5px;
   border-spacing: 0px;
+  background-color: var(--table-bg);
+  color: var(--text-primary);
+  max-height: 90vh;
+  overflow-y: auto;
 }
+
 .turnTable th {
   padding: 10px 10px;
-  border: 1px solid black;
+  border: 1px solid var(--table-color);
   font-size: small;
 }
 .turnTable td {
   padding: 10px 10px;
-  border: 1px solid black;
+  border: 1px solid var(--table-color);
 }
 .playerAndRemainingTilesHeader {
   display: flex;

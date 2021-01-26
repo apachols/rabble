@@ -3,6 +3,7 @@
   display: grid;
   place-items: center;
   min-height: 100vh;
+  color: var(--text-primary);
 }
 
 .content > a {
@@ -20,7 +21,7 @@
 }
 
 .greetingWrapper {
-  margin-top: 2vh;
+  margin-top: 1vh;
   max-width: 600px;
   width: 100%;
   height: 100%;
@@ -29,7 +30,7 @@
 }
 
 .greeting {
-  margin-top: 5px;
+  margin-top: 50px;
   transform: rotateZ(-3deg);
   font-family: var(--font-swash);
   font-size: 4rem;
@@ -44,15 +45,18 @@
   .greetingWrapper {
     width: 95%;
     height: 70%;
+    margin-top: -20px;
     margin-bottom: -20px;
   }
 
   .greeting {
     font-size: 3rem;
+    margin-top: 10px;
     left: 5%;
   }
   .nickName {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    margin-top: -1.7rem;
     top: 20%;
     left: 28%;
   }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../rabble/components/Button/Button";
 import axios from "axios";
 import styles from "./join.module.css";
+import tileBagImg from "../../assets/images/tilebag.png";
 import { useParams, Redirect } from "react-router-dom";
 
 import {
@@ -123,7 +124,12 @@ const JoinGame = () => {
   return (
     <div className={styles.form}>
       {joinSuccess && <Redirect to={`/game/${gameID}`} />}
-      <h3>Join game {gameID}</h3>
+      <img className={styles.tileBagImg} src={tileBagImg} alt="tile bag" />
+      <h3 className={styles.joinTitle}>Would you like to join</h3>
+      <h4 className={styles.joinDetails}>
+        the <span className={styles.rabbleName}>Rabble</span> at game:{" "}
+        <span className={styles.joinGameID}>{gameID} ?</span>
+      </h4>
       {joinError ? (
         <h4 style={{ color: "red" }}>{joinError}</h4>
       ) : (

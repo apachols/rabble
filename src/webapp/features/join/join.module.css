@@ -2,6 +2,44 @@
   margin: 15vh auto;
   max-width: 400px;
   position: relative;
+  color: var(--text-primary);
+}
+
+.joinTitle {
+  font-family: var(--font-swash);
+  font-size: 1.8rem;
+}
+
+.joinDetails {
+  margin-top: -0.5rem;
+  margin-bottom: 3rem;
+}
+
+.rabbleName {
+  font-family: var(--font-swash);
+  font-size: 1.2rem;
+}
+
+.tileBagImg {
+  position: absolute;
+  z-index: -1;
+  top: 10rem;
+  transform: scale(1.5), rotateZ(-5deg);
+  right: 3rem;
+  opacity: 0.8;
+}
+
+@media only screen and (min-width: 600px) {
+  .form {
+    max-width: 550px;
+  }
+  .joinTitle {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+}
+.joinGameID {
+  font-size: 0.9rem;
 }
 
 label {
@@ -34,6 +72,7 @@ input {
 input:focus {
   background-color: darkgray;
   caret-color: maroon;
+  outline: none;
 }
 
 .inputGroupContainer > button {
