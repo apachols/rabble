@@ -4,12 +4,10 @@ import { useAuth } from "react-use-auth";
 
 const PreAuthentication = () => {
   const { login } = useAuth();
-  // const { isAuthenticated, login } = useAuth();
 
   return (
     <div className={styles.container}>
       <h1>Sign In to Rabble</h1>
-      {/* TODO: this returns true even when not authenticated yet{isAuthenticated ? "true" : "false"} */}
       <button
         onClick={() => {
           login();
@@ -17,7 +15,6 @@ const PreAuthentication = () => {
       >
         <span>Sign In</span>
       </button>
-      <br></br>
 
       <div className={styles.loginTilesContainer}>
         <div className={styles.loginTile}>O</div>

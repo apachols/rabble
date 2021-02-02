@@ -23,6 +23,7 @@ const themes = {
     "text-primary": "black",
     "table-color": "#3b3938",
     "table-bg": "rgba(173, 160, 156, 0.382)",
+    "btn-base": "#474671",
   },
 };
 
