@@ -130,6 +130,9 @@ yarn-error.log*
 .env
 .env.test
 
+# firebase settings
+firebase.json
+
 # vscode
 /.vscode
 

@@ -30,11 +30,21 @@ const DB = new Sqlite3Store({
   debug: false,
 });
 
+const admin = require('firebase-admin');
+const { Firestore } = require('bgio-firebase');
+
+const firestore = new Firestore({
+  config: {
+    credential: admin.credential.applicationDefault(),
+    databaseURL: 'https://rabble-dev-87176.firebaseio.com',
+  },
+});
+
 // The "run typescript server script with async await" situation could be better.
 loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
   const server = Server({
     games: [Rabble(wordlist)],
-    db: DB,
+    db: firestore,
   });
 
   const router = new Router();
