@@ -15,7 +15,7 @@ export const slice = createSlice({
   initialState,
   reducers: {
     shuffleRack: (state) => {
-      shuffleTiles(state.tileRack);
+      state.tileRack = shuffleTiles(state.tileRack);
     },
     updateRackTiles: (state, action: PayloadAction<Tile[]>) => {
       state.tileRack = [...action.payload];

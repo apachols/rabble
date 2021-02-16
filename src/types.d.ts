@@ -56,19 +56,35 @@ type TileBagConfig = {
 
 // Boardgame.io Types
 
-type GameBoardProps = {
+interface CheckWordArgs {
+  playSquares: Square[]
+};
+
+interface ExchangeTilesArgs {
+  tiles: Tile[]
+};
+
+interface PlayWordArgs {
+  playSquares: Square[]
+};
+
+interface ReorderRackTilesArgs {
+  rackTiles: Tile[]
+}
+
+interface GameBoardProps {
   G: Game;
   ctx: GameContext;
   playerID: string;
   nowPlaying: string;
   moves: {
     drawTiles: () => void;
-    exchangeTiles: (tiles: Tile[]) => void;
-    playWord: (playSquares: Square[]) => void;
-    checkWord: (playSquares: Square[]) => void;
-    cleanUp: () => void;
+    exchangeTiles: (args: ExchangeTilesArgs) => void;
+    playWord: (args: PlayWordArgs) => void;
+    checkWord: (args: CheckWordArgs) => void;
+    reorderRackTiles: (args: ReorderRackTilesArgs) => void;
     setNickName: (nickname: string) => void;
-    reorderRackTiles: (rackTiles: Tile[]) => void;
+    cleanUp: () => void;
   };
   events: {
     endTurn: any;

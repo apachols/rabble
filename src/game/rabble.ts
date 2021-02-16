@@ -138,7 +138,8 @@ const Rabble = (wordlist: WordList) => ({
 
   moves: {
     playWord: {
-      move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
+      redact: true,
+      move: (G: Game, ctx: GameContext, {playSquares}: {playSquares: Square[]}) => {
         const { currentPlayer } = ctx;
         const { tileRack, currentPlay, nickname } = G.players[currentPlayer];
         const { tileBag } = G;
@@ -226,6 +227,7 @@ const Rabble = (wordlist: WordList) => ({
       client: false,
     },
     drawTiles: {
+      redact: true,
       move: (G: Game, ctx: GameContext) => {
         const { currentPlayer } = ctx;
         const { tileRack } = G.players[currentPlayer];
@@ -238,7 +240,8 @@ const Rabble = (wordlist: WordList) => ({
       client: false,
     },
     exchangeTiles: {
-      move: (G: Game, ctx: GameContext, exchange: Tile[]) => {
+      redact: true,
+      move: (G: Game, ctx: GameContext, {tiles}: {tiles: Tile[]}) => {
         const { currentPlayer } = ctx;
         const { currentPlay, tileRack, nickname } = G.players[currentPlayer];
         const { tileBag } = G;
@@ -250,12 +253,12 @@ const Rabble = (wordlist: WordList) => ({
 
         console.log(
           "EXCHANGE TILES",
-          exchange.map((t) => t.letter)
+          tiles.map((t) => t.letter)
         );
 
         logMetaData.pid = currentPlayer;
         try {
-          exchangeTiles(tileBag, tileRack, exchange);
+          exchangeTiles(tileBag, tileRack, tiles);
         } catch (err) {
           console.error(`Error in exchangeTiles ${err} \n${err.stack}`);
           return INVALID_MOVE;
@@ -277,6 +280,7 @@ const Rabble = (wordlist: WordList) => ({
       client: false,
     },
     setNickName: {
+      redact: true,
       move: (G: Game, ctx: GameContext, nickname: string) => {
         const { currentPlayer } = ctx;
         G.players[currentPlayer].nickname = nickname;
@@ -287,13 +291,15 @@ const Rabble = (wordlist: WordList) => ({
       client: true,
     },
     reorderRackTiles: {
-      move: (G: Game, ctx: GameContext, rackTiles: Tile[]) => {
+      redact: true,
+      move: (G: Game, ctx: GameContext, {rackTiles}: {rackTiles: Tile[]}) => {
         const { currentPlayer } = ctx;
         G.players[currentPlayer].tileRack = [...rackTiles];
       },
       client: true,
     },
     cleanUp: {
+      redact: true,
       move: (G: Game, ctx: GameContext) => {
         const { currentPlayer } = ctx;
         G.players[currentPlayer].currentPlay = currentPlayInfo({});
@@ -301,7 +307,9 @@ const Rabble = (wordlist: WordList) => ({
       client: true,
     },
     checkWord: {
-      move: (G: Game, ctx: GameContext, playSquares: Square[]) => {
+      redact: true,
+      move: (G: Game, ctx: GameContext, {playSquares}: {playSquares: Square[]}) => {
+
         const { currentPlayer } = ctx;
         const { currentPlay } = G.players[currentPlayer];
 

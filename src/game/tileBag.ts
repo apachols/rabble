@@ -70,8 +70,9 @@ export const createTileBag = (
 };
 
 export const shuffleTiles = (tiles: Tile[]) => {
-  tiles.sort(() => 0.5 - Math.random());
-  return tiles;
+  const copyTiles = [...tiles];
+  copyTiles.sort(() => 0.5 - Math.random());
+  return copyTiles;
 };
 
 // Mutate both tileRack and tileBag to draw up to MAX_PLAYER_RACK_TILES
@@ -149,6 +150,8 @@ export const exchangeTiles = (bag: Tile[], rack: Tile[], exchange: Tile[]) => {
       letter: t.blank ? " " : t.letter,
     });
   });
-  shuffleTiles(bag);
+  const copy = bag.splice(-bag.length);
+  const shuffled = shuffleTiles(copy);
+  bag.push(...shuffled);
   return;
 };

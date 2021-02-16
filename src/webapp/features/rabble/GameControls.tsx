@@ -68,12 +68,7 @@ const GameControls = (props: GameBoardProps) => {
   const debouncedPlaySquares = useDebounce(playSquares, 1000);
   useEffect(() => {
     if (debouncedPlaySquares.length > 0 && currentPlayerHasTurn) {
-      console.log(
-        "HOOK RUNNING",
-        "checkWord",
-        debouncedPlaySquares.map((sq: Square) => sq?.playTile?.letter)
-      );
-      checkWord(debouncedPlaySquares);
+      checkWord({playSquares: debouncedPlaySquares});
     }
   }, [checkWord, debouncedPlaySquares, currentPlayerHasTurn]);
 
@@ -123,7 +118,7 @@ const GameControls = (props: GameBoardProps) => {
     const pulled = copyRack.splice(positionFrom, 1);
     copyRack.splice(positionTo, 0, pulled[0]);
     if (currentPlayerHasTurn) {
-      reorderRackTiles(copyRack);
+      reorderRackTiles({rackTiles: copyRack});
     } else {
       dispatch(updateRackTiles(copyRack));
     }

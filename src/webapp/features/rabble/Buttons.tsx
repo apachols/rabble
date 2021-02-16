@@ -21,15 +21,16 @@ import { ReactComponent as PlayIcon } from "./svg/play-circle-outline.svg";
 import Button from "../rabble/components/Button/Button";
 
 type ButtonsProps = {
+  currentPlay: CurrentPlayInfo;
   currentPlayerHasTurn: boolean;
   tileRack: Tile[];
-  playWord: (playSquares: Square[]) => void;
-  checkWord: (playSquares: Square[]) => void;
+  // moves
+  playWord: (args: PlayWordArgs) => void;
+  checkWord: (args: CheckWordArgs) => void;
+  exchangeTiles: (args: ExchangeTilesArgs) => void;
+  reorderRackTiles: (args: ReorderRackTilesArgs) => void;
   endTurn: () => {};
   cleanUp: () => void;
-  exchangeTiles: (tiles: Tile[]) => void;
-  currentPlay: CurrentPlayInfo;
-  reorderRackTiles: (rackTiles: Tile[]) => void;
 };
 
 const Buttons = ({
@@ -52,7 +53,6 @@ const Buttons = ({
   // If we try to do this on the server, we get "ERROR: invalid stateID"
   useEffect(() => {
     if (currentPlay.played) {
-      console.log("HOOK RUNNING", "endTurn");
       cleanUp();
       setTimeout(() => {
         endTurn();
@@ -77,8 +77,8 @@ const Buttons = ({
   };
 
   const handleShuffle = () => {
-    shuffleTiles(tileRack);
-    reorderRackTiles(tileRack);
+    const rackTiles = shuffleTiles(tileRack);
+    reorderRackTiles({ rackTiles });
     dispatch(clearPlayTiles());
     dispatch(changeSquareSelection(null));
   };
@@ -92,7 +92,7 @@ const Buttons = ({
 
   const handlePlay = () => {
     if (playSquares.length) {
-      playWord(playSquares);
+      playWord({playSquares});
       dispatch(clearPlayTiles());
       dispatch(changeSquareSelection(null));
     }
@@ -135,7 +135,7 @@ const Buttons = ({
           setShowModal={setShowSwapModal}
           playerTiles={tileRack}
           swapSelectedTiles={(tiles) => {
-            exchangeTiles(tiles);
+            exchangeTiles({tiles});
           }}
         />
       </Modal>
