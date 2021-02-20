@@ -15,7 +15,7 @@ const AuthProvider = (props: AuthProviderProps) => (
     navigate={props.history.push}
     authProvider={Auth0}
     params={{
-      redirectUri: "http://localhost:3000/auth-callback",
+      redirectUri: process.env?.REACT_APP_AUTH_REDIRECT_URI,
       domain: process.env?.REACT_APP_AUTH_DOMAIN,
       clientID: process.env?.REACT_APP_AUTH_CLIENT_ID
     }}

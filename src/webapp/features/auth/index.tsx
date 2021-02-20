@@ -5,10 +5,10 @@ import { useAuth } from "react-use-auth";
 const AuthCallback = () => {
   const { handleAuthentication } = useAuth();
 
-  const todoPostLoginRoute = '/post-authentication';
+  // const debugPostLoginRoute = '/post-authentication';
   useEffect(() => {
     handleAuthentication({
-      postLoginRoute: todoPostLoginRoute
+      postLoginRoute: '/'
     });
   }, [handleAuthentication]);
 
