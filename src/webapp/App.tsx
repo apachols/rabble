@@ -1,19 +1,21 @@
-import React  from "react";
+import React from "react";
 import "./App.css";
-
 import Navbar from "./features/navbar/navbar";
-
+import Rabble from "./features/rabble";
+import Create from "./features/create";
+import Join from "./features/join";
+import Home from "./features/home";
 import Theme from "./features/rabble/components/Theme";
 import RabbleLogo from "./features/rabble_logo/rabbleLogo";
-
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import AuthProvider from "./AuthProvider";
-import Routes from "./Routes";
+function Game() {
+  return <Rabble />;
+}
 
 const isTouch = navigator.maxTouchPoints || navigator.msMaxTouchPoints;
 
@@ -34,9 +36,20 @@ export default function App() {
           <div className="App">
             <RabbleLogo />
             <Navbar />
-            <AuthProvider >
-              <Routes/>
-            </AuthProvider>
+            <Switch>
+              <Route path="/game/:gameID">
+                <Game />
+              </Route>
+              <Route path="/create">
+                <Create />
+              </Route>
+              <Route path="/join/:gameID">
+                <Join />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
           </div>
         </Router>
       </DndProvider>
