@@ -21,7 +21,7 @@
     "@types/sequelize": "^4.28.9",
     "@types/sqlite3": "^3.1.6",
     "@types/validator": "^13.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "boardgame.io": "0.42.2",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
