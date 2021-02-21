@@ -24,17 +24,16 @@ const freshTimestamp = () =>
 console.log = prefixed(freshTimestamp, console.log);
 console.error = prefixed(freshTimestamp, console.error);
 
-const DB = new Sqlite3Store({
-  filename: `${process.env.FLATFILE_PATH}/rabble.db`,
-  logging: false,
-  debug: false,
-});
-
 // The "run typescript server script with async await" situation could be better.
 loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
   const server = Server({
     games: [Rabble(wordlist)],
-    db: DB,
+
+    db: new Sqlite3Store({
+      filename: `${process.env.FLATFILE_PATH}/rabble.db`,
+      logging: false,
+      debug: false,
+    }),
   });
 
   const router = new Router();
@@ -44,7 +43,6 @@ loadWordList(process.env.WORDLIST_PATH || "").then((wordlist) => {
     console.warn("client-logs", logMessage);
     ctx.status = 204;
   });
-
   server.app.use(cors());
   server.app.use(router.routes()).use(router.allowedMethods());
 
