@@ -3,8 +3,12 @@ import { useEffect, useRef } from "react";
 import styles from "./rabbleLogo.module.css";
 import LogoCube from "./logoCube";
 
+import { useAuth } from "react-use-auth";
+
 const RabbleLogo = () => {
   const containerRef = useRef<HTMLInputElement>(null);
+
+  const { isAuthenticated } = useAuth();
 
   // the following useEffect and onSkipBtn disp:none the animation container
   // to reduce negative interaction likelihood.
@@ -20,12 +24,16 @@ const RabbleLogo = () => {
     };
   }, []);
 
+  if (isAuthenticated()) {
+    return null;
+  }
+
   const onSkipBtn = () => {
     const skipStyle = containerRef?.current?.style;
     if (skipStyle) {
       skipStyle.display = "none";
     }
-  } 
+  }
 
   return (
     <>
