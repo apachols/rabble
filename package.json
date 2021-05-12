@@ -25,7 +25,7 @@
     "boardgame.io": "0.42.2",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "mathjs": "^6.6.2",
+    "mathjs": "^7.5.1",
     "node-persist": "^3.0.5",
     "react": "^16.13.0",
     "react-dnd": "^11.1.3",
