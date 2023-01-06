@@ -9,6 +9,11 @@ npm install -g pm2
 cat "env vars plz" > ./.env
 ```
 
+Also need the following:
+
+- nvm
+- node @ version ^14.4.0 (modem noises)
+
 ### Build
 
 Since react-scripts 4, you'll need to build locally and scp the build to digital ocean :|
@@ -51,6 +56,25 @@ rm $WWW/build.tar.gz
 pm2 start pm2.json
 ```
 
+If the above runs into an error, consider also reinstalling node modules:
+
+```
+#!/bin/bash
+
+WWW="??"
+
+rm -rf $WWW/node_modules/*
+npm i
+```
+
+Does `npm i` get killed?
+
+- Try `sudo reboot` (worked)
+- Needs more RAM ($$)
+- Try adding 1GB swap (see DO docs)
+
+---
+
 ## Local Dev
 
 ### Run locally
@@ -67,6 +91,10 @@ pm2 start pm2.json
 
 ---
 
-## Create React App
+## Create React App Links
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+Created from the Redux Toolkit template:
+
+- [Create React App](https://github.com/facebook/create-react-app)
+- [Redux](https://redux.js.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
