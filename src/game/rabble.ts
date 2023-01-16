@@ -81,12 +81,17 @@ const prefixed = (logPrefixFunction: any, original: any) =>
 
 const logMetaData: any = {};
 
-if (process?.env) {
-  const logMetaDataIfAny = () => logMetaData;
-  console.log = prefixed(logMetaDataIfAny, console.log);
-  console.info = prefixed(logMetaDataIfAny, console.info);
-  console.error = prefixed(logMetaDataIfAny, console.error);
-}
+// React-scripts 5 / webpack 5 - cannot refer to process as a global here:
+// https://stackoverflow.com/questions/41359504/webpack-bundle-js-uncaught-referenceerror-process-is-not-defined
+//
+// TODO - assess whether these logs are helping before considering solutions from above SO link
+//
+// if (process && process.env) {
+//   const logMetaDataIfAny = () => logMetaData;
+//   console.log = prefixed(logMetaDataIfAny, console.log);
+//   console.info = prefixed(logMetaDataIfAny, console.info);
+//   console.error = prefixed(logMetaDataIfAny, console.error);
+// }
 
 const Rabble = (wordlist: WordList) => ({
   name: "rabble",
