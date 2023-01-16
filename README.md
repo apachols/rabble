@@ -1,5 +1,7 @@
 ## Production
 
+&nbsp;
+
 ### Setup
 
 ```
@@ -14,66 +16,49 @@ Also need the following:
 - nvm
 - node @ version ^14.4.0 (modem noises)
 
-### Build
-
-Since react-scripts 4, you'll need to build locally and scp the build to digital ocean :|
-
-```
-#!/bin/bash
-
-REACT_APP_API_ROOT=?? \
-REACT_APP_SOCKET_ROOT=?? \
-npm run build
-
-PROJDIR="??"
-ZIPNAME="??"
-BUILDDIR="??"
-TARFILE="??"
-TARGETPATH="??"
-$HOST="??"
-
-#
-cd $PROJDIR && tar -zcvf $TARFILE $BUILDDIR
-
-#
-scp $TARFILE $HOST:$TARGETPATH$ZIPNAME
-
-#
-rm $TARFILE
-```
+&nbsp;
 
 ### Deploy
 
 ```
 #!/bin/bash
 
-WWW="??"
+# cd to the hosted dir
+www
 
+# Stop the client and server applications
 pm2 stop all
-rm -rf $WWW/build/*
-tar -zxvf $WWW/build.tar.gz
-rm $WWW/build.tar.gz
+
+# pull in the latest changes
+git fetch && git pull
+
+# npm install package changes (skip if not applicable)
+npm i
+
+# create a production build
+npm run build
+
+# restart the client and server applications
 pm2 start pm2.json
 ```
 
-If the above runs into an error, consider also reinstalling node modules:
+&nbsp;
 
-```
-#!/bin/bash
+### Troubleshooting
 
-WWW="??"
+&nbsp;
 
-rm -rf $WWW/node_modules/*
-npm i
-```
+Does `npm i` or `npm run build` get killed?
 
-Does `npm i` get killed?
-
-- Try `sudo reboot` (worked)
-- Needs more RAM ($$)
+- Try `sudo reboot` (this worked for 1GB ram)
 - Try adding 1GB swap (see DO docs)
+- Add more RAM (upgraded Jan 23 to 2GB ram for easier builds)
+
+&nbsp;
 
 ---
+
+&nbsp;
 
 ## Local Dev
 
@@ -89,7 +74,11 @@ Does `npm i` get killed?
 
 `npm run repl`
 
+&nbsp;
+
 ---
+
+&nbsp;
 
 ## Create React App Links
 
