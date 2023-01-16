@@ -1,7 +1,5 @@
 ## Production
 
-&nbsp;
-
 ### Setup
 
 ```
@@ -44,7 +42,7 @@ pm2 start pm2.json
 
 &nbsp;
 
-### Troubleshooting
+### Deploy Troubleshooting
 
 &nbsp;
 
@@ -64,15 +62,15 @@ Does `npm i` or `npm run build` get killed?
 
 ### Run locally
 
-`npm run dev`
+- `npm run dev`
 
 ### Run local server
 
-`npm run server`
+- `npm run server`
 
 ### Typescript REPL
 
-`npm run repl`
+- `npm run repl`
 
 &nbsp;
 
